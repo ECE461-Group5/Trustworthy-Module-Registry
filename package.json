@@ -1,0 +1,42 @@
+{
+  "name": "se-phase1",
+  "version": "1.0.0",
+  "description": "**Geting Started**",
+  "main": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "build": "npx tsc",
+    "start": "node dist/index.js",
+    "dev": "npx nodemon src/index.ts",
+    "test": "npx vitest",
+    "auto-grader-test": "vitest run --silent --coverage --reporter=json --outputFile=./src/utils/reports/vitest-results.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/markdownlint": "^0.13.0",
+    "@types/node": "^22.5.4",
+    "@types/node-fetch": "^2.6.11",
+    "@types/pino": "^7.0.4",
+    "@types/yargs": "^17.0.33",
+    "@vitest/coverage-v8": "^2.1.1",
+    "jsdoc": "^4.0.3",
+    "nodemon": "^3.1.4",
+    "pino-pretty": "^11.2.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.2",
+    "vitest": "^2.1.1"
+  },
+  "dependencies": {
+    "@octokit/rest": "^21.0.2",
+    "dotenv": "^16.4.5",
+    "express": "^5.0.0",
+    "fs": "^0.0.1-security",
+    "isomorphic-git": "^1.27.1",
+    "markdownlint": "^0.35.0",
+    "pino": "^9.4.0",
+    "yargs": "^17.7.2"
+  }
+}
