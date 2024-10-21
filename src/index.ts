@@ -5,6 +5,8 @@
  * The server listens for requests made and processes the URLs accordingly.
  */
 
+// Phase 1
+/*
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
@@ -39,6 +41,7 @@ if (file) {
   //console.log(`File: ${file}`);
   readURLsFromFile(file);
 }
+*/
 
 /*
 // Here is the server code for when we want to convert the project to an API
@@ -60,3 +63,5 @@ app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
 });
 */
+
+
