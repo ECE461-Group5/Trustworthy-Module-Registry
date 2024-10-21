@@ -76,8 +76,8 @@ app.get('/', (req: Request, res: Response) => {
   res.send('Express + TypeScript Server');
 });
 
-app.get('/status/:id', (req: Request, res: Response) => {
-  res.send(`test: ${req.params.id}`);
+app.get('/package/:id', (req: Request, res: Response) => {
+  res.send(`Package to retrieve: ${req.params.id}`);
 })
 
 app.listen({port, address: '0.0.0.0'});

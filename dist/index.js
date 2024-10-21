@@ -69,8 +69,8 @@ const port = process.env.PORT;
 app.get('/', (req, res) => {
     res.send('Express + TypeScript Server');
 });
-app.get('/status/:id', (req, res) => {
-    res.send(`test: ${req.params.id}`);
+app.get('/package/:id', (req, res) => {
+    res.send(`Package to retrieve: ${req.params.id}`);
 });
 app.listen({ port, address: '0.0.0.0' });
 //# sourceMappingURL=index.js.map
