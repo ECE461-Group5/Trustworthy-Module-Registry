@@ -69,8 +69,21 @@ const port = process.env.PORT;
 app.get('/', (req, res) => {
     res.send('Express + TypeScript Server');
 });
+// GET Package Retrieve
 app.get('/package/:id', (req, res) => {
     res.send(`Package to retrieve: ${req.params.id}`);
+});
+// PUT Update this version of the package
+app.put('/package/:id', (req, res) => {
+    res.send(`Update specific version of ${req.params.id}`);
+});
+// DELETE Delete this version of the package
+app.delete('/package/:id', (req, res) => {
+    res.send(`Delete specific version of ${req.params.id}`);
+});
+// GET Package rate
+app.get('/package/:id/rate', (req, res) => {
+    res.send(`Get rate for ${req.params.id}`);
 });
 app.listen({ port, address: '0.0.0.0' });
 //# sourceMappingURL=index.js.map

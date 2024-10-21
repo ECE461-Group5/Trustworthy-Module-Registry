@@ -76,14 +76,25 @@ app.get('/', (req: Request, res: Response) => {
   res.send('Express + TypeScript Server');
 });
 
+// GET Package Retrieve
 app.get('/package/:id', (req: Request, res: Response) => {
   res.send(`Package to retrieve: ${req.params.id}`);
 })
 
-app.get('/package/:id', (req: Request, res: Response) => {
-  res.send(`Package to retrieve: ${req.params.id}`);
+// PUT Update this version of the package
+app.put('/package/:id', (req: Request, res: Response) => {
+  res.send(`Update specific version of ${req.params.id}`);
 })
 
+// DELETE Delete this version of the package
+app.delete('/package/:id', (req: Request, res: Response) => {
+  res.send(`Delete specific version of ${req.params.id}`);
+})
+
+// GET Package rate
+app.get('/package/:id/rate', (req: Request, res: Response) => {
+  res.send(`Get rate for ${req.params.id}`);
+})
 
 app.listen({port, address: '0.0.0.0'});
 
