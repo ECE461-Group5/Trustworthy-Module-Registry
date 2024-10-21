@@ -64,4 +64,22 @@ app.listen(port, () => {
 });
 */
 
+import express, {Express, Request, Response} from "express";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const app: Express = express();
+const port = process.env.PORT;
+
+app.get('/', (req: Request, res: Response) => {
+  res.send('Express + TypeScript Server');
+});
+
+app.get('/status/:id', (req: Request, res: Response) => {
+  res.send(`test: ${req.params.id}`);
+})
+
+app.listen({port, address: '0.0.0.0'});
+
 
