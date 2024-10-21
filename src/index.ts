@@ -80,6 +80,11 @@ app.get('/package/:id', (req: Request, res: Response) => {
   res.send(`Package to retrieve: ${req.params.id}`);
 })
 
+app.get('/package/:id', (req: Request, res: Response) => {
+  res.send(`Package to retrieve: ${req.params.id}`);
+})
+
+
 app.listen({port, address: '0.0.0.0'});
 
 
