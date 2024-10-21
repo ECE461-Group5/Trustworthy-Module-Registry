@@ -4,33 +4,43 @@
  * Here we are creating a simple express server.
  * The server listens for requests made and processes the URLs accordingly.
  */
+// Phase 1
+/*
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
+
 import { readURLsFromFile } from "./models/evaluators/readURLsFromFile.js";
+
 import dotenv from "dotenv";
 dotenv.config();
+
 if (!process.env.LOG_FILE || !process.env.GITHUB_TOKEN) {
-    process.exit(1);
+  process.exit(1);
 }
+
 // Command line arguments
 const argv = yargs(hideBin(process.argv))
-    .option('url', {
+  .option('url', {
     alias: 'u',
     type: 'string',
     describe: 'URL of the module to evaluate'
-})
-    .option('file', {
+  })
+  .option('file', {
     alias: 'f',
     type: 'string',
     describe: 'Path to the file containing the URLs'
-})
-    .parseSync();
+  })
+  .parseSync();
+
 // Get file from the command line arguments, or use testing values
 const file = argv.file;
+
+
 if (file) {
-    //console.log(`File: ${file}`);
-    readURLsFromFile(file);
+  //console.log(`File: ${file}`);
+  readURLsFromFile(file);
 }
+*/
 /*
 // Here is the server code for when we want to convert the project to an API
 import dotenv from "dotenv";
@@ -50,5 +60,17 @@ app.use('/process-url', URLRoutes);
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
 });
-*/ 
+*/
+import express from "express";
+import dotenv from "dotenv";
+dotenv.config();
+const app = express();
+const port = process.env.PORT;
+app.get('/', (req, res) => {
+    res.send('Express + TypeScript Server');
+});
+app.get('/package/:id', (req, res) => {
+    res.send(`Package to retrieve: ${req.params.id}`);
+});
+app.listen({ port, address: '0.0.0.0' });
 //# sourceMappingURL=index.js.map

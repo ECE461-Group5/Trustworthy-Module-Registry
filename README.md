@@ -20,9 +20,10 @@ npm install OR ./run install
 4. Add ⚙️`.env` file in the root directory:
 ```
 // Example .env file
-GITHUB_TOKEN = '<your GitHub personal access token>'
-LOG_LEVEL = 1
-LOG_FILE = ./logs/app.log
+GITHUB_TOKEN='<your GitHub personal access token>'
+LOG_LEVEL=1
+LOG_FILE=./logs/app.log
+PORT=3000
 ```
 ### Project File Structure
 ```
