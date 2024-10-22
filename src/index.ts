@@ -5,6 +5,8 @@
  * The server listens for requests made and processes the URLs accordingly.
  */
 
+// Phase 1
+/*
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
@@ -39,6 +41,7 @@ if (file) {
   //console.log(`File: ${file}`);
   readURLsFromFile(file);
 }
+*/
 
 /*
 // Here is the server code for when we want to convert the project to an API
@@ -60,3 +63,23 @@ app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
 });
 */
+
+import express, {Express, Request, Response} from "express";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const app: Express = express();
+const port = process.env.PORT;
+
+app.get('/', (req: Request, res: Response) => {
+  res.send('Express + TypeScript Server');
+});
+
+app.get('/package/:id', (req: Request, res: Response) => {
+  res.send(`Package to retrieve: ${req.params.id}`);
+})
+
+app.listen({port, address: '0.0.0.0'});
+
+
