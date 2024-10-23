@@ -79,22 +79,42 @@ app.get('/', (req: Request, res: Response) => {
 // GET Package Retrieve
 app.get('/package/:id', (req: Request, res: Response) => {
   res.send(`Package to retrieve: ${req.params.id}`);
-})
+});
 
 // PUT Update this version of the package
 app.put('/package/:id', (req: Request, res: Response) => {
   res.send(`Update specific version of ${req.params.id}`);
-})
+});
 
 // DELETE Delete this version of the package
 app.delete('/package/:id', (req: Request, res: Response) => {
   res.send(`Delete specific version of ${req.params.id}`);
-})
+});
 
 // GET Package rate
 app.get('/package/:id/rate', (req: Request, res: Response) => {
   res.send(`Get rate for ${req.params.id}`);
-})
+});
+
+// GET Package by name
+app.get('/package/byName/:name', (req: Request, res: Response) => {
+  res.send(`Return history for all versions of ${req.params.name}`);
+});
+
+// Delete all versions of package
+app.delete('/package/byName/:name', (req: Request, res: Response) => {
+  res.send(`Delete all versions of ${req.params.name}`);
+});
+
+// Create package
+app.post('/package', (req: Request, res: Response) => {
+  res.send(`Create package`);
+});
+
+app.post('/packages', (req: Request, res: Response) => {
+  res.send(`Get packages fitting query ${req.query.id}`);
+});
+
 
 app.listen({port, address: '0.0.0.0'});
 

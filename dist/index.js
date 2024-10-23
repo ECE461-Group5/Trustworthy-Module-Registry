@@ -85,5 +85,20 @@ app.delete('/package/:id', (req, res) => {
 app.get('/package/:id/rate', (req, res) => {
     res.send(`Get rate for ${req.params.id}`);
 });
+// GET Package by name
+app.get('/package/byName/:name', (req, res) => {
+    res.send(`Return history for all versions of ${req.params.name}`);
+});
+// Delete all versions of package
+app.delete('/package/byName/:name', (req, res) => {
+    res.send(`Delete all versions of ${req.params.name}`);
+});
+// Create package
+app.post('/package', (req, res) => {
+    res.send(`Create package`);
+});
+app.post('/packages', (req, res) => {
+    res.send(`Get packages fitting query ${req.query.id}`);
+});
 app.listen({ port, address: '0.0.0.0' });
 //# sourceMappingURL=index.js.map
