@@ -1,14 +1,15 @@
 #!/bin/bash
 
-# Download node and npm
+#download node and npm
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
 . ~/.nvm/nvm.sh
 nvm install node
 
-# Create working directory if it doesn't exist
-DIR="/home/ubuntu/trustworthy-module-registry"
+#create our working directory if it doesnt exist
+DIR="/home/ubuntu/express-app"
 if [ -d "$DIR" ]; then
-
+  echo "${DIR} exists"
 else
+  echo "Creating ${DIR} directory"
   mkdir ${DIR}
 fi
