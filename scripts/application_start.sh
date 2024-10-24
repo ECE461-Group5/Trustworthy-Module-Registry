@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Give permission for everything in the express-app directory
-sudo chmod -R 777 /home/ec2-user/trustworthy-module-registry
+sudo chmod -R 777 /home/ubuntu/trustworthy-module-registry
 
 # Navigate into our working directory where we have all our github files
-cd /home/ec2-user/trustworthy-module-registry
+cd /home/ubuntu/trustworthy-module-registry
 
 # Add npm and node to path
 export NVM_DIR="$HOME/.nvm"
