@@ -65,12 +65,13 @@ app.listen(port, () => {
 */
 
 import express, {Express, Request, Response} from "express";
-import dotenv from "dotenv";
+//import dotenv from "dotenv";  // Port not defined in .env for the moment
 
-dotenv.config();
+//dotenv.config();
 
 const app: Express = express();
-const port = process.env.PORT;
+//const port = process.env.PORT;
+const port = 3000;
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Express + TypeScript Server');
