@@ -65,13 +65,13 @@ app.listen(port, () => {
 */
 
 import express, {Express, Request, Response} from "express";
-//import dotenv from "dotenv";  // Port not defined in .env for the moment
-
-//dotenv.config();
 
 const app: Express = express();
-//const port = process.env.PORT;
 const port = 3000;
+
+interface RequestQuery {
+  queryString: string;
+}
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Express + TypeScript Server');
@@ -102,20 +102,32 @@ app.get('/package/byName/:name', (req: Request, res: Response) => {
   res.send(`Return history for all versions of ${req.params.name}`);
 });
 
-// Delete all versions of package
+// DELETE Delete all versions of package
 app.delete('/package/byName/:name', (req: Request, res: Response) => {
   res.send(`Delete all versions of ${req.params.name}`);
 });
 
-// Create package
+// POST Create package
 app.post('/package', (req: Request, res: Response) => {
   res.send(`Create package`);
 });
 
-app.post('/packages', (req: Request, res: Response) => {
-  res.send(`Get packages fitting query ${req.query.id}`);
+// POST Get packages fitting query
+app.post('/packages', (req: Request<{}, {}, {}, RequestQuery>, res: Response) => {
+  const { query } = req;
+  const test = JSON.parse(JSON.stringify(query));
+  res.send(test);
 });
 
+// DELETE Registry reset
+app.delete('/reset', (req: Request, res: Response) => {
+  res.send(`Registry reset`);
+});
+
+// PUT Create auth token
+app.put('/authenticate', (req: Request, res: Response) => {
+  res.send("Create auth token");
+});
 
 app.listen({port, address: '0.0.0.0'});
 
