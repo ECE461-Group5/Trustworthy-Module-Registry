@@ -62,15 +62,52 @@ app.listen(port, () => {
 });
 */
 import express from "express";
-import dotenv from "dotenv";
-dotenv.config();
 const app = express();
-const port = process.env.PORT;
+const port = 3000;
 app.get('/', (req, res) => {
     res.send('Express + TypeScript Server');
 });
+// GET Package Retrieve
 app.get('/package/:id', (req, res) => {
     res.send(`Package to retrieve: ${req.params.id}`);
+});
+// PUT Update this version of the package
+app.put('/package/:id', (req, res) => {
+    res.send(`Update specific version of ${req.params.id}`);
+});
+// DELETE Delete this version of the package
+app.delete('/package/:id', (req, res) => {
+    res.send(`Delete specific version of ${req.params.id}`);
+});
+// GET Package rate
+app.get('/package/:id/rate', (req, res) => {
+    res.send(`Get rate for ${req.params.id}`);
+});
+// GET Package by name
+app.get('/package/byName/:name', (req, res) => {
+    res.send(`Return history for all versions of ${req.params.name}`);
+});
+// DELETE Delete all versions of package
+app.delete('/package/byName/:name', (req, res) => {
+    res.send(`Delete all versions of ${req.params.name}`);
+});
+// POST Create package
+app.post('/package', (req, res) => {
+    res.send(`Create package`);
+});
+// POST Get packages fitting query
+app.post('/packages', (req, res) => {
+    const { query } = req;
+    const test = JSON.parse(JSON.stringify(query));
+    res.send(test);
+});
+// DELETE Registry reset
+app.delete('/reset', (req, res) => {
+    res.send(`Registry reset`);
+});
+// PUT Create auth token
+app.put('/authenticate', (req, res) => {
+    res.send("Create auth token");
 });
 app.listen({ port, address: '0.0.0.0' });
 //# sourceMappingURL=index.js.map
