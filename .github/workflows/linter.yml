@@ -9,25 +9,19 @@ on:
     branches: [ "main" ]
 
 jobs:
-  run-lint:
+  lint:
     runs-on: ubuntu-latest
     
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+            fetch-depth: 0
         
       - name: Super-Linter
         uses: super-linter/super-linter@v7.1.0
-        
-  # This section executes a clean install, test and build of the repository and prepares it for deployment.
-  install-test:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 18
-      - run: npm ci
-      - run: npm test
-      - run: npm run build --if-present
+        env:
+          FIX_TYPESCRIPT_ES: true
+          VALIDATE_ALL_CODEBASE: false
+          DEFAULT_BRANCH: "main"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

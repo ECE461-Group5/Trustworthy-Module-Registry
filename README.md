@@ -1,4 +1,4 @@
-# CS 450 Group 4 - Project Phase 1
+# ECE 461/CS 450 Group 5 - Project Phase 2
 This project implements a scalable and efficient system for evaluating open-source modules based on key metrics such as bus factor, correctness, ramp-up time, maintainer responsiveness, and license compatibility. The goal is to address concerns about open-source risks, including sparse documentation, low correctness standards, and the timely application of critical patches. The system is primarily written in TypeScript, employs the Command design pattern for modularity, and outputs results in NDJSON format for easy integration with the auto-grader.
 ## Getting Started
 To get started with this project, follow the steps below to install dependencies, execute the program, and run the test suite.
@@ -83,3 +83,6 @@ The program supports logging, which can be configured through environment variab
 - LOG_LEVEL: Controls the verbosity of logs (0 = silent, 1 = informational, 2 = debug). By default, the log level is set to 0 (silent).
 
 See example `.env` file above for possible configuration.
+
+### Actions
+[![Super-Linter](https://github.com/<OWNER>/<REPOSITORY>/actions/workflows/<WORKFLOW_FILE_NAME>/badge.svg)](https://github.com/marketplace/actions/super-linter)
