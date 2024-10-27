@@ -1,7 +1,7 @@
 {
-  "name": "se-phase1",
+  "name": "se-phase2",
   "version": "1.0.0",
-  "description": "**Geting Started**",
+  "description": "**Group 5 - Phase 2**",
   "main": "src/index.ts",
   "type": "module",
   "scripts": {
