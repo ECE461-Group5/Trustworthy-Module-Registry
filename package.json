@@ -11,6 +11,13 @@
     "test": "npx vitest",
     "auto-grader-test": "vitest run --silent --coverage --reporter=json --outputFile=./src/utils/reports/vitest-results.json"
   },
+  "jscpd": {
+    "threshold": 0.1,
+    "reporters": ["html", "console", "json"],
+    "ignore": ["tests/**/*.test.ts"],
+    "absolute": true,
+    "gitignore": true
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
