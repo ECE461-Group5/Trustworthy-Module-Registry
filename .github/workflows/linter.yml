@@ -5,22 +5,22 @@ name: Linter
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 permissions: read-all
 
 jobs:
   lint:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-            fetch-depth: 0
-        
+          fetch-depth: 0
+
       - name: Super-Linter
         uses: super-linter/super-linter@v7.1.0
         env:
