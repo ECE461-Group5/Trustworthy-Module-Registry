@@ -13,7 +13,7 @@
   },
   "jscpd": {
     "ignore": [
-      "/tests/**/*"
+      "/tests/**"
     ]
   },
   "keywords": [],
