@@ -9,12 +9,8 @@
     "start": "node dist/index.js",
     "dev": "npx nodemon src/index.ts",
     "test": "npx vitest",
-    "auto-grader-test": "vitest run --silent --coverage --reporter=json --outputFile=./src/utils/reports/vitest-results.json"
-  },
-  "jscpd": {
-    "ignore": [
-      "/tests/**"
-    ]
+    "auto-grader-test": "vitest run --silent --coverage --reporter=json --outputFile=./src/utils/reports/vitest-results.json",
+    "jscpd": "jscpd --ignore '**/tests/**'"
   },
   "keywords": [],
   "author": "",
