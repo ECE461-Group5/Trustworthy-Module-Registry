@@ -14,7 +14,7 @@
   "jscpd": {
     "threshold": 0.1,
     "reporters": ["html", "console", "json"],
-    "ignore": ["tests/**/*.test.ts"],
+    "ignore": ["<root>/tests/**/*.test.ts"],
     "absolute": true,
     "gitignore": true
   },

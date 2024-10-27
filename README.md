@@ -10,16 +10,16 @@ Before you begin, ensure you have the following installed:
 - GitHub Token (for accessing the GitHub API)
 ### Installation
 1. Clone the repository to your local machine:
-```text
+```plaintext
 git clone https://github.com/ECE461-Group5/Trustworthy-Module-Registry.git
 ```
 2. Install the required dependencies using npm or the run bash file:
-```text
+```plaintext
 npm install OR ./run install
 ```
 3. Add 📁`logs` folder in the root directory.
 4. Add ⚙️`.env` file in the root directory:
-```text
+```plaintext
 // Example .env file
 GITHUB_TOKEN='<your GitHub personal access token>'
 LOG_LEVEL=1
@@ -27,7 +27,7 @@ LOG_FILE=./logs/app.log
 PORT=3000
 ```
 ### Project File Structure
-```text
+```plaintext
 └── 📁se-phase1
     └── 📁dist
     └── 📁node_modules    
@@ -64,17 +64,17 @@ PORT=3000
 To evaluate a list of open-source modules:
 1. Prepare a file (e.g., `sample-file.txt` already in the project) containing the URLs of the repositories to be evaluated.
 2. Execute the program with the following command:
-```text
+```plaintext
 ./run <URL_FILE>
 ```
 Example:
-```text
+```plaintext
 ./run sample-file.txt
 ```
 This will produce the output with the module scores in NDJSON format.
 ### Running Tests
 To ensure everything is functioning correctly, you can run the test suite using npm or the bash file:
-```text
+```plaintext
 npm run test OR ./run test
 ```
 This output will include a summary of test results, showing the number of tests passed and the code coverage percentage.
