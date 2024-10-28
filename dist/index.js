@@ -67,47 +67,58 @@ const port = 3000;
 app.get('/', (req, res) => {
     res.send('Express + TypeScript Server');
 });
-// GET Package Retrieve
-app.get('/package/:id', (req, res) => {
-    res.send(`Package to retrieve: ${req.params.id}`);
-});
-// PUT Update this version of the package
-app.put('/package/:id', (req, res) => {
-    res.send(`Update specific version of ${req.params.id}`);
-});
-// DELETE Delete this version of the package
-app.delete('/package/:id', (req, res) => {
-    res.send(`Delete specific version of ${req.params.id}`);
-});
-// GET Package rate
-app.get('/package/:id/rate', (req, res) => {
-    res.send(`Get rate for ${req.params.id}`);
-});
-// GET Package by name
-app.get('/package/byName/:name', (req, res) => {
-    res.send(`Return history for all versions of ${req.params.name}`);
-});
-// DELETE Delete all versions of package
-app.delete('/package/byName/:name', (req, res) => {
-    res.send(`Delete all versions of ${req.params.name}`);
-});
-// POST Create package
-app.post('/package', (req, res) => {
-    res.send(`Create package`);
-});
-// POST Get packages fitting query
+// POST Get the packages from the registry
+// Don't 100% understand this one. Need to come back to it
 app.post('/packages', (req, res) => {
     const { query } = req;
-    const test = JSON.parse(JSON.stringify(query));
-    res.send(test);
+    const packages = JSON.parse(JSON.stringify(query));
+    res.send(packages);
 });
 // DELETE Registry reset
+// Reset registry to default state
 app.delete('/reset', (req, res) => {
     res.send(`Registry reset`);
 });
-// PUT Create auth token
-app.put('/authenticate', (req, res) => {
-    res.send("Create auth token");
+// GET Get ratings for this package
+app.get('/package/:id/rate', (req, res) => {
+    res.send(`Get ratings for ${req.params.id}`);
+});
+// GET Get the cost of a package
+// Need to figure out what cost means and what the dependency is
+app.get('/package/:id/cost', (req, res) => {
+    const { query, params } = req;
+    console.log(query);
+    console.log(params);
+    /*
+    const newQuery = Object.assign({}, req);
+    console.log(newQuery);
+    */
+    const dependency = JSON.parse(JSON.stringify(query));
+    res.send(dependency);
+});
+// GET Interact with the package with this ID
+// Return this package
+app.get('/package/:id', (req, res) => {
+    res.send(`Returning package: ${req.params.id}`);
+});
+// PUT Update this content of the package
+app.put('/package/:id', (req, res) => {
+    res.send(`Updating specific content of ${req.params.id}`);
+});
+// POST Get any packages fitting the regular expression
+// Search with regex over package names and READMEs
+app.post('/package/byRegEx', (req, res) => {
+    res.send(`Create package`);
+});
+// POST Upload or ingest new package
+// May have same name but new version
+// Look into how ID is formed
+app.post('/package', (req, res) => {
+    res.send(`Upload or ingest new package`);
+});
+// GET Get the list of tracks implemented
+app.get('/tracks', (req, res) => {
+    res.send("No tracks implemented in this version");
 });
 app.listen({ port, address: '0.0.0.0' });
 //# sourceMappingURL=index.js.map
