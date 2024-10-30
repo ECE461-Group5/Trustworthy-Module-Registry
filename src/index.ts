@@ -43,31 +43,13 @@ if (file) {
 }
 */
 
-/*
-// Here is the server code for when we want to convert the project to an API
-import dotenv from "dotenv";
-dotenv.config();
-
-import express, { Express, Request, Response } from "express";
-import URLRoutes from "./server/routes/urlRoutes";
-
-const app: Express = express();
-const port = process.env.PORT || 3000;
-
-app.use(express.json());
-
-app.use('/process-url', URLRoutes);
-
-// Start the server listening on the specified port
-app.listen(port, () => {
-  console.log(`[server]: Server is running at http://localhost:${port}`);
-});
-*/
-
 import express, {Express, Request, Response} from "express";
 
 const app: Express = express();
 const port = 3000;
+
+app.use(express.json());
+app.use(express.urlencoded());
 
 interface RequestParams {
   id: string;
@@ -82,7 +64,7 @@ interface RequestQuery {
 }
 
 app.get('/', (req: Request, res: Response) => {
-  res.send('Express + TypeScript Server');
+  res.json({ message: 'Express + TypeScript Server' });
 });
 
 // POST Get the packages from the registry
@@ -150,5 +132,4 @@ app.get('/tracks', (req: Request, res: Response) => {
 });
 
 app.listen({port, address: '0.0.0.0'});
-
-
+export default app;

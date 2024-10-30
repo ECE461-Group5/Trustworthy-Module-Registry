@@ -37,6 +37,7 @@
     "isomorphic-git": "^1.27.1",
     "markdownlint": "^0.35.0",
     "pino": "^9.4.0",
+    "supertest": "^7.0.0",
     "yargs": "^17.7.2"
   }
 }
