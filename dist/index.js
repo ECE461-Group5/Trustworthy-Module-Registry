@@ -42,19 +42,23 @@ if (file) {
 }
 */
 import express from "express";
+import indexRouter from "./server/routes/indexRoutes.js";
+//import testRouter from "./server/routes/test.ts";
 const app = express();
 const port = 3000;
 app.use(express.json());
 app.use(express.urlencoded());
+app.use("/", indexRouter);
 app.get('/', (req, res) => {
-    res.send('Express + TypeScript Server');
+    res.json({ message: 'Express + TypeScript Server' });
 });
 // POST Get the packages from the registry
 // Don't 100% understand this one. Need to come back to it
 app.post('/packages', (req, res) => {
+    // Placeholder response
     const { query } = req;
     const packages = JSON.parse(JSON.stringify(query));
-    res.send(packages);
+    res.json(packages);
 });
 // DELETE Registry reset
 // Reset registry to default state
