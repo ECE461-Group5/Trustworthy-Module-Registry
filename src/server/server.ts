@@ -58,7 +58,6 @@ app.get("/", (req: Request, res: Response) => res.json({ message: "Express + Typ
 app.use("/packages", packagesRouter);
 app.use("/reset", resetRouter);
 app.use("/package", packageRouter);
-//app.use("/authenticate", authenticateRouter);
 app.use("/tracks", (req: Request, res: Response) => res.json({ plannedTracks: "[none]"}));
 
 app.use((req: Request, res: Response) => {

@@ -8,6 +8,7 @@ import {
   deletePackage,
   getPackageRating,
   getPackageCost,
+  getPackageByRegEx,
 } from "../controllers/packageController.js";
 
 router.post("/", uploadPackage);
@@ -19,5 +20,7 @@ router.delete("/:id", deletePackage);
 router.get("/:id/rate", getPackageRating);
 
 router.get("/:id/cost", getPackageCost);
+
+router.post("/byRegEx", getPackageByRegEx);
 
 export default router;
