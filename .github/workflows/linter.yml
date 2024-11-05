@@ -29,4 +29,4 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           DEFAULT_BRANCH: "main"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ESLINT_CONFIG_FILE: ./eslint.config.js
+          JAVASCRIPT_ES_CONFIG_FILE: ./eslint.config.js
