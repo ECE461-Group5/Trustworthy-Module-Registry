@@ -1,7 +1,7 @@
 // eslint.config.js
 export default [
     {
-        ignores: ["tests/"],
+        ignores: ["tests/", *.yml],
         rules: {
             "semi": "error",
         }
