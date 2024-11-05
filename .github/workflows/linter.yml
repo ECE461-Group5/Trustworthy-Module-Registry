@@ -26,6 +26,7 @@ jobs:
         uses: super-linter/super-linter@v7.1.0
         env:
           FIX_TYPESCRIPT_ES: true
+          FORMAT_PRETTIER: true #enables Prettier auto-formatting
           VALIDATE_ALL_CODEBASE: false
           DEFAULT_BRANCH: "main"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
