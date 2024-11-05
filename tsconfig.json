@@ -11,5 +11,5 @@
     "types": ["node", "vitest/globals"]
   },
   "include": ["src/**/*.ts", "src/utils/reports/extract-results.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "tests/**/*.ts"],
 }
