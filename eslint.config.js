@@ -5,7 +5,7 @@ export default [
             "semi": "error",
         },
         languageOptions: {
-            parser: yaml-eslint-parser
+            parser: 'yaml-eslint-parser'
         },
     }
 ];
