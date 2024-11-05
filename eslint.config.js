@@ -1,5 +1,5 @@
 // eslint.config.js
-import yamlParser from 'yaml-eslint-parser'
+import yamlParser from 'yaml-eslint-parser';
 
 export default [
     {
