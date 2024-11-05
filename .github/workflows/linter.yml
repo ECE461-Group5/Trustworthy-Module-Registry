@@ -23,7 +23,7 @@ jobs:
       - name: Super-Linter
         uses: super-linter/super-linter@v7.1.0
         env:
-          FIX_TYPESCRIPT_ES: true
+          #FIX_TYPESCRIPT_ES: true
           VALIDATE_ALL_CODEBASE: false
           DEFAULT_BRANCH: "main"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
