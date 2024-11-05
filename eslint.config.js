@@ -1,5 +1,5 @@
 // eslint.config.js
-import yamlParser from 'yaml-eslint-parser';
+//import yamlParser from 'yaml-eslint-parser';
 
 export default [
     {
@@ -7,7 +7,7 @@ export default [
             "semi": "error",
         },
         languageOptions: {
-            parser: yamlParser,
+//            parser: yamlParser,
         },
     }
 ];
