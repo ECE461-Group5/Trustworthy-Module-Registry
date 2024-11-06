@@ -34,3 +34,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LINTER_RULES_PATH: /
           JAVASCRIPT_ES_CONFIG_FILE: eslint.config.js
+          FIX_JAVASCRIPT_PRETTIER: true
