@@ -1,6 +1,5 @@
 {
   "ignore": [
     "/tests/",
-    "/node_modules/"
   ]
 }
