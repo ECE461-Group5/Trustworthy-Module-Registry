@@ -1,0 +1,29 @@
+{
+  "parser": "@typescript-eslint/parser",  // Ensure ESLint uses the TypeScript parser
+  "plugins": ["@typescript-eslint"],  // Enable the TypeScript plugin
+  "extends": [
+    "eslint:recommended",  // Standard JavaScript rules
+    "plugin:@typescript-eslint/recommended"  // TypeScript-specific rules
+  ],
+  "env": {
+    "node": true,
+    "es2021": true
+  },
+  "overrides": [
+    {
+      "files": ["*.js"],  // JavaScript files configuration
+      "rules": {
+        "semi": ["error", "always"],  // Example: enforce semicolons in JavaScript
+        "quotes": ["error", "single"]  // Example: enforce single quotes for JavaScript
+      }
+    },
+    {
+      "files": ["*.ts", "*.tsx"],  // TypeScript files configuration
+      "rules": {
+        "semi": ["error", "always"],  // Example: enforce semicolons in TypeScript
+        "quotes": ["error", "single"],  // Example: enforce single quotes for TypeScript
+        "@typescript-eslint/explicit-module-boundary-types": "warn"  // Example: warn for missing return types in functions
+      }
+    }
+  ]
+}
