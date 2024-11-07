@@ -33,7 +33,7 @@ jobs:
           DEFAULT_BRANCH: "main"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LINTER_RULES_PATH: /
-          JAVASCRIPT_ES_CONFIG_FILE: eslint.config.json
+          JAVASCRIPT_ES_CONFIG_FILE: eslint.config.js
           
           FIX_JAVASCRIPT_PRETTIER: true
           FIX_JSON_PRETTIER: true
