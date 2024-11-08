@@ -22,6 +22,17 @@ export default [
       semi: "error",
       quotes: ["error", "double"],
       "@typescript-eslint/no-explicit-any": "off",
+      "no-array-constructor": "off",
+      "@typescript-eslint/no-array-constructor": "error"
+      "dot-notation": "off",
+      "@typescript-eslint/dot-notation": "error"
+      "@typescript-eslint/array-type": [
+        "error",
+        {
+          "default": "generic" 
+        }
+      ],
+      "@typescript-eslint/explicit-function-return-type": "error"
     }
   }
 ];
