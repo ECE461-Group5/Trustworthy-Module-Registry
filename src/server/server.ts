@@ -45,7 +45,7 @@ if (file) {
 
 import express, {Express, Request, Response} from "express";
 import packagesRouter from "./routes/packagesRoutes.js";
-import resetRouter from "./routes/resetRoutes.js"
+import resetRouter from "./routes/resetRoutes.js";
 import packageRouter from "./routes/packageRoutes.js";
 
 const app: Express = express();
@@ -65,6 +65,7 @@ app.use((req: Request, res: Response) => {
 });
 
 
+/*
 interface RequestParams {
   id: string;
 }
@@ -76,6 +77,7 @@ interface RequestBody {}
 interface RequestQuery {
   queryString: string;
 }
+*/
 
 /*
 app.get('/', (req: Request, res: Response) => {
@@ -147,7 +149,7 @@ app.get('/tracks', (req: Request, res: Response) => {
 */
 
 if (process.env.NODE_ENV !== "test") {
-  app.listen({port, address: '0.0.0.0'});
+  app.listen({port, address: "0.0.0.0"});
 }
 
 export default app;

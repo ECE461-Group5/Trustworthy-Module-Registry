@@ -33,5 +33,5 @@ export const getPackageCost = async (req: Request, res: Response) => {
 // /package/byRegEx
 export const getPackageByRegEx = async (req: Request, res: Response) => {
   res.json({message: "NOT IMPLEMENTED: get package by regex"});
-}
+};
 

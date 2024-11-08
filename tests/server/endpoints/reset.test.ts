@@ -1,6 +1,6 @@
-import { expect, describe, it } from 'vitest';
-import request from 'supertest';
-import app from '../../../src/server/server.ts'
+import { expect, describe, it } from "vitest";
+import request from "supertest";
+import app from "../../../src/server/server.ts";
 
 describe("reset endpoint", () => {
   it("DELETE /reset is not implemented", async () => {
