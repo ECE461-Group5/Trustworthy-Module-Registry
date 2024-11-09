@@ -22,6 +22,7 @@
     "@types/node": "^22.5.4",
     "@types/node-fetch": "^2.6.11",
     "@types/pino": "^7.0.4",
+    "@types/supertest": "^6.0.2",
     "@types/yargs": "^17.0.33",
     "@typescript-eslint/eslint-plugin": "^8.13.0",
     "@typescript-eslint/parser": "^8.13.0",
