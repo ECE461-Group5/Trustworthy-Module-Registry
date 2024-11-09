@@ -1,3 +1,5 @@
+// eslint.config.js
+
 import js from "@eslint/js";
 import tsParser from "@typescript-eslint/parser";
 import ts from "typescript-eslint";
@@ -7,7 +9,7 @@ export default [
 //  ...ts.configs.recommended,
   ...ts.configs.recommendedTypeChecked,
   {
-    ignores: ["dist/", "eslint.config.js"],
+    ignores: ["dist/", "eslint.config.js", "tests/metrics/", "tests/evaluators/", "vitest.config.ts"],
   },
   {
     files: ["**/*.ts", "**/*.tsx"],
@@ -16,11 +18,10 @@ export default [
       sourceType: "module",
       parser: tsParser,
       parserOptions: {
-        //sourceType: "module",
         project: "./tsconfig.json",
-        //tsconfigRootDir: __dirname,
         projectService: true,
-        tsconfigRootDir: import.meta.dirname
+        tsconfigRootDir: import.meta.dirname,
+//        allowAutomaticSingleRunInference: true,
       }
     },
     rules: {
