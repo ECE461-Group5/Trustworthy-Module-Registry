@@ -1,11 +1,11 @@
 // tests/metrics/busFactorMetric.test.ts
 
-import { describe, it, expect, vi, beforeEach, afterEach, Mock } from 'vitest';
-import { BusFactorMetric } from '../../src/models/metrics/busfactorMetric';
-import { Scorecard } from '../../src/models/scores/scorecard';
+import { describe, it, expect, vi, beforeEach, afterEach, Mock } from "vitest";
+import { BusFactorMetric } from "../../src/models/metrics/busfactorMetric";
+import { Scorecard } from "../../src/models/scores/scorecard";
 
 // Mock the logger
-vi.mock('../../src/logger.js', () => ({
+vi.mock("../../src/logger.js", () => ({
   default: {
     info: vi.fn(),
     debug: vi.fn(),
@@ -15,7 +15,7 @@ vi.mock('../../src/logger.js', () => ({
 }));
 
 // Mock dotenv
-vi.mock('dotenv', () => {
+vi.mock("dotenv", () => {
   return {
     default: {
       config: vi.fn(),
@@ -24,16 +24,16 @@ vi.mock('dotenv', () => {
 });
 
 // Mock the Octokit module
-vi.mock('@octokit/rest', () => {
+vi.mock("@octokit/rest", () => {
   const Octokit = vi.fn();
   return { Octokit };
 });
 
 // Import the mocked modules
-import logger from '../../src/logger.js';
-import { Octokit } from '@octokit/rest';
+import logger from "../../src/logger.js";
+import { Octokit } from "@octokit/rest";
 
-describe('BusFactorMetric', () => {
+describe("BusFactorMetric", () => {
   let busFactorMetric: BusFactorMetric;
   let octokitMock: {
     repos: {
@@ -62,10 +62,10 @@ describe('BusFactorMetric', () => {
     vi.restoreAllMocks();
   });
 
-  it('should set bus factor to 0 when top contributor has ≥ 80% contributions', async () => {
-    const card = new Scorecard('https://github.com/owner/repo');
-    card.owner = 'owner';
-    card.repo = 'repo';
+  it("should set bus factor to 0 when top contributor has ≥ 80% contributions", async () => {
+    const card = new Scorecard("https://github.com/owner/repo");
+    card.owner = "owner";
+    card.repo = "repo";
 
     // Mock contributors data
     octokitMock.repos.listContributors.mockResolvedValueOnce({
@@ -80,13 +80,13 @@ describe('BusFactorMetric', () => {
     await busFactorMetric.evaluate(card);
 
     expect(card.busFactor).toBe(0);
-    expect(logger.info).toHaveBeenCalledWith('Bus factor set to 0 (top contributor >= 80%)');
+    expect(logger.info).toHaveBeenCalledWith("Bus factor set to 0 (top contributor >= 80%)");
   });
 
-  it('should set bus factor to 0.2 when top contributor has ≥ 60% contributions', async () => {
-    const card = new Scorecard('https://github.com/owner/repo');
-    card.owner = 'owner';
-    card.repo = 'repo';
+  it("should set bus factor to 0.2 when top contributor has ≥ 60% contributions", async () => {
+    const card = new Scorecard("https://github.com/owner/repo");
+    card.owner = "owner";
+    card.repo = "repo";
 
     octokitMock.repos.listContributors.mockResolvedValueOnce({
       data: [
@@ -100,13 +100,13 @@ describe('BusFactorMetric', () => {
     await busFactorMetric.evaluate(card);
 
     expect(card.busFactor).toBe(0.2);
-    expect(logger.info).toHaveBeenCalledWith('Bus factor set to 0.2 (top contributor >= 60%)');
+    expect(logger.info).toHaveBeenCalledWith("Bus factor set to 0.2 (top contributor >= 60%)");
   });
 
-  it('should set bus factor to 0.5 when top contributor has ≥ 40% contributions', async () => {
-    const card = new Scorecard('https://github.com/owner/repo');
-    card.owner = 'owner';
-    card.repo = 'repo';
+  it("should set bus factor to 0.5 when top contributor has ≥ 40% contributions", async () => {
+    const card = new Scorecard("https://github.com/owner/repo");
+    card.owner = "owner";
+    card.repo = "repo";
 
     octokitMock.repos.listContributors.mockResolvedValueOnce({
       data: [
@@ -120,13 +120,13 @@ describe('BusFactorMetric', () => {
     await busFactorMetric.evaluate(card);
 
     expect(card.busFactor).toBe(0.5);
-    expect(logger.info).toHaveBeenCalledWith('Bus factor set to 0.5 (top contributor >= 40%)');
+    expect(logger.info).toHaveBeenCalledWith("Bus factor set to 0.5 (top contributor >= 40%)");
   });
 
-  it('should set bus factor to 1 when top contributor has < 40% contributions', async () => {
-    const card = new Scorecard('https://github.com/owner/repo');
-    card.owner = 'owner';
-    card.repo = 'repo';
+  it("should set bus factor to 1 when top contributor has < 40% contributions", async () => {
+    const card = new Scorecard("https://github.com/owner/repo");
+    card.owner = "owner";
+    card.repo = "repo";
 
     octokitMock.repos.listContributors.mockResolvedValueOnce({
       data: [
@@ -140,13 +140,13 @@ describe('BusFactorMetric', () => {
     await busFactorMetric.evaluate(card);
 
     expect(card.busFactor).toBe(1);
-    expect(logger.info).toHaveBeenCalledWith('Bus factor set to 1 (top contributor < 40%)');
+    expect(logger.info).toHaveBeenCalledWith("Bus factor set to 1 (top contributor < 40%)");
   });
 
-  it('should handle no contributors and set bus factor to 0', async () => {
-    const card = new Scorecard('https://github.com/owner/repo');
-    card.owner = 'owner';
-    card.repo = 'repo';
+  it("should handle no contributors and set bus factor to 0", async () => {
+    const card = new Scorecard("https://github.com/owner/repo");
+    card.owner = "owner";
+    card.repo = "repo";
 
     octokitMock.repos.listContributors.mockResolvedValueOnce({
       data: [],
@@ -155,26 +155,26 @@ describe('BusFactorMetric', () => {
     await busFactorMetric.evaluate(card);
 
     expect(card.busFactor).toBe(0);
-    expect(logger.info).toHaveBeenCalledWith('No contributors found, setting bus factor to 0.');
+    expect(logger.info).toHaveBeenCalledWith("No contributors found, setting bus factor to 0.");
   });
 
-  it('should handle errors from GitHub API and set bus factor to 0', async () => {
-    const card = new Scorecard('https://github.com/owner/repo');
-    card.owner = 'owner';
-    card.repo = 'repo';
+  it("should handle errors from GitHub API and set bus factor to 0", async () => {
+    const card = new Scorecard("https://github.com/owner/repo");
+    card.owner = "owner";
+    card.repo = "repo";
 
-    octokitMock.repos.listContributors.mockRejectedValueOnce(new Error('API Error'));
+    octokitMock.repos.listContributors.mockRejectedValueOnce(new Error("API Error"));
 
     await busFactorMetric.evaluate(card);
 
     expect(card.busFactor).toBe(0);
-    expect(logger.error).toHaveBeenCalledWith('Error fetching contributors information:', new Error('API Error'));
+    expect(logger.error).toHaveBeenCalledWith("Error fetching contributors information:", new Error("API Error"));
   });
 
-  it('should calculate and set busFactor_Latency', async () => {
-    const card = new Scorecard('https://github.com/owner/repo');
-    card.owner = 'owner';
-    card.repo = 'repo';
+  it("should calculate and set busFactor_Latency", async () => {
+    const card = new Scorecard("https://github.com/owner/repo");
+    card.owner = "owner";
+    card.repo = "repo";
 
     octokitMock.repos.listContributors.mockImplementationOnce(async () => {
       // Simulate API delay

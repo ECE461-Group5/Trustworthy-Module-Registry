@@ -4,14 +4,14 @@
  * and writes the results to the console.
  */
 
-import fs from 'fs';
+import fs from "fs";
 
 
 function readTestResults(): { totalTests: number; passedTests: number } {
   try {
     
-    const resultsPath = 'src/utils/reports/vitest-results.json';
-    const data = fs.readFileSync(resultsPath, 'utf-8');
+    const resultsPath = "src/utils/reports/vitest-results.json";
+    const data = fs.readFileSync(resultsPath, "utf-8");
     const results = JSON.parse(data);
   
     const totalTests = results.numTotalTests;
@@ -19,7 +19,7 @@ function readTestResults(): { totalTests: number; passedTests: number } {
   
     return { totalTests, passedTests };
 
-  } catch (error) { 
+  } catch { 
     return { totalTests: 0, passedTests: 0 };
   }
 
@@ -27,13 +27,13 @@ function readTestResults(): { totalTests: number; passedTests: number } {
 
 function readCoverageData(): number {
   try {
-    const coveragePath = 'src/utils/reports/coverage/coverage-summary.json';
-    const data = fs.readFileSync(coveragePath, 'utf-8');
+    const coveragePath = "src/utils/reports/coverage/coverage-summary.json";
+    const data = fs.readFileSync(coveragePath, "utf-8");
     const coverage = JSON.parse(data);
 
     return coverage.total.lines.pct;
 
-  } catch (error) {
+  } catch {
     // Return a default value if the file is not found (some tests have failed)
     return 87.7;
   }

@@ -9,7 +9,9 @@ on:
   pull_request:
     branches: ["main"]
 
-permissions: read-all
+permissions:
+  contents: read
+  statuses: write
 
 jobs:
   lint:
@@ -21,10 +23,25 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: install dependencies
+        run: npm install
+    
       - name: Super-Linter
         uses: super-linter/super-linter@v7.1.0
         env:
-          FIX_TYPESCRIPT_ES: true
           VALIDATE_ALL_CODEBASE: false
           DEFAULT_BRANCH: "main"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LINTER_RULES_PATH: /
+          JAVASCRIPT_ES_CONFIG_FILE: eslint.config.js
+          
+          FIX_JAVASCRIPT_PRETTIER: true
+          FIX_JSON_PRETTIER: true
+          FIX_YAML_PRETTIER: true
+
+          VALIDATE_SHELL_SHFMT: false
+          VALIDATE_JAVASCRIPT_STANDARD: false
+          VALIDATE_JSON: false
+          VALIDATE_TYPESCRIPT_ES: false
+          VALIDATE_TYPESCRIPT_PRETTIER: false
+          VALIDATE_TYPESCRIPT_STANDARD: false
