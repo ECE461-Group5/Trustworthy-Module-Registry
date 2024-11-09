@@ -2,12 +2,12 @@
  * @file correctnessMetric.ts
  */
 
-import { Scorecard } from '../scores/scorecard.js';
-import { Metric } from './metric.js';
-import logger from '../../logger.js';
-import { Octokit } from '@octokit/rest';
+import { Scorecard } from "../scores/scorecard.js";
+import { Metric } from "./metric.js";
+import logger from "../../logger.js";
+import { Octokit } from "@octokit/rest";
 
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config();
 
 /**
@@ -22,9 +22,9 @@ export class CorrectnessMetric extends Metric {
 
     constructor() {
         super();
-        logger.debug('Initializing Octokit with GitHub token for CorrectnessMetric...');
+        logger.debug("Initializing Octokit with GitHub token for CorrectnessMetric...");
         this.octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
-        logger.info('Octokit initialized successfully for CorrectnessMetric.');
+        logger.info("Octokit initialized successfully for CorrectnessMetric.");
     }
 
     public async evaluate(card: Scorecard): Promise<void> {
@@ -33,13 +33,13 @@ export class CorrectnessMetric extends Metric {
             let correctnessScore = 0;
 
             // Check for test suite in package.json
-            logger.debug('Checking for test suites in package.json...');
+            logger.debug("Checking for test suites in package.json...");
             const hasTests = await this.checkForTests(card);
             correctnessScore += hasTests ? 0.5 : 0;
             logger.info(`Test suite found: ${hasTests}`);
 
             // Analyze bug reports
-            logger.debug('Analyzing bug reports...');
+            logger.debug("Analyzing bug reports...");
             const bugScore = await this.analyzeBugs(card);
             correctnessScore += bugScore;
             logger.info(`Bug analysis score: ${bugScore}`);
@@ -49,7 +49,7 @@ export class CorrectnessMetric extends Metric {
             logger.info(`Final correctness score for ${card.owner}/${card.repo}: ${card.correctness}`);
 
         } catch (error) {
-            logger.error('Error evaluating correctness metric:', error);
+            logger.error("Error evaluating correctness metric:", error);
             card.correctness = 0;
         }
     }
@@ -58,13 +58,13 @@ export class CorrectnessMetric extends Metric {
         try {
             // Measure start time
             const fetchStartTime = Date.now();
-            logger.debug('Fetching package.json from the repository...');
+            logger.debug("Fetching package.json from the repository...");
 
             // Fetch package.json content
             const packageJsonData = await this.octokit.repos.getContent({
                 owner: card.owner,
                 repo: card.repo,
-                path: 'package.json',
+                path: "package.json",
             });
 
             // Measure end time
@@ -72,7 +72,7 @@ export class CorrectnessMetric extends Metric {
             card.correctness_Latency = parseFloat(((fetchEndTime - fetchStartTime) / 1000).toFixed(3));
             logger.info(`checkForTests API Latency: ${card.correctness_Latency} ms`);
 
-            const packageJsonContent = Buffer.from((packageJsonData.data as any).content, 'base64').toString('utf-8');
+            const packageJsonContent = Buffer.from((packageJsonData.data as any).content, "base64").toString("utf-8");
             const packageJson = JSON.parse(packageJsonContent);
 
             const hasTestScript = !!(packageJson.scripts && packageJson.scripts.test);
@@ -81,10 +81,10 @@ export class CorrectnessMetric extends Metric {
             
         } catch (error: any) {
             if (error.status === 404) {
-                logger.warn('package.json not found in the repository.');
+                logger.warn("package.json not found in the repository.");
                 return false; // Return false if package.json is not found
             } else {
-                logger.error('Error checking for tests:', error);
+                logger.error("Error checking for tests:", error);
                 return false; // Return false for other errors as well
             }
         }
@@ -94,14 +94,14 @@ export class CorrectnessMetric extends Metric {
         try {
             // Measure start time
             const fetchStartTime = Date.now();
-            logger.debug('Fetching bug reports (issues with "bug" label) from the repository...');
+            logger.debug("Fetching bug reports (issues with \"bug\" label) from the repository...");
 
             // Fetch issues data from GitHub
             const issuesData = await this.octokit.issues.listForRepo({
                 owner: card.owner,
                 repo: card.repo,
-                labels: 'bug',
-                state: 'all',
+                labels: "bug",
+                state: "all",
                 per_page: 100,
             });
 
@@ -114,13 +114,13 @@ export class CorrectnessMetric extends Metric {
             const issues = issuesData.data;
             logger.debug(`Fetched ${issues.length} issues with "bug" label from the repository.`);
             logger.debug(issues);
-            const openBugs = issues.filter(issue => issue.state === 'open').length;
-            const closedBugs = issues.filter(issue => issue.state === 'closed').length;
+            const openBugs = issues.filter(issue => issue.state === "open").length;
+            const closedBugs = issues.filter(issue => issue.state === "closed").length;
             logger.debug(`Number of open bugs: ${openBugs}, Number of closed bugs: ${closedBugs}`);
 
             const totalBugs = openBugs + closedBugs;
             if (totalBugs === 0) {
-                logger.info('No bugs found, assigning neutral correctness score.');
+                logger.info("No bugs found, assigning neutral correctness score.");
                 return 0.5; // Neutral score if no bugs reported
             }
 
@@ -139,7 +139,7 @@ export class CorrectnessMetric extends Metric {
             return bugScore;
 
         } catch (error) {
-            logger.error('Error analyzing bugs:', error);
+            logger.error("Error analyzing bugs:", error);
             return 0; // Low score if unable to fetch issues
         }
     }

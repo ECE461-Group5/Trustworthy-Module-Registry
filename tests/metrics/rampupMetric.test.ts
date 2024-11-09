@@ -1,11 +1,11 @@
 // tests/metrics/correctnessMetric.test.ts
 
-import { describe, it, expect, vi, beforeEach, afterEach, Mock } from 'vitest';
-import { RampUpMetric } from '../../src/models/metrics/rampupMetric';
-import { Scorecard } from '../../src/models/scores/scorecard';
+import { describe, it, expect, vi, beforeEach, afterEach, Mock } from "vitest";
+import { RampUpMetric } from "../../src/models/metrics/rampupMetric";
+import { Scorecard } from "../../src/models/scores/scorecard";
 
 // Mock dotenv
-vi.mock('dotenv', () => {
+vi.mock("dotenv", () => {
   return {
     default: {
       config: vi.fn(),
@@ -14,24 +14,24 @@ vi.mock('dotenv', () => {
 });
 
 // Mock the Octokit module
-vi.mock('@octokit/rest', () => {
+vi.mock("@octokit/rest", () => {
   const Octokit = vi.fn();
   return { Octokit };
 });
 
 
-import { Octokit } from '@octokit/rest';
-import { CorrectnessMetric } from '../../src/models/metrics/correctnessMetric';
-import exp from 'constants';
+import { Octokit } from "@octokit/rest";
+//import { CorrectnessMetric } from "../../src/models/metrics/correctnessMetric"; Linter flagged unused
+//import exp from "constants";  Linter flagged unused
 
-describe('RampUpMetric', () => {
+describe("RampUpMetric", () => {
   let rampUpMetric: RampUpMetric;
 
   let octokitMock: {
     repos: {
       getReadme: Mock;
     };
-  }
+  };
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -53,16 +53,16 @@ describe('RampUpMetric', () => {
     vi.restoreAllMocks();
   });
 
-  it('should initialize correctly', () => {
+  it("should initialize correctly", () => {
     expect(rampUpMetric).toBeDefined();
   });
 
-  it('should return a score of 0 if the repository has no README', async () => {
-    octokitMock.repos.getReadme.mockResolvedValue({ data: { content: '' } });
+  it("should return a score of 0 if the repository has no README", async () => {
+    octokitMock.repos.getReadme.mockResolvedValue({ data: { content: "" } });
 
-    const card = new Scorecard('https://github.com/owner/repo');
-    card.owner = 'owner';
-    card.repo = 'repo';
+    const card = new Scorecard("https://github.com/owner/repo");
+    card.owner = "owner";
+    card.repo = "repo";
 
     octokitMock.repos.getReadme.mockResolvedValueOnce({
       data: {
@@ -75,12 +75,12 @@ describe('RampUpMetric', () => {
   
   });
 
-  it('should set ramp up score to 1 if README contains all important sections', async () => {
-    octokitMock.repos.getReadme.mockResolvedValue({ data: { content: '' } });
+  it("should set ramp up score to 1 if README contains all important sections", async () => {
+    octokitMock.repos.getReadme.mockResolvedValue({ data: { content: "" } });
 
-    const card = new Scorecard('https://github.com/owner/repo');
-    card.owner = 'owner';
-    card.repo = 'repo';
+    const card = new Scorecard("https://github.com/owner/repo");
+    card.owner = "owner";
+    card.repo = "repo";
 
     octokitMock.repos.getReadme.mockResolvedValueOnce({
       data: {
@@ -93,7 +93,7 @@ describe('RampUpMetric', () => {
           ## Contributing
           ## License
           ## Contributing
-        `).toString('base64'),
+        `).toString("base64"),
       },
     });
 
@@ -103,12 +103,12 @@ describe('RampUpMetric', () => {
 
   });
 
-  it('should set ramp up score to 0.2 if README contains more than two code blocks', async () => {
-    octokitMock.repos.getReadme.mockResolvedValue({ data: { content: '' } });
+  it("should set ramp up score to 0.2 if README contains more than two code blocks", async () => {
+    octokitMock.repos.getReadme.mockResolvedValue({ data: { content: "" } });
 
-    const card = new Scorecard('https://github.com/owner/repo');
-    card.owner = 'owner';
-    card.repo = 'repo';
+    const card = new Scorecard("https://github.com/owner/repo");
+    card.owner = "owner";
+    card.repo = "repo";
 
     octokitMock.repos.getReadme.mockResolvedValueOnce({
       data: {
@@ -119,7 +119,7 @@ describe('RampUpMetric', () => {
           \`\`\`js
           const y = 2;
           \`\`\`
-        `).toString('base64'),
+        `).toString("base64"),
       },
     });
 
@@ -129,12 +129,12 @@ describe('RampUpMetric', () => {
 
   });
 
-  it('should set ramp up score to 0.1 if README contains few linting errors', async () => {
-    octokitMock.repos.getReadme.mockResolvedValue({ data: { content: '' } });
+  it("should set ramp up score to 0.1 if README contains few linting errors", async () => {
+    octokitMock.repos.getReadme.mockResolvedValue({ data: { content: "" } });
 
-    const card = new Scorecard('https://github.com/owner/repo');
-    card.owner = 'owner';
-    card.repo = 'repo';
+    const card = new Scorecard("https://github.com/owner/repo");
+    card.owner = "owner";
+    card.repo = "repo";
 
     octokitMock.repos.getReadme.mockResolvedValueOnce({
       data: {
@@ -143,7 +143,7 @@ describe('RampUpMetric', () => {
 
           ## You're a piece of work
           
-        `).toString('base64'),
+        `).toString("base64"),
       },
     });
 
@@ -153,12 +153,12 @@ describe('RampUpMetric', () => {
 
   });
 
-  it('should set ramp up score to 0.1 if README contains more than 5 links', async () => {
-    octokitMock.repos.getReadme.mockResolvedValue({ data: { content: '' } });
+  it("should set ramp up score to 0.1 if README contains more than 5 links", async () => {
+    octokitMock.repos.getReadme.mockResolvedValue({ data: { content: "" } });
 
-    const card = new Scorecard('https://github.com/owner/repo');
-    card.owner = 'owner';
-    card.repo = 'repo';
+    const card = new Scorecard("https://github.com/owner/repo");
+    card.owner = "owner";
+    card.repo = "repo";
 
     octokitMock.repos.getReadme.mockResolvedValueOnce({
       data: {

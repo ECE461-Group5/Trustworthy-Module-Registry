@@ -3,9 +3,11 @@
  * 
  */
 
+/*
 import { Request, Response } from 'express';
 import { URL } from 'url';
 import URLServices from '../services/urlServices.js';
+*/
 
 /**
  * @class URLController
@@ -15,6 +17,7 @@ import URLServices from '../services/urlServices.js';
  * That method will then call the beginScoringModule() method from the URLServices class.
  * 
  */
+/*
 class URLController {
        
     public static async processURL(req: Request, res: Response): Promise<void> {
@@ -35,3 +38,4 @@ class URLController {
 }
 
 export default URLController;
+*/
