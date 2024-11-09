@@ -4,9 +4,10 @@ import ts from "typescript-eslint";
 
 export default [
   js.configs.recommended,
-  ...ts.configs.recommended,
+//  ...ts.configs.recommended,
+  ...ts.configs.recommendedTypeChecked,
   {
-    ignores: ["dist/"]
+    ignores: ["dist/", "eslint.config.js"],
   },
   {
     files: ["**/*.ts", "**/*.tsx"],
@@ -15,7 +16,11 @@ export default [
       sourceType: "module",
       parser: tsParser,
       parserOptions: {
-        sourceType: "module"
+        //sourceType: "module",
+        project: "./tsconfig.json",
+        //tsconfigRootDir: __dirname,
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname
       }
     },
     rules: {
@@ -23,9 +28,9 @@ export default [
       quotes: ["error", "double"],
       "@typescript-eslint/no-explicit-any": "off",
       "no-array-constructor": "off",
-      "@typescript-eslint/no-array-constructor": "error"
+      "@typescript-eslint/no-array-constructor": "error",
       "dot-notation": "off",
-      "@typescript-eslint/dot-notation": "error"
+      "@typescript-eslint/dot-notation": "error",
       "@typescript-eslint/array-type": [
         "error",
         {
