@@ -1,8 +1,0 @@
-// tsconfig.eslint.json
-
-{
-  "extends": "./tsconfig.json",
-  "include": ["tests/**/*.test.ts", "tests/**/*.ts"],
-  "exclude": ["dist/"]
-}
-
