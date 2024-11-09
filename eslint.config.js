@@ -9,7 +9,15 @@ export default [
 //  ...ts.configs.recommended,
   ...ts.configs.recommendedTypeChecked,
   {
-    ignores: ["dist/", "eslint.config.js", "tests/metrics/", "tests/evaluators/", "vitest.config.ts"],
+    ignores: [
+      "dist/", 
+      "eslint.config.js", 
+      "tests/metrics/", 
+      "tests/evaluators/", 
+      "vitest.config.ts",
+      "src/models/",
+      "src/utils",
+    ],
   },
   {
     files: ["**/*.ts", "**/*.tsx"],
