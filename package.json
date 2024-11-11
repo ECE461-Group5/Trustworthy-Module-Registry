@@ -10,7 +10,7 @@
     "dev": "npx nodemon src/index.ts",
     "test": "npx vitest",
     "auto-grader-test": "vitest run --silent --coverage --reporter=json --outputFile=./src/utils/reports/vitest-results.json",
-    "lint": "npx eslint -c eslint.config.js"
+    "lint": "npx eslint --fix -c eslint.config.js -f stylish"
   },
   "keywords": [],
   "author": "",
@@ -43,6 +43,7 @@
   "dependencies": {
     "@octokit/rest": "^21.0.2",
     "dotenv": "^16.4.5",
+    "eslint-formatter-pretty": "^6.0.1",
     "express": "^5.0.0",
     "fs": "^0.0.1-security",
     "isomorphic-git": "^1.27.1",

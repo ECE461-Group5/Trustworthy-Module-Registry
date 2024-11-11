@@ -29,7 +29,6 @@ export default [
         project: "./tsconfig.json",
         projectService: true,
         tsconfigRootDir: import.meta.dirname,
-//        allowAutomaticSingleRunInference: true,
       }
     },
     rules: {
