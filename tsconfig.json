@@ -15,5 +15,5 @@
 //  "include": ["src/**/*.ts", "tests/server/**/*.test.ts"],
   "include": ["src/**/*.ts"],
 //  "exclude": ["node_modules", "tests/metrics/"],
-  "exclude": ["node_modules", "tests/metrics/"],
+  "exclude": ["node_modules", "tests"],
 }
