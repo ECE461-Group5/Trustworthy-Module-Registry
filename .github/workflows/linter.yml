@@ -1,10 +1,11 @@
-# This workflow executes several linters on changed files based on languages used in your code base whenever
-# you push a code or open a pull request.
+# This workflow executes several linters on changed files based on languages
+# used in your code base whenever you push a code or open a pull request.
+---
 name: Linter
 
 on:
   push:
-    branches: ["main"]
+    branches: ["**"]
   pull_request:
     branches: ["main"]
 
