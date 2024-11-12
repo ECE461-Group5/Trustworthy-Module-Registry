@@ -1,3 +1,5 @@
+// tsconfig.json
+
 {
   "compilerOptions": {
     "moduleResolution": "NodeNext",
@@ -5,11 +7,11 @@
     "target": "ES2020",
     "sourceMap": true,
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": ".",
     "strict": true,
     "esModuleInterop": true,
     "types": ["node", "vitest/globals"]
   },
-  "include": ["src/**/*.ts", "src/utils/reports/extract-results.ts"],
-  "exclude": ["node_modules", "tests/**/*.ts"],
+  "include": ["src/**/*.ts", "tests/server/**/*.test.ts"],
+  "exclude": ["node_modules", "tests/metrics/"],
 }
