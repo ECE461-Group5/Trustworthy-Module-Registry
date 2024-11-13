@@ -3,8 +3,8 @@ import request from "supertest";
 import app from "../../../src/server/server.ts";
 
 describe("packages endpoint", () => {
-  it("POST /packages?offset=20 should say not implemented and the offset", async () => {
-    const res = await request(app)
+  it("valid response format", async () => {
+    const response = await request(app)
       .post("/packages?offset=20")
       .send(
         [
@@ -18,8 +18,8 @@ describe("packages endpoint", () => {
           }
         ]
       );
-    expect(res.statusCode).toEqual(200);
-    expect(res.body).toEqual(
+    expect(response.statusCode).toEqual(200);
+    expect(response.body).toEqual(
       [
         {
           "Name": "name1",
@@ -33,7 +33,106 @@ describe("packages endpoint", () => {
         }
       ]
     );
-    //expect(res.body).toHaveProperty("message", "NOT IMPLEMENTED: get packages");
-    //expect(res.body).toHaveProperty("offset", "20");
   });
+
+  it("Name key 0 invalid", async () => {
+    const response = await request(app)
+      .post("/packages?offset=20")
+      .send(
+        [
+          {
+            "Nam": "name1",
+            "Version": "version1"
+          },
+          {
+            "Name": "name2",
+            "Version": "version2"
+          }
+        ]
+      );
+    expect(response.statusCode).toEqual(400);
+    expect(response.body).toEqual({});
+  });
+
+  it("Version key 0 invalid", async () => {
+    const response = await request(app)
+      .post("/packages?offset=20")
+      .send(
+        [
+          {
+            "Name": "name1",
+            "Verson": "version1"
+          },
+          {
+            "Name": "name2",
+            "Version": "version2"
+          }
+        ]
+      );
+    expect(response.statusCode).toEqual(400);
+    expect(response.body).toEqual({});
+  });
+
+  it("Name key 1 invalid", async () => {
+    const response = await request(app)
+      .post("/packages?offset=20")
+      .send(
+        [
+          {
+            "Name": "name1",
+            "Version": "version1"
+          },
+          {
+            "Nam": "name2",
+            "Version": "version2"
+          }
+        ]
+      );
+    expect(response.statusCode).toEqual(400);
+    expect(response.body).toEqual({});
+  });
+
+  it("Version key 1 invalid", async () => {
+    const response = await request(app)
+      .post("/packages?offset=20")
+      .send(
+        [
+          {
+            "Name": "name1",
+            "Verson": "version1"
+          },
+          {
+            "Name": "name2",
+            "Verson": "version2"
+          }
+        ]
+      );
+    expect(response.statusCode).toEqual(400);
+    expect(response.body).toEqual({});
+  });
+
+  // Current maximum packages that can requested at once is 2
+  it("1 too many packages", async () => {
+    const response = await request(app)
+      .post("/packages?offset=20")
+      .send(
+        [
+          {
+            "Name": "name1",
+            "Version": "version1"
+          },
+          {
+            "Name": "name2",
+            "Version": "version2"
+          },
+          {
+            "Name": "name3",
+            "Version": "version4"
+          }
+        ]
+      );
+    expect(response.statusCode).toEqual(413);
+    expect(response.body).toEqual({});
+  });
+
 });

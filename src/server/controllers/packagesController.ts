@@ -20,31 +20,45 @@ export const getPackages = (req: Request<{},{}, Package[], Query>, res: Response
   //console.log(JSON.stringify(reqBody));
   const offset = req.query.offset;
 
-  // Check if request body is valid
-  var validBody: boolean = true;
-  // Array of packages and non zero length
-  if (Array.isArray(requestBody) && requestBody.length > 0) {
+  var validRequest: boolean = true;
+  var validFormat: boolean = true;
+  const maxPackages = 5;
+  var validNumPackages: boolean = true;
+
+  const numPackages = requestBody.length;
+
+  // Check if request body format is valid
+  if (Array.isArray(requestBody) && numPackages > 0) {
     for (var requestedPackage of requestBody) {
       if (requestedPackage.Name === undefined || requestedPackage.Version === undefined) {
-        validBody = false;
+        validRequest = false;
+        validFormat = false;
         break;
       }
     }
   }
   else {
-    validBody = false;
+    validRequest = false;
+    validFormat = false;
+  }
+
+  if (numPackages > 2) {
+    validRequest = false;
+    validNumPackages = false;
   }
 
   // Send a response
-  if (validBody) {
+  if (validRequest) {
     // INSERT DATABASE QUERY FUNCTION HERE
-
     for (var requestedPackage of requestBody) {
       requestedPackage.ID = "dummyid";
     }
     res.json(requestBody);
   }
-  else {
+  else if (!validFormat) {
     res.status(400).send();
+  }
+  else if (!validNumPackages) {
+    res.status(413).send();
   }
 };
