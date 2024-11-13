@@ -5,37 +5,44 @@
 
 import { Request, Response } from "express";
 
-interface MyObj {
-  Name: string
-  Version: string
+interface Package {
+  Name: string;
+  Version: string;
+  ID: string;
 }
 
-interface que {
+interface Query {
   offset?: string;
 }
 
-export const getPackages = (req: Request<{},{}, MyObj[], que>, res: Response): void => {
-
-  const reqBody = req.body;
+export const getPackages = (req: Request<{},{}, Package[], Query>, res: Response): void => {
+  const requestBody = req.body;
+  //console.log(JSON.stringify(reqBody));
   const offset = req.query.offset;
 
-  //console.log(JSON.stringify(reqBody));
-
+  // Check if request body is valid
   var validBody: boolean = true;
-
   // Array of packages and non zero length
-  if (Array.isArray(reqBody) && reqBody.length > 0) {
-    for (var obj of reqBody) {
-      if (obj.Name === undefined || obj.Version === undefined) {
-        res.status(400).send();
+  if (Array.isArray(requestBody) && requestBody.length > 0) {
+    for (var requestedPackage of requestBody) {
+      if (requestedPackage.Name === undefined || requestedPackage.Version === undefined) {
         validBody = false;
         break;
       }
-      console.log(`Name = ${obj.Name}, Version = ${obj.Version}`);
     }
-    if (validBody) {
-      res.json({ test: reqBody, offset: offset });
+  }
+  else {
+    validBody = false;
+  }
+
+  // Send a response
+  if (validBody) {
+    // INSERT DATABASE QUERY FUNCTION HERE
+
+    for (var requestedPackage of requestBody) {
+      requestedPackage.ID = "dummyid";
     }
+    res.json(requestBody);
   }
   else {
     res.status(400).send();
