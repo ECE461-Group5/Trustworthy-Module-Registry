@@ -21,11 +21,23 @@ export const getPackages = (req: Request<{},{}, MyObj[], que>, res: Response): v
 
   //console.log(JSON.stringify(reqBody));
 
-  if (Array.isArray(reqBody) && reqBody.length > 0) {
-    reqBody.forEach((obj, index) => {
-      console.log(`Package ${index + 1}: Name = ${obj.Name}, Version = ${obj.Version}`);
-    });
-  }
+  var validBody: boolean = true;
 
-  res.json({ test: reqBody, offset: offset });
+  // Array of packages and non zero length
+  if (Array.isArray(reqBody) && reqBody.length > 0) {
+    for (var obj of reqBody) {
+      if (obj.Name === undefined || obj.Version === undefined) {
+        res.status(400).send();
+        validBody = false;
+        break;
+      }
+      console.log(`Name = ${obj.Name}, Version = ${obj.Version}`);
+    }
+    if (validBody) {
+      res.json({ test: reqBody, offset: offset });
+    }
+  }
+  else {
+    res.status(400).send();
+  }
 };
