@@ -15,21 +15,21 @@ interface Query {
   offset?: string;
 }
 
-export const getPackages = (req: Request<{},{}, Package[], Query>, res: Response): void => {
+export const getPackages = (req: Request<unknown, unknown, Package[], Query>, res: Response): void => {
   const requestBody = req.body;
   //console.log(JSON.stringify(reqBody));
   const offset = req.query.offset;
 
-  var validRequest: boolean = true;
-  var validFormat: boolean = true;
-  const maxPackages = 5;
-  var validNumPackages: boolean = true;
+  let validRequest: boolean = true;
+  let validFormat: boolean = true;
+  const maxPackages = 2;
+  let validNumPackages: boolean = true;
 
   const numPackages = requestBody.length;
 
   // Check if request body format is valid
   if (Array.isArray(requestBody) && numPackages > 0) {
-    for (var requestedPackage of requestBody) {
+    for (let requestedPackage of requestBody) {
       if (requestedPackage.Name === undefined || requestedPackage.Version === undefined) {
         validRequest = false;
         validFormat = false;
@@ -42,7 +42,7 @@ export const getPackages = (req: Request<{},{}, Package[], Query>, res: Response
     validFormat = false;
   }
 
-  if (numPackages > 2) {
+  if (numPackages > maxPackages) {
     validRequest = false;
     validNumPackages = false;
   }
@@ -50,7 +50,7 @@ export const getPackages = (req: Request<{},{}, Package[], Query>, res: Response
   // Send a response
   if (validRequest) {
     // INSERT DATABASE QUERY FUNCTION HERE
-    for (var requestedPackage of requestBody) {
+    for (let requestedPackage of requestBody) {
       requestedPackage.ID = "dummyid";
     }
     res.json(requestBody);
