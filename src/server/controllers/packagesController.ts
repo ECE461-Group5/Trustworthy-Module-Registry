@@ -15,9 +15,8 @@ interface Query {
   offset?: string;
 }
 
-export const getPackages = (req: Request<unknown, unknown, Package[], Query>, res: Response): void => {
+export const getPackages = (req: Request<unknown, unknown, Array<Package>, Query>, res: Response): void => {
   const requestBody = req.body;
-  //console.log(JSON.stringify(reqBody));
   //const offset = req.query.offset;
 
   let validRequest: boolean = true;
@@ -29,7 +28,7 @@ export const getPackages = (req: Request<unknown, unknown, Package[], Query>, re
 
   // Check if request body format is valid
   if (Array.isArray(requestBody) && numPackages > 0) {
-    for (let requestedPackage of requestBody) {
+    for (const requestedPackage of requestBody) {
       if (requestedPackage.Name === undefined || requestedPackage.Version === undefined) {
         validRequest = false;
         validFormat = false;
@@ -47,10 +46,13 @@ export const getPackages = (req: Request<unknown, unknown, Package[], Query>, re
     validNumPackages = false;
   }
 
-  // Send a response
+  // Once request validity has been checked
   if (validRequest) {
     // INSERT DATABASE QUERY FUNCTION HERE
-    for (let requestedPackage of requestBody) {
+    // databaseFunction(JSON.stringify(requestBody, offset));
+ 
+    // Dummy id until database function is implemented
+    for (const requestedPackage of requestBody) {
       requestedPackage.ID = "dummyid";
     }
     res.json(requestBody);

@@ -3,136 +3,117 @@ import request from "supertest";
 import app from "../../../src/server/server.ts";
 
 describe("packages endpoint", () => {
-  it("valid response format", async () => {
+  // Correct key format
+  test.each([
+    {
+      testName: "Valid Format",
+      packages: [
+        { Name: "name1", Version: "version1" },
+        { Name: "name2", Version: "version2" },
+      ],
+      expectedStatus: 200,
+      expectedBody: [
+        { Name: "name1", Version: "version1", ID: "dummyid" },
+        { Name: "name2", Version: "version2", ID: "dummyid" },
+      ],
+    },
+    {
+      testName: "Invalid key at index 0",
+      packages: [
+        { notName: "name1", Version: "version1" },
+        { Name: "name2", Version: "version2" },
+      ],
+      expectedStatus: 400,
+      expectedBody: {}
+    },
+    {
+      testName: "Invalid version at index 0",
+      packages: [
+        { Name: "name1", notVersion: "version1" },
+        { Name: "name2", Version: "version2" },
+      ],
+      expectedStatus: 400,
+      expectedBody: {}
+    },
+    {
+      testName: "Invalid key at index 1",
+      packages: [
+        { Name: "name1", Version: "version1" },
+        { notName: "name2", Version: "version2" },
+      ],
+      expectedStatus: 400,
+      expectedBody: {}
+    },
+    {
+      testName: "Invalid version at index 1",
+      packages: [
+        { Name: "name1", Version: "version1" },
+        { Name: "name2", notVersion: "version2" },
+      ],
+      expectedStatus: 400,
+      expectedBody: {}
+    },
+  ])("$testName", async ({ packages, expectedStatus, expectedBody }) => {
     const response = await request(app)
       .post("/packages?offset=20")
-      .send(
-        [
-          {
-            "Name": "name1",
-            "Version": "version1"
-          },
-          {
-            "Name": "name2",
-            "Version": "version2"
-          }
-        ]
-      );
-    expect(response.statusCode).toEqual(200);
-    expect(response.body).toEqual(
-      [
-        {
-          "Name": "name1",
-          "Version": "version1",
-          "ID": "dummyid"
-        },
-        {
-          "Name": "name2",
-          "Version": "version2",
-          "ID": "dummyid"
-        }
-      ]
-    );
+      .send(packages);
+
+    expect(response.statusCode).toEqual(expectedStatus);
+    expect(response.body).toEqual(expectedBody);  
   });
 
-  it("Name key 0 invalid", async () => {
+  // Package limit
+  test.each([
+    {
+      testName: "1 under the package limit",
+      packages: [
+        { Name: "name1", Version: "version1" },
+      ],
+      expectedStatus: 200,
+      expectedBody: [
+        { Name: "name1", Version: "version1", ID: "dummyid" },
+      ],
+    },
+    {
+      testName: "At the package limit",
+      packages: [
+        { Name: "name1", Version: "version1" },
+        { Name: "name2", Version: "version2" },
+      ],
+      expectedStatus: 200,
+      expectedBody: [
+        { Name: "name1", Version: "version1", ID: "dummyid" },
+        { Name: "name2", Version: "version2", ID: "dummyid" },
+      ],
+    },
+    {
+      testName: "1 over the package limit",
+      packages: [
+        { Name: "name1", Version: "version1" },
+        { Name: "name2", Version: "version2" },
+        { Name: "name3", Version: "version3" }
+      ],
+      expectedStatus: 413,
+      expectedBody: {}
+    },
+    {
+      testName: "2 over the package limit",
+      packages: [
+        { Name: "name1", Version: "version1" },
+        { Name: "name2", Version: "version2" },
+        { Name: "name3", Version: "version3" },
+        { Name: "name4", Version: "version4" }
+      ],
+      expectedStatus: 413,
+      expectedBody: {}
+    },
+  ])
+  ("$testName", async ({ packages, expectedStatus, expectedBody }) => {
     const response = await request(app)
       .post("/packages?offset=20")
-      .send(
-        [
-          {
-            "Nam": "name1",
-            "Version": "version1"
-          },
-          {
-            "Name": "name2",
-            "Version": "version2"
-          }
-        ]
-      );
-    expect(response.statusCode).toEqual(400);
-    expect(response.body).toEqual({});
-  });
+      .send(packages);
 
-  it("Version key 0 invalid", async () => {
-    const response = await request(app)
-      .post("/packages?offset=20")
-      .send(
-        [
-          {
-            "Name": "name1",
-            "Verson": "version1"
-          },
-          {
-            "Name": "name2",
-            "Version": "version2"
-          }
-        ]
-      );
-    expect(response.statusCode).toEqual(400);
-    expect(response.body).toEqual({});
+    expect(response.statusCode).toEqual(expectedStatus);
+    expect(response.body).toEqual(expectedBody);
   });
-
-  it("Name key 1 invalid", async () => {
-    const response = await request(app)
-      .post("/packages?offset=20")
-      .send(
-        [
-          {
-            "Name": "name1",
-            "Version": "version1"
-          },
-          {
-            "Nam": "name2",
-            "Version": "version2"
-          }
-        ]
-      );
-    expect(response.statusCode).toEqual(400);
-    expect(response.body).toEqual({});
-  });
-
-  it("Version key 1 invalid", async () => {
-    const response = await request(app)
-      .post("/packages?offset=20")
-      .send(
-        [
-          {
-            "Name": "name1",
-            "Verson": "version1"
-          },
-          {
-            "Name": "name2",
-            "Verson": "version2"
-          }
-        ]
-      );
-    expect(response.statusCode).toEqual(400);
-    expect(response.body).toEqual({});
-  });
-
-  // Current maximum packages that can requested at once is 2
-  it("1 too many packages", async () => {
-    const response = await request(app)
-      .post("/packages?offset=20")
-      .send(
-        [
-          {
-            "Name": "name1",
-            "Version": "version1"
-          },
-          {
-            "Name": "name2",
-            "Version": "version2"
-          },
-          {
-            "Name": "name3",
-            "Version": "version4"
-          }
-        ]
-      );
-    expect(response.statusCode).toEqual(413);
-    expect(response.body).toEqual({});
-  });
-
 });
