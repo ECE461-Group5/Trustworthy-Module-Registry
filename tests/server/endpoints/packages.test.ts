@@ -1,4 +1,4 @@
-import { expect, describe, it } from "vitest";
+import { expect, describe, test } from "vitest";
 import request from "supertest";
 import app from "../../../src/server/server.ts";
 
@@ -107,8 +107,7 @@ describe("packages endpoint", () => {
       expectedStatus: 413,
       expectedBody: {}
     },
-  ])
-  ("$testName", async ({ packages, expectedStatus, expectedBody }) => {
+  ])("$testName", async ({ packages, expectedStatus, expectedBody }) => {
     const response = await request(app)
       .post("/packages?offset=20")
       .send(packages);
