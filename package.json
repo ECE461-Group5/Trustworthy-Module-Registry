@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "npx tsc -p ./tsconfig.compile.json",
-    "start": "node dist/index.js",
+    "start": "node dist/server/server.js",
     "dev": "npx nodemon src/index.ts",
     "test": "npx vitest",
     "auto-grader-test": "vitest run --silent --coverage --reporter=json --outputFile=./src/utils/reports/vitest-results.json",
