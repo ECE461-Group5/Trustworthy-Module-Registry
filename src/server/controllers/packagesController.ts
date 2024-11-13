@@ -18,7 +18,7 @@ interface Query {
 export const getPackages = (req: Request<unknown, unknown, Package[], Query>, res: Response): void => {
   const requestBody = req.body;
   //console.log(JSON.stringify(reqBody));
-  const offset = req.query.offset;
+  //const offset = req.query.offset;
 
   let validRequest: boolean = true;
   let validFormat: boolean = true;
