@@ -29,8 +29,9 @@ jobs:
 
     - name: Install Dependencies
       id: install
-      run: npm ci
-      run: npm test
+      run: |
+        npm ci
+        npm test
 
     - name: Build dist/ Directory
       id: build
