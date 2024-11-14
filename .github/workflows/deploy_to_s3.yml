@@ -20,6 +20,7 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v4
+
     - name: Setup Node.js ${{ matrix.node-version }}
       id: setup-node
       uses: actions/setup-node@v4
@@ -32,6 +33,20 @@ jobs:
       run:
         npm install
         npm test
+
+# We can trigger super linter here and ensure it passes before it can be deployed as well
+ #   - name: Lint Code
+ #     run: npm run lint
+
+ # lists static analysis tools that can be used to analyze the code (linters and formatters)
+    #- name: Run Static Analysis
+    #  run: npm run analyze
+
+    - name: Run Security Checks
+      run: npm audit
+
+    - name: Check Code Coverage
+      run: npm run coverage
 
     - name: Build dist/ Directory
       id: build
