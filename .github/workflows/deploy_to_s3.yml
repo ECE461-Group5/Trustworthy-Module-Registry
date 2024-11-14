@@ -41,12 +41,11 @@ jobs:
  # lists static analysis tools that can be used to analyze the code (linters and formatters)
     #- name: Run Static Analysis
     #  run: npm run analyze
+    #- name: Check Code Coverage
+    #  run: npm run coverage
 
     - name: Run Security Checks
       run: npm audit
-
-    - name: Check Code Coverage
-      run: npm run coverage
 
     - name: Build dist/ Directory
       id: build
