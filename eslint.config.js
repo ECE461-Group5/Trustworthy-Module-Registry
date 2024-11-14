@@ -50,7 +50,22 @@ export default [
         }
       ],
       "@typescript-eslint/explicit-function-return-type": "error",
-      "@stylistic/ts/space-before-function-paren": ["error", "always"]
+      "@stylistic/ts/space-before-function-paren": ["error", "always"],
+      "@stylistic/ts/block-spacing": ["error", "always"],
+      "@stylistic/ts/brace-style": ["error", "stroustrup"],
+      "@stylistic/ts/comma-dangle": ["error", "always-multiline"],
+      "@stylistic/ts/comma-spacing": ["error", { "before": false, "after": true }],
+      "@stylistic/ts/function-call-spacing": ["error", "never"],
+      "@stylistic/ts/key-spacing": ["error", { "beforeColon": false, "afterColon": true, "mode": "strict" }],
+      "@stylistic/ts/keyword-spacing": ["error", { "before": true, "after": true }],
+      "@stylistic/ts/member-delimiter-style": ["error", {"multiline": { "delimiter": "semi", "requireLast": true }}],
+      "@stylistic/ts/no-extra-parens": ["error", "all"],
+      "@stylistic/ts/no-extra-semi": "error",
+      "@stylistic/ts/object-curly-spacing": ["error", "always"],
+      "@stylistic/ts/quote-props": ["error", "consistent"],
+      "@stylistic/ts/quotes": ["error", "double"],
+      "@stylistic/ts/space-before-blocks": "error",
+      "@stylistic/ts/space-infix-ops": "error",
     }
   }
 ];

@@ -43,7 +43,7 @@ if (file) {
 }
 */
 
-import express, {Express, Request, Response} from "express";
+import express, { Express, Request, Response } from "express";
 import packagesRouter from "./routes/packagesRoutes.js";
 import resetRouter from "./routes/resetRoutes.js";
 import packageRouter from "./routes/packageRoutes.js";
@@ -58,7 +58,7 @@ app.get("/", (req: Request, res: Response) => res.json({ message: "Express + Typ
 app.use("/packages", packagesRouter);
 app.use("/reset", resetRouter);
 app.use("/package", packageRouter);
-app.use("/tracks", (req: Request, res: Response) => res.json({ plannedTracks: "[none]"}));
+app.use("/tracks", (req: Request, res: Response) => res.json({ plannedTracks: "[none]" }));
 
 app.use((req: Request, res: Response) => {
   res.status(404).json({ message: "Route not found" });
@@ -149,7 +149,7 @@ app.get('/tracks', (req: Request, res: Response) => {
 */
 
 if (process.env.NODE_ENV !== "test") {
-  app.listen({port, address: "0.0.0.0"});
+  app.listen({ port, address: "0.0.0.0" });
 }
 
 export default app;
