@@ -39,10 +39,10 @@ jobs:
 
   continuous-deployment:
     runs-on: ubuntu-latest
-    needs: [continuous-integration]
+    needs: continuous-integration
     if: github.ref == 'refs/heads/main'
+    
     steps:
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
