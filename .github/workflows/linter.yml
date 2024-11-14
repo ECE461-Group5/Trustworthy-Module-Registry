@@ -25,6 +25,9 @@ jobs:
 
       - name: install dependencies
         run: npm install
+
+      - name: eslint
+        run: npm run lint
     
       - name: Super-Linter
         uses: super-linter/super-linter@v7.1.0
@@ -33,12 +36,12 @@ jobs:
           DEFAULT_BRANCH: "main"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LINTER_RULES_PATH: /
-          JAVASCRIPT_ES_CONFIG_FILE: eslint.config.js
-          
+
           FIX_JAVASCRIPT_PRETTIER: true
           FIX_JSON_PRETTIER: true
           FIX_YAML_PRETTIER: true
 
+          VALIDATE_JAVASCRIPT_ES: false
           VALIDATE_SHELL_SHFMT: false
           VALIDATE_JAVASCRIPT_STANDARD: false
           VALIDATE_JSON: false
