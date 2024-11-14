@@ -41,7 +41,7 @@
   "dependencies": {
     "@octokit/rest": "^21.0.2",
     "dotenv": "^16.4.5",
-    "express": "^5.0.0",
+    "express": "^5.0.1",
     "fs": "^0.0.1-security",
     "isomorphic-git": "^1.27.1",
     "markdownlint": "^0.35.0",
