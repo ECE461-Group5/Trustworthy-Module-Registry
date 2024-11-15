@@ -27,28 +27,13 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: "npm"
-    - run: npm ci
-
-    - name: Build dist/ Directory
-      id: build
-      run: npm run build --if-present
-
-    - name: VI Test
-      id: test
-      run: npm test
+    - run: |
+        npm ci
+        npm run build --if-present
+        npm test
 
     - name: Run Security Checks
       run: npm audit
-
-# We can trigger super linter here and ensure it passes before it can be deployed as well
- #   - name: Lint Code
- #     run: npm run lint
-
- # lists static analysis tools that can be used to analyze the code (linters and formatters)
-    #- name: Run Static Analysis
-    #  run: npm run analyze
-    #- name: Check Code Coverage
-    #  run: npm run coverage
 
   continuous-deployment:
     runs-on: ubuntu-latest
@@ -64,4 +49,5 @@ jobs:
           aws-region: us-east-1
 
       - name: Deploy to S3
-        run: aws s3 sync ./ s3://codepipeline-us-east-1-989702721762
+        run: |
+          aws s3 sync ./ s3://codepipeline-us-east-1-989702721762
