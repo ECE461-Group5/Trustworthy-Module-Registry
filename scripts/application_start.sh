@@ -14,5 +14,4 @@ export NVM_DIR="$HOME/.nvm"
 # Install node modules
 npm install
 
-npm run build
 ./run sample-file.txt >app.out.log 2>app.err.log </dev/null &
