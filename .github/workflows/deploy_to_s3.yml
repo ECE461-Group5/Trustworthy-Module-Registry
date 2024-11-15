@@ -72,4 +72,4 @@ jobs:
           aws-region: us-east-1
 
       - name: Deploy to S3
-        run: aws s3 sync . ${{ secrets.AWS_ACCESS_KEY_ID }}
+        run: aws s3 sync ./ s3://codepipeline-us-east-1-989702721762
