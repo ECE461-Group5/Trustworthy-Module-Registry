@@ -10,6 +10,7 @@ describe("/package endpoint", () => {
   });
 });
 
+
 describe("/package/:id endpoint", () => {
   it("GET /package/:id is not implemented", async () => {
     const res = await request(app).get("/package/:id");
@@ -30,13 +31,85 @@ describe("/package/:id endpoint", () => {
   });
 });
 
+
 describe("/package/:id/rate endpoint", () => {
-  it("GET /package/:id/rate is not implemented", async () => {
-    const res = await request(app).get("/package/:id/rate");
-    expect(res.statusCode).toBe(200);
-    expect(res.body).toHaveProperty("message", "NOT IMPLEMENTED: get package rating");
+   // Rating format
+  test.each([
+    {
+      testName: "correctly formatted rating",
+      packageID: "00000000",
+      expectedStatus: 200,
+      expectedBody:
+      {
+        "RampUp": "<double>",
+        "Correctness": "<double>",
+        "BusFactor": "<double>",
+        "ResponsiveMaintainer": "<double>",
+        "LicenseScore": "<double>",
+        "GoodPinningPractice": "<double>",
+        "PullRequest": "<double>",
+        "NetScore": "<double>",
+        "RampUpLatency": "<double>",
+        "CorrectnessLatency": "<double>",
+        "BusFactorLatency": "<double>",
+        "ResponsiveMaintainerLatency": "<double>",
+        "LicenseScoreLatency": "<double>",
+        "GoodPinningPracticeLatency": "<double>",
+        "PullRequestLatency": "<double>",
+        "NetScoreLatency": "<double>"
+      },
+    },
+  ])("$testName", async ({ packageID, expectedStatus, expectedBody }) => {
+    const response = await request(app)
+      .get(`/package/${packageID}/rate`);
+
+    expect(response.statusCode).toEqual(expectedStatus);
+    expect(response.body).toEqual(expectedBody);  
   });
+ 
+  // Package ID format
+  test.each([
+    {
+      testName: "Package ID one digit too short",
+      packageID: "1234567",
+      expectedStatus: 400,
+      expectedBody: {},
+    },
+    {
+      testName: "Package ID one digit too long",
+      packageID: "123456789",
+      expectedStatus: 400,
+      expectedBody: {},
+    },
+  ])("$testName", async ({ packageID, expectedStatus, expectedBody }) => {
+    const response = await request(app)
+      .get(`/package/${packageID}/rate`);
+
+    expect(response.statusCode).toEqual(expectedStatus);
+    expect(response.body).toEqual(expectedBody);  
+  });
+
+  // Authentication
+
+  // Package does not exist
+  test.each([
+    {
+      testName: "Package does not exist",
+      packageID: "99999999",
+      expectedStatus: 404,
+      expectedBody: {},
+    },
+  ])("$testName", async ({ packageID, expectedStatus, expectedBody }) => {
+    const response = await request(app)
+      .get(`/package/${packageID}/rate`);
+
+    expect(response.statusCode).toEqual(expectedStatus);
+    expect(response.body).toEqual(expectedBody);  
+  });
+
+  // Package rating system choked on at least one of the metrics
 });
+
 
 describe("/package/:id/cost endpoint", () => {
   it("GET /package/:id/cost is not implemented", async () => {
@@ -45,6 +118,7 @@ describe("/package/:id/cost endpoint", () => {
     expect(res.body).toHaveProperty("message", "NOT IMPLEMENTED: get package cost");
   });
 });
+
 
 describe("/package/byRegEx endpoint", () => {
   it("POST /package/byRegEx is not implemented", async () => {

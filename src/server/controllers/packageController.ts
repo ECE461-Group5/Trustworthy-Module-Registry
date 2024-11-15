@@ -21,7 +21,11 @@ export const deletePackage = /*async*/ (req: Request, res: Response): void => {
 };
 
 // /package/:id/rate
-export const getPackageRating = /*async*/ (req: Request, res: Response): void => {
+export const getPackageRating = (req: Request, res: Response): void => {
+  // IMPLEMENT DATABASE FUNCTION HERE
+  switch (req.params.id) { 
+  }
+
   res.json({ message: "NOT IMPLEMENTED: get package rating" });
 };
 

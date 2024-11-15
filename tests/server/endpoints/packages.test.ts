@@ -62,6 +62,8 @@ describe("packages endpoint", () => {
     expect(response.body).toEqual(expectedBody);  
   });
 
+  // Authentication
+
   // Package limit
   test.each([
     {
