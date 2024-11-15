@@ -56,7 +56,6 @@ export const getPackageRating = (req: Request, res: Response): void => {
   }
   else if (packageID === "99999999") {
     res.status(404).send();
-    console.log("hello");
   }
 };
 
