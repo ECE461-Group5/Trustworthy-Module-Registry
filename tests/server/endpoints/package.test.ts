@@ -56,7 +56,7 @@ describe("/package/:id/rate endpoint", () => {
         "LicenseScoreLatency": "<double>",
         "GoodPinningPracticeLatency": "<double>",
         "PullRequestLatency": "<double>",
-        "NetScoreLatency": "<double>"
+        "NetScoreLatency": "<double>",
       },
     },
   ])("$testName", async ({ packageID, expectedStatus, expectedBody }) => {

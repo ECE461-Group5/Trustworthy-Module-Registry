@@ -26,11 +26,37 @@ export const getPackageRating = (req: Request, res: Response): void => {
 
   // Temporary to check formatting
   // Can remove when database function is implemented
-  switch (req.params.id) { 
-
+  const packageID = req.params.id;
+  if (packageID === "00000000") {
+    res.json(
+      { "RampUp": "<double>",
+        "Correctness": "<double>",
+        "BusFactor": "<double>",
+        "ResponsiveMaintainer": "<double>",
+        "LicenseScore": "<double>",
+        "GoodPinningPractice": "<double>",
+        "PullRequest": "<double>",
+        "NetScore": "<double>",
+        "RampUpLatency": "<double>",
+        "CorrectnessLatency": "<double>",
+        "BusFactorLatency": "<double>",
+        "ResponsiveMaintainerLatency": "<double>",
+        "LicenseScoreLatency": "<double>",
+        "GoodPinningPracticeLatency": "<double>",
+        "PullRequestLatency": "<double>",
+        "NetScoreLatency": "<double>",
+      },
+    );
+  } 
+  else if (packageID === "1234567") {
+    res.status(400).send();
   }
-
-  res.json({ message: "NOT IMPLEMENTED: get package rating" });
+  else if (packageID === "123456789") {
+    res.status(400).send();
+  }
+  else if (packageID === "99999999") {
+    res.status(404).send();
+  }
 };
 
 // /package/:id/cost
