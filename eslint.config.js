@@ -1,6 +1,7 @@
 // eslint.config.js
 
 import js from "@eslint/js";
+import stylisticTs from '@stylistic/eslint-plugin-ts';
 import tsParser from "@typescript-eslint/parser";
 import ts from "typescript-eslint";
 
@@ -30,6 +31,10 @@ export default [
         tsconfigRootDir: import.meta.dirname,
       }
     },
+    plugins: {
+      '@stylistic/ts': stylisticTs
+    },
+
     rules: {
       semi: "error",
       quotes: ["error", "double"],
@@ -44,7 +49,8 @@ export default [
           "default": "generic" 
         }
       ],
-      "@typescript-eslint/explicit-function-return-type": "error"
+      "@typescript-eslint/explicit-function-return-type": "error",
+      "@stylistic/ts/space-before-function-paren": ["error", "always"]
     }
   }
 ];

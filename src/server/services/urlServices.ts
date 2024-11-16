@@ -14,7 +14,7 @@ import { evaluateModule } from "../../models/evaluators/evaluateModule.js";
  */
 class URLServices {
 
-    public static async beginScoringModule(url: string): Promise<string> {
+    public static async beginScoringModule (url: string): Promise<string> {
         // Call the evaluateModule function and pass the URL
         const result = await evaluateModule(url);
         
