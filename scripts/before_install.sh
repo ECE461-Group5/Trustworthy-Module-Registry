@@ -9,7 +9,15 @@ nvm install node
 DIR="/home/ubuntu/trustworthy-module-registry"
 if [ -d "$DIR" ]; then
   echo "${DIR} exists"
+  rm -rf ${DIR}
 else
   echo "Creating ${DIR} directory"
   mkdir ${DIR}
+fi
+
+# Check if the file exists and remove it
+FILE="${DIR}/run"
+if [ -f "$FILE" ]; then
+  echo "Removing existing file ${FILE}"
+  rm -f ${FILE}
 fi
