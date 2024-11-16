@@ -9,7 +9,6 @@ nvm install node
 DIR="/home/ubuntu/trustworthy-module-registry"
 if [ -d "$DIR" ]; then
   echo "${DIR} exists"
-  rm -rf ${DIR}
 else
   echo "Creating ${DIR} directory"
   mkdir ${DIR}
