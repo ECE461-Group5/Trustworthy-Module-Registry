@@ -23,6 +23,7 @@ jobs:
         with:
           fetch-depth: 2
           ref: main
+          fetch-tags: true
 
       - name: install dependencies
         run: npm install
