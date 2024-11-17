@@ -22,7 +22,7 @@ const logger = pino(
   pino.destination({
     dest: logFilePath, // Log file path
     sync: false,       // Asynchronous logging for better performance
-  })
+  }),
 );
 
 export default logger;

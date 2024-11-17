@@ -24,7 +24,7 @@ describe("packages endpoint", () => {
         { Name: "name2", Version: "version2" },
       ],
       expectedStatus: 400,
-      expectedBody: {}
+      expectedBody: {},
     },
     {
       testName: "Invalid version at index 0",
@@ -33,7 +33,7 @@ describe("packages endpoint", () => {
         { Name: "name2", Version: "version2" },
       ],
       expectedStatus: 400,
-      expectedBody: {}
+      expectedBody: {},
     },
     {
       testName: "Invalid key at index 1",
@@ -42,7 +42,7 @@ describe("packages endpoint", () => {
         { notName: "name2", Version: "version2" },
       ],
       expectedStatus: 400,
-      expectedBody: {}
+      expectedBody: {},
     },
     {
       testName: "Invalid version at index 1",
@@ -51,7 +51,7 @@ describe("packages endpoint", () => {
         { Name: "name2", notVersion: "version2" },
       ],
       expectedStatus: 400,
-      expectedBody: {}
+      expectedBody: {},
     },
   ])("$testName", async ({ packages, expectedStatus, expectedBody }) => {
     const response = await request(app)
@@ -61,6 +61,8 @@ describe("packages endpoint", () => {
     expect(response.statusCode).toEqual(expectedStatus);
     expect(response.body).toEqual(expectedBody);  
   });
+
+  // Authentication
 
   // Package limit
   test.each([
@@ -91,10 +93,10 @@ describe("packages endpoint", () => {
       packages: [
         { Name: "name1", Version: "version1" },
         { Name: "name2", Version: "version2" },
-        { Name: "name3", Version: "version3" }
+        { Name: "name3", Version: "version3" },
       ],
       expectedStatus: 413,
-      expectedBody: {}
+      expectedBody: {},
     },
     {
       testName: "2 over the package limit",
@@ -102,10 +104,10 @@ describe("packages endpoint", () => {
         { Name: "name1", Version: "version1" },
         { Name: "name2", Version: "version2" },
         { Name: "name3", Version: "version3" },
-        { Name: "name4", Version: "version4" }
+        { Name: "name4", Version: "version4" },
       ],
       expectedStatus: 413,
-      expectedBody: {}
+      expectedBody: {},
     },
   ])("$testName", async ({ packages, expectedStatus, expectedBody }) => {
     const response = await request(app)
