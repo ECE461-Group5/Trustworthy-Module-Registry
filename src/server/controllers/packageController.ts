@@ -61,7 +61,18 @@ export const getPackageRating = (req: Request, res: Response): void => {
 
 // /package/:id/cost
 export const getPackageCost = /*async*/ (req: Request, res: Response): void => {
-  res.json({ message: "NOT IMPLEMENTED: get package cost" });
+  const dependency = req.query.dependency;
+  const packageID = req.params.id;
+
+  if (packageID === 00000000) {
+
+  }
+  else if (packageID === 123456789 || packageID === 1234567) {
+    res.status()
+  }
+
+  console.log(dependency);
+  
 };
 
 // /package/byRegEx
