@@ -35,7 +35,7 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           DEFAULT_BRANCH: "main"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_BEFORE_SHA: ${{ git rev-parse HEAD^2~-1 }}
+          GITHUB_BEFORE_SHA: ${{ github.event.before }}
           LINTER_RULES_PATH: /
 
           FIX_JAVASCRIPT_PRETTIER: true
