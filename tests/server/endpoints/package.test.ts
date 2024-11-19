@@ -120,8 +120,8 @@ describe("/package/:id/cost endpoint", () => {
       dependency: "?dependency=false",
       expectedStatus: 200,
       expectedBody: {
-        "357898765": {
-          "totalCost": 95.0
+        "00000000": {
+          "totalCost": 1.0
         },
       }
     },
@@ -131,13 +131,13 @@ describe("/package/:id/cost endpoint", () => {
       dependency: "?dependency=true",
       expectedStatus: 200,
       expectedBody: {
-        "357898765": {
-          "standaloneCost": 50.0,
-          "totalCost": 95.0
+        "00000000": {
+          "standaloneCost": 1.0,
+          "totalCost": 1.0
         },
-        "988645763": {
-          "standaloneCost": 20.0,
-          "totalCost": 45.0
+        "00000001": {
+          "standaloneCost": 1.0,
+          "totalCost": 1.0
         }
       }
     },
