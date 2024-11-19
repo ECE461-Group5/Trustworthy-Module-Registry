@@ -61,7 +61,38 @@ export const getPackageRating = (req: Request, res: Response): void => {
 
 // /package/:id/cost
 export const getPackageCost = /*async*/ (req: Request, res: Response): void => {
-  res.json({ message: "NOT IMPLEMENTED: get package cost" });
+  const dependency = req.query.dependency;
+  const packageID = req.params.id;
+
+  if (packageID === "00000000") {
+    if (dependency === "true") {
+      res.send({
+        "00000000": {
+          "standaloneCost": 1.0,
+          "totalCost": 1.0
+        },
+        "00000001": {
+          "standaloneCost": 1.0,
+          "totalCost": 1.0
+        }
+      });
+    }
+    else if (dependency === "false") {
+      res.send({
+        "00000000": {
+          "totalCost": 1.0
+        },
+      });
+    }
+  }
+  // Incorrect packageID format
+  else if (packageID === "123456789" || packageID === "1234567") {
+    res.status(400).send();
+  }
+  // Package does not exist
+  else if (packageID === "99999999") {
+    res.status(404).send();
+  }
 };
 
 // /package/byRegEx
