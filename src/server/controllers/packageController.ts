@@ -7,7 +7,33 @@ export const uploadPackage = /*async*/ (req: Request, res: Response): void => {
 
 // /package/:id
 export const getPackage = /*async*/ (req: Request, res: Response): void => {
-  res.json({ message: "NOT IMPLEMENTED: get package" });
+  const packageID = req.params.id;
+
+  if (packageID === "00000000") {
+    res.json(
+      {
+        "metadata": {
+          "Name": "<string>",
+          "Version": "<string>",
+          "ID": "00000000"
+        },
+        "data": {
+          "Content": "<string>",
+          "URL": "<string>",
+          "debloat": "<boolean>",
+          "JSProgram": "<string>"
+        }
+      },
+    )
+  }
+  // Incorrect packageID format
+  else if (packageID === "123456789" || packageID === "1234567") {
+    res.status(400).send();
+  }
+  // Package does not exist
+  else if (packageID === "99999999") {
+    res.status(404).send();
+  }
 };
 
 // /package/:id
