@@ -158,10 +158,60 @@ describe("PUT /package/:id endpoint", () => {
 });
 
 describe("DELETE /package/:id endpoint", () => {
-  it("DELETE /package/:id is not implemented", async () => {
-    const res = await request(app).delete("/package/:id");
-    expect(res.statusCode).toBe(200);
-    expect(res.body).toHaveProperty("message", "NOT IMPLEMENTED: delete package");
+  // Delete package
+  test.each([
+    {
+      testName: "delete the package",
+      packageID: "00000000",
+      expectedStatus: 200,
+      expectedBody: {},
+    },
+  ])("$testName", async ({ packageID, expectedStatus, expectedBody }) => {
+    const response = await request(app)
+      .delete(`/package/${packageID}`)
+
+    expect(response.statusCode).toEqual(expectedStatus);
+    expect(response.body).toEqual(expectedBody);  
+  });
+
+  // Package ID format
+  test.each([
+    {
+      testName: "Package ID one digit too short",
+      packageID: "1234567",
+      expectedStatus: 400,
+      expectedBody: {},
+    },
+    {
+      testName: "Package ID one digit too long",
+      packageID: "123456789",
+      expectedStatus: 400,
+      expectedBody: {},
+    },
+  ])("$testName", async ({ packageID, expectedStatus, expectedBody }) => {
+    const response = await request(app)
+      .delete(`/package/${packageID}`);
+
+    expect(response.statusCode).toEqual(expectedStatus);
+    expect(response.body).toEqual(expectedBody);  
+  });
+
+  // Authentication
+ 
+  // Package does not exist
+  test.each([
+    {
+      testName: "Package does not exist",
+      packageID: "99999999",
+      expectedStatus: 404,
+      expectedBody: {},
+    },
+  ])("$testName", async ({ packageID, expectedStatus, expectedBody }) => {
+    const response = await request(app)
+      .delete(`/package/${packageID}`);
+
+    expect(response.statusCode).toEqual(expectedStatus);
+    expect(response.body).toEqual(expectedBody);  
   });
 });
 
