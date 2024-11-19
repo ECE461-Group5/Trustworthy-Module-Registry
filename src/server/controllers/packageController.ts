@@ -15,16 +15,16 @@ export const getPackage = /*async*/ (req: Request, res: Response): void => {
         "metadata": {
           "Name": "<string>",
           "Version": "<string>",
-          "ID": "00000000"
+          "ID": "00000000",
         },
         "data": {
           "Content": "<string>",
           "URL": "<string>",
           "debloat": "<boolean>",
-          "JSProgram": "<string>"
-        }
+          "JSProgram": "<string>",
+        },
       },
-    )
+    );
   }
   // Incorrect packageID format
   else if (packageID === "123456789" || packageID === "1234567") {
@@ -95,18 +95,18 @@ export const getPackageCost = /*async*/ (req: Request, res: Response): void => {
       res.send({
         "00000000": {
           "standaloneCost": 1.0,
-          "totalCost": 1.0
+          "totalCost": 1.0,
         },
         "00000001": {
           "standaloneCost": 1.0,
-          "totalCost": 1.0
-        }
+          "totalCost": 1.0,
+        },
       });
     }
     else if (dependency === "false") {
       res.send({
         "00000000": {
-          "totalCost": 1.0
+          "totalCost": 1.0,
         },
       });
     }
@@ -121,8 +121,29 @@ export const getPackageCost = /*async*/ (req: Request, res: Response): void => {
   }
 };
 
+function isValidRegex (pattern: string): boolean {
+  try {
+    new RegExp(pattern);
+    return true;
+  }
+  catch (_) {
+    return false;
+  }
+}
+
+
 // /package/byRegEx
 export const getPackageByRegEx = /*async*/ (req: Request, res: Response): void => {
-  res.json({ message: "NOT IMPLEMENTED: get package by regex" });
+  // Check if key is formatted properly
+  if (req.body.RegEx === undefined) {
+    return res.status(400).send();
+  }
+
+  /*
+  if (!isValidRegex(req.body.RegEx)) {
+    return res.status(400).send();
+  }
+  */
+
 };
 
