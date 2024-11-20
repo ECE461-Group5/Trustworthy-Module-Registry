@@ -1,4 +1,11 @@
+/*
+ * Author(s): Joe Dahms
+ * Purpose: Handle requests to the package endpoint. All package endpoint
+ * controllers are currently contained in this file.
+*/
+
 import { Request, Response } from "express";
+import { isValidRegex } from "./isValidRegex.js";
 
 // /package
 export const uploadPackage = /*async*/ (req: Request, res: Response): void => {
@@ -15,16 +22,16 @@ export const getPackage = /*async*/ (req: Request, res: Response): void => {
         "metadata": {
           "Name": "<string>",
           "Version": "<string>",
-          "ID": "00000000"
+          "ID": "00000000",
         },
         "data": {
           "Content": "<string>",
           "URL": "<string>",
           "debloat": "<boolean>",
-          "JSProgram": "<string>"
-        }
+          "JSProgram": "<string>",
+        },
       },
-    )
+    );
   }
   // Incorrect packageID format
   else if (packageID === "123456789" || packageID === "1234567") {
@@ -121,18 +128,18 @@ export const getPackageCost = /*async*/ (req: Request, res: Response): void => {
       res.send({
         "00000000": {
           "standaloneCost": 1.0,
-          "totalCost": 1.0
+          "totalCost": 1.0,
         },
         "00000001": {
           "standaloneCost": 1.0,
-          "totalCost": 1.0
-        }
+          "totalCost": 1.0,
+        },
       });
     }
     else if (dependency === "false") {
       res.send({
         "00000000": {
-          "totalCost": 1.0
+          "totalCost": 1.0,
         },
       });
     }
@@ -148,7 +155,33 @@ export const getPackageCost = /*async*/ (req: Request, res: Response): void => {
 };
 
 // /package/byRegEx
-export const getPackageByRegEx = /*async*/ (req: Request, res: Response): void => {
-  res.json({ message: "NOT IMPLEMENTED: get package by regex" });
+export const getPackageByRegEx = /*async*/ (req: Request, res: Response): Response<any, Record<string, any>> => {
+  // Check if key is formatted properly
+  if (req.body.RegEx === undefined) {
+    return res.status(400).send();
+  }
+  else if (isValidRegex(req.body.RegEx) === false) {
+    return res.status(400).send();
+  }
+  else if (req.body.RegEx === "/hello/") {
+    return res.send(
+      [
+        {
+          "Name": "<string>",
+          "Version": "<string>",
+          "ID": "Ozc",
+        },
+        {
+          "Name": "<string>",
+          "Version": "<string>",
+          "ID": "7Dkbwno5XdR",
+        },
+      ],
+    );
+  }
+
+  else {
+    return res.status(200).send();
+  }
 };
 

@@ -1,3 +1,8 @@
+/*
+ * Author(s): Joe Dahms
+ * Purpose: Test the package endpoint.
+*/
+
 import { expect, describe, it } from "vitest";
 import request from "supertest";
 import app from "../../../src/server/server.ts";
@@ -23,14 +28,14 @@ describe("GET /package/:id endpoint", () => {
         "metadata": {
           "Name": "<string>",
           "Version": "<string>",
-          "ID": "00000000"
+          "ID": "00000000",
         },
         "data": {
           "Content": "<string>",
           "URL": "<string>",
           "debloat": "<boolean>",
-          "JSProgram": "<string>"
-        }
+          "JSProgram": "<string>",
+        },
       },
     },
   ])("$testName", async ({ packageID, expectedStatus, expectedBody }) => {
@@ -94,14 +99,14 @@ describe("PUT /package/:id endpoint", () => {
         "metadata": {
           "Name": "<string>",
           "Version": "<string>",
-          "ID": "00000000"
+          "ID": "00000000",
         },
         "data": {
           "Content": "<string>",
           "URL": "<string>",
           "debloat": "<boolean>",
-          "JSProgram": "<string>"
-        }
+          "JSProgram": "<string>",
+        },
       },
       expectedBody: {},
     },
@@ -168,7 +173,7 @@ describe("DELETE /package/:id endpoint", () => {
     },
   ])("$testName", async ({ packageID, expectedStatus, expectedBody }) => {
     const response = await request(app)
-      .delete(`/package/${packageID}`)
+      .delete(`/package/${packageID}`);
 
     expect(response.statusCode).toEqual(expectedStatus);
     expect(response.body).toEqual(expectedBody);  
@@ -305,9 +310,9 @@ describe("/package/:id/cost endpoint", () => {
       expectedStatus: 200,
       expectedBody: {
         "00000000": {
-          "totalCost": 1.0
+          "totalCost": 1.0,
         },
-      }
+      },
     },
     {
       testName: "With Dependency",
@@ -317,13 +322,13 @@ describe("/package/:id/cost endpoint", () => {
       expectedBody: {
         "00000000": {
           "standaloneCost": 1.0,
-          "totalCost": 1.0
+          "totalCost": 1.0,
         },
         "00000001": {
           "standaloneCost": 1.0,
-          "totalCost": 1.0
-        }
-      }
+          "totalCost": 1.0,
+        },
+      },
     },
   ])("$testName", async ({ dependency, packageID, expectedStatus, expectedBody }) => {
     const response = await request(app)
@@ -381,10 +386,129 @@ describe("/package/:id/cost endpoint", () => {
 
 
 describe("/package/byRegEx endpoint", () => {
-  it("POST /package/byRegEx is not implemented", async () => {
-    const res = await request(app).post("/package/byRegEx");
-    expect(res.statusCode).toBe(200);
-    expect(res.body).toHaveProperty("message", "NOT IMPLEMENTED: get package by regex");
+  // RegEx key
+  test.each([
+    {
+      testName: "regex",
+      expectedStatus: 400,
+      regex: 
+      {
+        regex: "regexhere",
+      },
+      expectedBody: {},
+    },
+    {
+      testName: "REGEX",
+      expectedStatus: 400,
+      regex: 
+      {
+        REGEX: "regexhere",
+      },
+      expectedBody: {},
+    },
+    {
+      testName: "notevenclosetoRegEx",
+      expectedStatus: 400,
+      regex: 
+      {
+        notevenclosetoRegEx: "regexhere",
+      },
+      expectedBody: {},
+    },
+    {
+      testName: "RegExatthebeginning",
+      expectedStatus: 400,
+      regex: 
+      {
+        RegExatthebeginning: "regexhere",
+      },
+      expectedBody: {},
+    },
+    {
+      testName: "itsinRegExthemiddle",
+      expectedStatus: 400,
+      regex: 
+      {
+        itsinRegExthemiddle: "regexhere",
+      },
+      expectedBody: {},
+    },
+  ])("$testName", async ({ regex, expectedStatus, expectedBody }) => {
+    const response = await request(app)
+      .post("/package/byRegEx")
+      .send(regex);
+
+    expect(response.statusCode).toEqual(expectedStatus);
+    expect(response.body).toEqual(expectedBody);  
   });
+
+  // RegEx valididty 
+   test.each([
+    {
+      testName: "valid regex",
+      expectedStatus: 200,
+      regex: 
+      {
+        RegEx: "/hello/",
+      },
+      expectedBody: 
+      [
+        {
+          "Name": "<string>",
+          "Version": "<string>",
+          "ID": "Ozc",
+        },
+        {
+          "Name": "<string>",
+          "Version": "<string>",
+          "ID": "7Dkbwno5XdR",
+        },
+      ],
+    },
+    {
+      testName: "invalid regex: /hello(world/",
+      expectedStatus: 400,
+      regex: 
+      {
+        RegEx: "/hello(world/",
+      },
+      expectedBody: {},
+    },
+    {
+      testName: "invalid regex: /1+*/",
+      expectedStatus: 400,
+      regex: 
+      {
+        RegEx: "/1+*/",
+      },
+      expectedBody: {},
+    },
+    {
+      testName: "invalid regex: /[z-a]/",
+      expectedStatus: 400,
+      regex: 
+      {
+        RegEx: "/[z-a]/",
+      },
+      expectedBody: {},
+    },
+    {
+      testName: "invalid regex: /[a-z/",
+      expectedStatus: 400,
+      regex: 
+      {
+        RegEx: "/[a-z/",
+      },
+      expectedBody: {},
+    },
+  ])("$testName", async ({ regex, expectedStatus, expectedBody }) => {
+    const response = await request(app)
+      .post("/package/byRegEx")
+      .send(regex);
+
+    expect(response.statusCode).toEqual(expectedStatus);
+    expect(response.body).toEqual(expectedBody);  
+  });
+
 });
 
