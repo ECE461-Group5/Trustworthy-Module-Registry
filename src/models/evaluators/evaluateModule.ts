@@ -6,17 +6,17 @@
  */
 
 
-import logger from '../../logger.js';
+import logger from "../../logger.js";
 
-import { Scorecard } from '../scores/scorecard.js';
-import { createScorecard } from './createScorecard.js';
+import { Scorecard } from "../scores/scorecard.js";
+import { createScorecard } from "./createScorecard.js";
 
-import { Metric } from '../metrics/metric.js';
-import { BusFactorMetric } from '../metrics/busfactorMetric.js';
-import { CorrectnessMetric } from '../metrics/correctnessMetric.js';
-import { LicenseMetric } from '../metrics/licenseMetric.js';
-import { MaintainersMetric } from '../metrics/maintainersMetric.js';
-import { RampUpMetric } from '../metrics/rampupMetric.js';
+import { Metric } from "../metrics/metric.js";
+import { BusFactorMetric } from "../metrics/busfactorMetric.js";
+import { CorrectnessMetric } from "../metrics/correctnessMetric.js";
+import { LicenseMetric } from "../metrics/licenseMetric.js";
+import { MaintainersMetric } from "../metrics/maintainersMetric.js";
+import { RampUpMetric } from "../metrics/rampupMetric.js";
 
 
 /**
@@ -27,7 +27,7 @@ import { RampUpMetric } from '../metrics/rampupMetric.js';
  * So if we iterate through the array and call evaluate() on each object, we'll get the results of each metric.
  * 
  */ 
-const metrics: Metric[] = []
+const metrics: Metric[] = [];
 // Add Metric objects to the array
 metrics.push(new BusFactorMetric());
 metrics.push(new CorrectnessMetric());

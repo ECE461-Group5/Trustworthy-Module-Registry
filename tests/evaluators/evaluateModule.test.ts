@@ -1,12 +1,12 @@
 // tests/helpers/evaluateModule.test.ts
 
-import { describe, it, expect, vi, beforeEach, afterEach, Mock } from 'vitest';
-import { evaluateModule } from '../../src/models/evaluators/evaluateModule';
-import { Scorecard } from '../../src/models/scores/scorecard';
-import { Metric } from '../../src/models/metrics/metric';
+import { describe, it, expect, vi, beforeEach, afterEach, Mock } from "vitest";
+import { evaluateModule } from "../../src/models/evaluators/evaluateModule";
+import { Scorecard } from "../../src/models/scores/scorecard";
+//import { Metric } from "../../src/models/metrics/metric"; // Linter flagged as ununsed
 
 // Mock the logger
-vi.mock('../../logger.js', () => ({
+vi.mock("../../logger.js", () => ({
   default: {
     info: vi.fn(),
     debug: vi.fn(),
@@ -16,26 +16,26 @@ vi.mock('../../logger.js', () => ({
 }));
 
 // Mock createScorecard
-vi.mock('../../src/models/evaluators/createScorecard.js', () => ({
+vi.mock("../../src/models/evaluators/createScorecard.js", () => ({
   createScorecard: vi.fn(),
 }));
 
 // Mock the Metric subclasses
-vi.mock('../../src/metrics/busfactorMetric.js');
-vi.mock('../../src/metrics/correctnessMetric.js');
-vi.mock('../../src/metrics/licenseMetric.js');
-vi.mock('../../src/metrics/maintainersMetric.js');
-vi.mock('../../src/metrics/rampupMetric.js');
+vi.mock("../../src/metrics/busfactorMetric.js");
+vi.mock("../../src/metrics/correctnessMetric.js");
+vi.mock("../../src/metrics/licenseMetric.js");
+vi.mock("../../src/metrics/maintainersMetric.js");
+vi.mock("../../src/metrics/rampupMetric.js");
 
 // Import the mocks
-import { createScorecard } from '../../src/models/evaluators/createScorecard';
-import { BusFactorMetric } from '../../src/models/metrics/busfactorMetric';
-import { CorrectnessMetric } from '../../src/models/metrics/correctnessMetric';
-import { LicenseMetric } from '../../src/models/metrics/licenseMetric';
-import { MaintainersMetric } from '../../src/models/metrics/maintainersMetric';
-import { RampUpMetric } from '../../src/models/metrics/rampupMetric';
+import { createScorecard } from "../../src/models/evaluators/createScorecard";
+import { BusFactorMetric } from "../../src/models/metrics/busfactorMetric";
+import { CorrectnessMetric } from "../../src/models/metrics/correctnessMetric";
+import { LicenseMetric } from "../../src/models/metrics/licenseMetric";
+import { MaintainersMetric } from "../../src/models/metrics/maintainersMetric";
+import { RampUpMetric } from "../../src/models/metrics/rampupMetric";
 
-describe('evaluateModule', () => {
+describe("evaluateModule", () => {
   const mockEvaluate = vi.fn();
 
   beforeEach(() => {
@@ -44,7 +44,7 @@ describe('evaluateModule', () => {
 
     // Mock createScorecard to return a dummy Scorecard
     (createScorecard as Mock).mockResolvedValue(
-      new Scorecard('https://github.com/owner/repo')
+      new Scorecard("https://github.com/owner/repo")
     );
 
     // Mock the evaluate methods of each metric
@@ -69,8 +69,8 @@ describe('evaluateModule', () => {
     vi.restoreAllMocks();
   });
 
-  it('should evaluate all metrics and return results', async () => {
-    const url = 'https://github.com/owner/repo';
+  it("should evaluate all metrics and return results", async () => {
+    const url = "https://github.com/owner/repo";
 
     const results = await evaluateModule(url);
 
@@ -84,22 +84,22 @@ describe('evaluateModule', () => {
     const parsedResults = JSON.parse(results);
 
     // Check that the results contain expected properties
-    expect(parsedResults).toHaveProperty('URL', url);
-    expect(parsedResults).toHaveProperty('NetScore');
-    expect(parsedResults).toHaveProperty('BusFactor', 0.8);
-    expect(parsedResults).toHaveProperty('Correctness', 0.9);
-    expect(parsedResults).toHaveProperty('License', 1.0);
-    expect(parsedResults).toHaveProperty('ResponsiveMaintainer', 0.7);
-    expect(parsedResults).toHaveProperty('RampUp', 0.6);
+    expect(parsedResults).toHaveProperty("URL", url);
+    expect(parsedResults).toHaveProperty("NetScore");
+    expect(parsedResults).toHaveProperty("BusFactor", 0.8);
+    expect(parsedResults).toHaveProperty("Correctness", 0.9);
+    expect(parsedResults).toHaveProperty("License", 1.0);
+    expect(parsedResults).toHaveProperty("ResponsiveMaintainer", 0.7);
+    expect(parsedResults).toHaveProperty("RampUp", 0.6);
   });
 
-  it('should handle errors from createScorecard', async () => {
-    const url = 'invalid-url';
+  it("should handle errors from createScorecard", async () => {
+    const url = "invalid-url";
 
     // Mock createScorecard to throw an error
-    (createScorecard as Mock).mockRejectedValue(new Error('Invalid URL'));
+    (createScorecard as Mock).mockRejectedValue(new Error("Invalid URL"));
 
-    await expect(evaluateModule(url)).rejects.toThrow('Invalid URL');
+    await expect(evaluateModule(url)).rejects.toThrow("Invalid URL");
 
     // Ensure metrics were not evaluated
     expect(mockEvaluate).not.toHaveBeenCalled();

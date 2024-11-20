@@ -4,8 +4,8 @@
  */
 
 import { Scorecard } from "../scores/scorecard.js";
-import { URL } from 'url';
-import logger from '../../logger.js';
+import { URL } from "url";
+import logger from "../../logger.js";
 
 /**
  * @function createScorecard
@@ -45,14 +45,14 @@ export async function createScorecard(url: string): Promise<Scorecard> {
  * @returns GitHub repository URL for an npm module
  */
 async function getNpmRepoURL(url: string): Promise<string> {
-    const npmApiUrl = url.replace(/(?<=\/)www(?=\.)/, 'replicate').replace('/package', '');
+    const npmApiUrl = url.replace(/(?<=\/)www(?=\.)/, "replicate").replace("/package", "");
     logger.info(`Fetching repository URL from npm API: ${npmApiUrl}`);
     const npmApiResponse = await fetch(npmApiUrl);
     const npmApiData = await npmApiResponse.json();
 
     if (!npmApiData.repository || !npmApiData.repository.url) {
         logger.error(`Repository URL not found in npm package data for URL: ${url}`);
-        throw new Error('Repository URL not found in npm package data');
+        throw new Error("Repository URL not found in npm package data");
     }
 
     const npmRepoUrl = npmApiData.repository.url;
@@ -69,15 +69,15 @@ async function getNpmRepoURL(url: string): Promise<string> {
  */
 function setGitHubAttributes(url: string, urlRepo: string): Scorecard {
     const card = new Scorecard(url);
-    card.owner = urlRepo.split('/')[3].trim();
-    card.repo = urlRepo.split('/')[4].trim();
+    card.owner = urlRepo.split("/")[3].trim();
+    card.repo = urlRepo.split("/")[4].trim();
 
-    if (card.repo.includes('.git')) {
-        card.repo = card.repo.replace('.git', '');
+    if (card.repo.includes(".git")) {
+        card.repo = card.repo.replace(".git", "");
     }
 
     logger.info(`Owner: ${card.owner}`);
     logger.info(`Repo: ${card.repo}`);
 
-    return card
+    return card;
 }
