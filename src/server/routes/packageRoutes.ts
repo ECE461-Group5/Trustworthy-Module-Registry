@@ -12,7 +12,6 @@ import {
 } from "../controllers/packageController.js";
 
 router.post("/", uploadPackage);
-
 router.get("/:id", getPackage);
 router.put("/:id", updatePackage);
 router.delete("/:id", deletePackage);

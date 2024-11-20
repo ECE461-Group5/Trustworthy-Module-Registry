@@ -1,8 +1,55 @@
 import { Request, Response } from "express";
 
+
+interface UploadBody {
+  Content?: string;
+  URL?: string;
+  debloat?: boolean;
+  JSProgram?: string;
+}
+
+function checkCompleteUploadBody (body: UploadBody): boolean {
+  if (!("Content" in body)) {
+    return false;
+  }
+  if (!("URL" in body)) {
+    return false;
+  }
+  if (!("debloat" in body)) {
+    return false;
+  }
+  if (!("JSProgram" in body)) {
+    return false;
+  }
+  return true;
+}
+
 // /package
-export const uploadPackage = /*async*/ (req: Request, res: Response): void => {
-  res.json({ message: "NOT IMPLEMENTED: upload package" });
+export const uploadPackage = /*async*/ (request: Request<unknown, unknown, UploadBody, unknown>, response: Response): void => {
+  const { body } = request;
+  console.log(body);
+  if (checkCompleteUploadBody(body) === false) {
+    response.status(400).send();
+  }
+  response.status(200).send();
+  /*
+  const { requestBody } = request.body as UploadBody;
+  for (prop of requestBody) {
+    if (prop === undefined) {
+      console.log()
+    }
+  }
+
+  console.log(requestBody.debloat);
+
+  for prop 
+
+  if (requestBody.debloat) {
+    console.log("test");
+  }
+
+  response.status(200).send();
+  */
 };
 
 // /package/:id
@@ -15,16 +62,16 @@ export const getPackage = /*async*/ (req: Request, res: Response): void => {
         "metadata": {
           "Name": "<string>",
           "Version": "<string>",
-          "ID": "00000000"
+          "ID": "00000000",
         },
         "data": {
           "Content": "<string>",
           "URL": "<string>",
           "debloat": "<boolean>",
-          "JSProgram": "<string>"
-        }
+          "JSProgram": "<string>",
+        },
       },
-    )
+    );
   }
   // Incorrect packageID format
   else if (packageID === "123456789" || packageID === "1234567") {
@@ -121,18 +168,18 @@ export const getPackageCost = /*async*/ (req: Request, res: Response): void => {
       res.send({
         "00000000": {
           "standaloneCost": 1.0,
-          "totalCost": 1.0
+          "totalCost": 1.0,
         },
         "00000001": {
           "standaloneCost": 1.0,
-          "totalCost": 1.0
-        }
+          "totalCost": 1.0,
+        },
       });
     }
     else if (dependency === "false") {
       res.send({
         "00000000": {
-          "totalCost": 1.0
+          "totalCost": 1.0,
         },
       });
     }

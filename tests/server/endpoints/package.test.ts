@@ -3,11 +3,65 @@ import request from "supertest";
 import app from "../../../src/server/server.ts";
 
 describe("/package endpoint", () => {
-  it("POST /package is not implemented", async () => {
-    const res = await request(app).post("/package");
-    expect(res.statusCode).toBe(200);
-    expect(res.body).toHaveProperty("message", "NOT IMPLEMENTED: upload package");
+  // Missing fields in package data
+  test.each([
+    {
+      testName: "Missing Content",
+      packageData: 
+      {
+        "URL": "<string>",
+        "debloat": true,
+        "JSProgram": "<string>",
+      },
+      expectedStatus: 400,
+      expectedBody: {},
+    },
+    {
+      testName: "Missing URL",
+      packageData: 
+      {
+        "Content": "string",
+        "debloat": true,
+        "JSProgram": "<string>",
+      },
+      expectedStatus: 400,
+      expectedBody: {},
+    },
+    {
+      testName: "Missing debloat",
+      packageData: 
+      {
+        "Content": "string",
+        "URL": "<string>",
+        "JSProgram": "<string>",
+      },
+      expectedStatus: 400,
+      expectedBody: {},
+    },
+    {
+      testName: "Missing JSProgram",
+      packageData: 
+      {
+        "Content": "string",
+        "URL": "<string>",
+        "debloat": true,
+      },
+      expectedStatus: 400,
+      expectedBody: {},
+    },
+  ])("$testName", async ({ packageData, expectedStatus, expectedBody }) => {
+    const response = await request(app)
+      .post("/package")
+      .send(packageData);
+
+    expect(response.statusCode).toEqual(expectedStatus);
+    expect(response.body).toEqual(expectedBody);  
   });
+
+  // Test for only content of url set
+  // Package already exists
+  // Package is not uploaded due to dq rating
+
 });
 
 
@@ -23,14 +77,14 @@ describe("GET /package/:id endpoint", () => {
         "metadata": {
           "Name": "<string>",
           "Version": "<string>",
-          "ID": "00000000"
+          "ID": "00000000",
         },
         "data": {
           "Content": "<string>",
           "URL": "<string>",
           "debloat": "<boolean>",
-          "JSProgram": "<string>"
-        }
+          "JSProgram": "<string>",
+        },
       },
     },
   ])("$testName", async ({ packageID, expectedStatus, expectedBody }) => {
@@ -94,14 +148,14 @@ describe("PUT /package/:id endpoint", () => {
         "metadata": {
           "Name": "<string>",
           "Version": "<string>",
-          "ID": "00000000"
+          "ID": "00000000",
         },
         "data": {
           "Content": "<string>",
           "URL": "<string>",
           "debloat": "<boolean>",
-          "JSProgram": "<string>"
-        }
+          "JSProgram": "<string>",
+        },
       },
       expectedBody: {},
     },
@@ -168,7 +222,7 @@ describe("DELETE /package/:id endpoint", () => {
     },
   ])("$testName", async ({ packageID, expectedStatus, expectedBody }) => {
     const response = await request(app)
-      .delete(`/package/${packageID}`)
+      .delete(`/package/${packageID}`);
 
     expect(response.statusCode).toEqual(expectedStatus);
     expect(response.body).toEqual(expectedBody);  
@@ -305,9 +359,9 @@ describe("/package/:id/cost endpoint", () => {
       expectedStatus: 200,
       expectedBody: {
         "00000000": {
-          "totalCost": 1.0
+          "totalCost": 1.0,
         },
-      }
+      },
     },
     {
       testName: "With Dependency",
@@ -317,13 +371,13 @@ describe("/package/:id/cost endpoint", () => {
       expectedBody: {
         "00000000": {
           "standaloneCost": 1.0,
-          "totalCost": 1.0
+          "totalCost": 1.0,
         },
         "00000001": {
           "standaloneCost": 1.0,
-          "totalCost": 1.0
-        }
-      }
+          "totalCost": 1.0,
+        },
+      },
     },
   ])("$testName", async ({ dependency, packageID, expectedStatus, expectedBody }) => {
     const response = await request(app)
