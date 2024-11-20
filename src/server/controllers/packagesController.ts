@@ -1,6 +1,6 @@
 /*
  * Author(s): Joe Dahms
- * Purpose: Handle incoming requests to the /packages endpoint
+ * Purpose: Handle incoming requests to the /packages endpoint.
 */
 
 import { Request, Response } from "express";

@@ -50,6 +50,10 @@ export default [
         }
       ],
       "@typescript-eslint/explicit-function-return-type": "error",
+      "@typescript-eslint/no-unused-vars": ["warn", { caughtErrors: "none" }],
+      "@typescript-eslint/no-unsafe-member-access": "off",
+      "@typescript-eslint/no-unsafe-argument": "off",
+      "@typescript-eslint/no-unsafe-call": "off",
       "@stylistic/ts/space-before-function-paren": ["error", "always"],
       "@stylistic/ts/block-spacing": ["error", "always"],
       "@stylistic/ts/brace-style": ["error", "stroustrup"],
