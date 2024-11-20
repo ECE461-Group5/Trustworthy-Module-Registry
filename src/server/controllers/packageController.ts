@@ -5,7 +5,7 @@
 */
 
 import { Request, Response } from "express";
-import { isValidRegex } from "./isValidRegex.ts";
+import { isValidRegex } from "./isValidRegex.js";
 
 // /package
 export const uploadPackage = /*async*/ (req: Request, res: Response): void => {
