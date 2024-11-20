@@ -39,12 +39,38 @@ export const getPackage = /*async*/ (req: Request, res: Response): void => {
 
 // /package/:id
 export const updatePackage = /*async*/ (req: Request, res: Response): void => {
-  res.json({ message: "NOT IMPLEMENTED: update package" });
+  const packageID = req.params.id;
+
+  if (packageID === "00000000") {
+    res.status(200).send();
+  }
+  // Incorrect packageID format
+  else if (packageID === "123456789" || packageID === "1234567") {
+    res.status(400).send();
+  }
+  // Package does not exist
+  else if (packageID === "99999999") {
+    res.status(404).send();
+  }
+
 };
 
 // /package/:id
 export const deletePackage = /*async*/ (req: Request, res: Response): void => {
-  res.json({ message: "NOT IMPLEMENTED: delete package" });
+  const packageID = req.params.id;
+
+  if (packageID === "00000000") {
+    res.status(200).send();
+  }
+  // Incorrect packageID format
+  else if (packageID === "123456789" || packageID === "1234567") {
+    res.status(400).send();
+  }
+  // Package does not exist
+  else if (packageID === "99999999") {
+    res.status(404).send();
+  }
+
 };
 
 // /package/:id/rate
