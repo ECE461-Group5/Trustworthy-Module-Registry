@@ -38,8 +38,8 @@ export class Scorecard {
      */
     constructor(url: string) {
         this.url = url;
-        this.owner = '';
-        this.repo = '';
+        this.owner = "";
+        this.repo = "";
         this.netScore = 0;
         this.netScore_Latency = 0;
         this.rampUp = 0;
@@ -59,11 +59,11 @@ export class Scorecard {
     public calculateNetScore(): void {
         // Calculate net score based on Sarah's priorities
         // Responsive maintainers are her highest priority, she also wants low ramp up time
-        let rampUpWeight = 0.2
-        let correctnessWeight = 0.3
-        let busFactorWeight = 0.1
-        let responsiveMaintainerWeight = 0.3
-        let licenseWeight = 0.1
+        const rampUpWeight = 0.2;
+        const correctnessWeight = 0.3;
+        const busFactorWeight = 0.1;
+        const responsiveMaintainerWeight = 0.3;
+        const licenseWeight = 0.1;
         this.netScore = parseFloat((this.rampUp * rampUpWeight + this.correctness * correctnessWeight + this.busFactor * busFactorWeight + this.responsiveMaintainer * responsiveMaintainerWeight + this.license * licenseWeight).toFixed(3));
         this.netScore_Latency =  parseFloat((this.rampUp_Latency * rampUpWeight  + this.correctness_Latency * correctnessWeight + this.busFactor_Latency * busFactorWeight + this.responsiveMaintainer_Latency * responsiveMaintainerWeight + this.license_Latency * licenseWeight).toFixed(3));
     }
@@ -87,6 +87,6 @@ export class Scorecard {
             }
         ];
         // Convert the array to a JSON string
-        return scores.map(score => JSON.stringify(score).replace(/,/g, ', ')).join('\n');
+        return scores.map(score => JSON.stringify(score).replace(/,/g, ", ")).join("\n");
     }
 }

@@ -2,13 +2,13 @@
  * @file rampUpMetric.ts
  */
 
-import { Scorecard } from '../scores/scorecard.js';
-import { Metric } from './metric.js';
-import logger from '../../logger.js';
-import { Octokit } from '@octokit/rest';
-import markdownlint from 'markdownlint';
+import { Scorecard } from "../scores/scorecard.js";
+import { Metric } from "./metric.js";
+import logger from "../../logger.js";
+import { Octokit } from "@octokit/rest";
+import markdownlint from "markdownlint";
 
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config();
 
 /**
@@ -46,7 +46,7 @@ export class RampUpMetric extends Metric {
             logger.info(`Fetched README for ${card.owner}/${card.repo}, API Latency: ${card.rampUp_Latency} ms`);
 
             // Decode the README content
-            const readmeContent = Buffer.from(readmeData.data.content, 'base64').toString('utf-8');
+            const readmeContent = Buffer.from(readmeData.data.content, "base64").toString("utf-8");
             logger.debug(`README content fetched and decoded for ${card.owner}/${card.repo}.`);
 
             // Analyze README content to compute score
@@ -63,24 +63,24 @@ export class RampUpMetric extends Metric {
     }
 
     private analyzeReadme(content: string): number {
-        logger.debug(`Analyzing README content...`);
+        logger.debug("Analyzing README content...");
         let score = 0;
 
             // Define important sections with weighted scoring
         const sections = [
-            { name: 'Installation', weight: 0.2 },
-            { name: 'Usage', weight: 0.2 },
-            { name: 'Contributing', weight: 0.1 },
-            { name: 'Contributions', weight: 0.1 },
-            { name: 'Getting Started', weight: 0.2 },
-            { name: 'Documentation', weight: 0.1 },
-            { name: 'License', weight: 0.1 },
-            { name: 'Support', weight: 0.1 }
+            { name: "Installation", weight: 0.2 },
+            { name: "Usage", weight: 0.2 },
+            { name: "Contributing", weight: 0.1 },
+            { name: "Contributions", weight: 0.1 },
+            { name: "Getting Started", weight: 0.2 },
+            { name: "Documentation", weight: 0.1 },
+            { name: "License", weight: 0.1 },
+            { name: "Support", weight: 0.1 }
         ];
 
         // Analyze presence and quality of sections
         sections.forEach(section => {
-            const regex = new RegExp(`#\\s*${section.name}`, 'i');
+            const regex = new RegExp(`#\\s*${section.name}`, "i");
             if (regex.test(content)) {
                 score += section.weight;
                 logger.debug(`Section "${section.name}" found and scored.`);

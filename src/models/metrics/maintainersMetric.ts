@@ -2,12 +2,12 @@
  * @file maintainersMetric.ts
  */
 
-import { Scorecard } from '../scores/scorecard.js';
-import { Metric } from './metric.js';
-import logger from '../../logger.js';
-import { Octokit } from '@octokit/rest';
+import { Scorecard } from "../scores/scorecard.js";
+import { Metric } from "./metric.js";
+import logger from "../../logger.js";
+import { Octokit } from "@octokit/rest";
 
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config();
 
 /**
@@ -48,7 +48,7 @@ export class MaintainersMetric extends Metric {
                 owner: card.owner,
                 repo: card.repo,
                 since: sinceDate.toISOString(),
-                state: 'all',
+                state: "all",
                 per_page: 100,
             });
 
@@ -63,7 +63,7 @@ export class MaintainersMetric extends Metric {
             logger.debug(`Fetched ${issues.length} open issues for evaluation`);
 
             if (issues.length === 0) {
-                logger.info('No open issues found. Setting responsiveMaintainer score to 1.');
+                logger.info("No open issues found. Setting responsiveMaintainer score to 1.");
                 card.responsiveMaintainer = 1;
                 return;
             }
@@ -83,7 +83,7 @@ export class MaintainersMetric extends Metric {
             }
 
             if (responseCount === 0) {
-                logger.info('No responses found from maintainers. Setting responsiveMaintainer score to 0.');
+                logger.info("No responses found from maintainers. Setting responsiveMaintainer score to 0.");
                 card.responsiveMaintainer = 0;
                 return;
             }
@@ -95,16 +95,16 @@ export class MaintainersMetric extends Metric {
             let responseScore = 1;
             if (averageResponseTime <= 72) {  // Less than or equal to 3 days
                 responseScore = 1;
-                logger.info('Average response time is within 72 hours (3 days). Setting score to 1.');
+                logger.info("Average response time is within 72 hours (3 days). Setting score to 1.");
             } else if (averageResponseTime <= 168) { // Less than or equal to 7 days
                 responseScore = 0.7;
-                logger.info('Average response time is within 168 hours (7 days). Setting score to 0.7.');
+                logger.info("Average response time is within 168 hours (7 days). Setting score to 0.7.");
             } else if (averageResponseTime <= 336) { // Less than or equal to 14 days
                 responseScore = 0.4;
-                logger.info('Average response time is within 336 hours (14 days). Setting score to 0.4.');
+                logger.info("Average response time is within 336 hours (14 days). Setting score to 0.4.");
             } else {  // More than 14 days
                 responseScore = 0;
-                logger.info('Average response time exceeds 336 hours (14 days). Setting score to 0.');
+                logger.info("Average response time exceeds 336 hours (14 days). Setting score to 0.");
             }
 
 
@@ -131,7 +131,7 @@ export class MaintainersMetric extends Metric {
             const comments = commentsData.data;
 
             for (const comment of comments) {
-                const validAssociations = ['COLLABORATOR', 'MEMBER', 'OWNER', 'CONTRIBUTOR'];
+                const validAssociations = ["COLLABORATOR", "MEMBER", "OWNER", "CONTRIBUTOR"];
                 if (comment.user && validAssociations.includes(comment.author_association)) {
                     const issueCreatedAt = new Date(issue.created_at);
                     const commentCreatedAt = new Date(comment.created_at);
