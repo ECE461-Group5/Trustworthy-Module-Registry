@@ -1,3 +1,8 @@
+/*
+ * Author(s): Joe Dahms
+ * Purpose: Test the package endpoint.
+*/
+
 import { expect, describe, it } from "vitest";
 import request from "supertest";
 import app from "../../../src/server/server.ts";
@@ -94,14 +99,14 @@ describe("PUT /package/:id endpoint", () => {
         "metadata": {
           "Name": "<string>",
           "Version": "<string>",
-          "ID": "00000000"
+          "ID": "00000000",
         },
         "data": {
           "Content": "<string>",
           "URL": "<string>",
           "debloat": "<boolean>",
-          "JSProgram": "<string>"
-        }
+          "JSProgram": "<string>",
+        },
       },
       expectedBody: {},
     },
@@ -168,7 +173,7 @@ describe("DELETE /package/:id endpoint", () => {
     },
   ])("$testName", async ({ packageID, expectedStatus, expectedBody }) => {
     const response = await request(app)
-      .delete(`/package/${packageID}`)
+      .delete(`/package/${packageID}`);
 
     expect(response.statusCode).toEqual(expectedStatus);
     expect(response.body).toEqual(expectedBody);  

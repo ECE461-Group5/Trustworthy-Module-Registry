@@ -1,5 +1,11 @@
+/*
+ * Author(s): Joe Dahms
+ * Purpose: Handle requests to the package endpoint. All package endpoint
+ * controllers are currently contained in this file.
+*/
+
 import { Request, Response } from "express";
-import { isValidRegex } from "isValidRegex.ts";
+import { isValidRegex } from "./isValidRegex.ts";
 
 // /package
 export const uploadPackage = /*async*/ (req: Request, res: Response): void => {
