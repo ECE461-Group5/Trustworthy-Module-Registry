@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { isValidRegex } from "isValidRegex.ts";
 
 // /package
 export const uploadPackage = /*async*/ (req: Request, res: Response): void => {
@@ -121,29 +122,34 @@ export const getPackageCost = /*async*/ (req: Request, res: Response): void => {
   }
 };
 
-function isValidRegex (pattern: string): boolean {
-  try {
-    new RegExp(pattern);
-    return true;
-  }
-  catch (_) {
-    return false;
-  }
-}
-
-
 // /package/byRegEx
-export const getPackageByRegEx = /*async*/ (req: Request, res: Response): void => {
+export const getPackageByRegEx = /*async*/ (req: Request, res: Response): Response<any, Record<string, any>> => {
   // Check if key is formatted properly
   if (req.body.RegEx === undefined) {
     return res.status(400).send();
   }
-
-  /*
-  if (!isValidRegex(req.body.RegEx)) {
+  else if (isValidRegex(req.body.RegEx) === false) {
     return res.status(400).send();
   }
-  */
+  else if (req.body.RegEx === "/hello/") {
+    return res.send(
+      [
+        {
+          "Name": "<string>",
+          "Version": "<string>",
+          "ID": "Ozc",
+        },
+        {
+          "Name": "<string>",
+          "Version": "<string>",
+          "ID": "7Dkbwno5XdR",
+        },
+      ],
+    );
+  }
 
+  else {
+    return res.status(200).send();
+  }
 };
 

@@ -322,14 +322,62 @@ describe("/package/byRegEx endpoint", () => {
     expect(response.body).toEqual(expectedBody);  
   });
 
-  // Valid RegEx
+  // RegEx valididty 
    test.each([
-     {
-      testName: "itsinRegExthemiddle",
+    {
+      testName: "valid regex",
+      expectedStatus: 200,
+      regex: 
+      {
+        RegEx: "/hello/",
+      },
+      expectedBody: 
+      [
+        {
+          "Name": "<string>",
+          "Version": "<string>",
+          "ID": "Ozc",
+        },
+        {
+          "Name": "<string>",
+          "Version": "<string>",
+          "ID": "7Dkbwno5XdR",
+        },
+      ],
+    },
+    {
+      testName: "invalid regex: /hello(world/",
       expectedStatus: 400,
       regex: 
       {
-        RegEx: "regexhere",
+        RegEx: "/hello(world/",
+      },
+      expectedBody: {},
+    },
+    {
+      testName: "invalid regex: /1+*/",
+      expectedStatus: 400,
+      regex: 
+      {
+        RegEx: "/1+*/",
+      },
+      expectedBody: {},
+    },
+    {
+      testName: "invalid regex: /[z-a]/",
+      expectedStatus: 400,
+      regex: 
+      {
+        RegEx: "/[z-a]/",
+      },
+      expectedBody: {},
+    },
+    {
+      testName: "invalid regex: /[a-z/",
+      expectedStatus: 400,
+      regex: 
+      {
+        RegEx: "/[a-z/",
       },
       expectedBody: {},
     },
