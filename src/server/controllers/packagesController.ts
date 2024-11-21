@@ -1,7 +1,7 @@
 /*
  * Author(s): Joe Dahms
  * Purpose: Handle incoming requests to the /packages endpoint.
-*/
+ */
 
 import { Request, Response } from "express";
 
@@ -15,7 +15,10 @@ interface Query {
   offset?: string;
 }
 
-export const getPackages = (req: Request<unknown, unknown, Array<Package>, Query>, res: Response): void => {
+export const getPackages = (
+  req: Request<unknown, unknown, Array<Package>, Query>,
+  res: Response,
+): void => {
   const requestBody = req.body;
   //const offset = req.query.offset;
 
@@ -36,7 +39,7 @@ export const getPackages = (req: Request<unknown, unknown, Array<Package>, Query
       }
     }
   }
-  else {
+ else {
     validRequest = false;
     validFormat = false;
   }
@@ -50,17 +53,17 @@ export const getPackages = (req: Request<unknown, unknown, Array<Package>, Query
   if (validRequest) {
     // INSERT DATABASE QUERY FUNCTION HERE
     // databaseFunction(JSON.stringify(requestBody, offset));
- 
+
     // Dummy id until database function is implemented
     for (const requestedPackage of requestBody) {
       requestedPackage.ID = "dummyid";
     }
     res.json(requestBody);
   }
-  else if (!validFormat) {
+ else if (!validFormat) {
     res.status(400).send();
   }
-  else if (!validNumPackages) {
+ else if (!validNumPackages) {
     res.status(413).send();
   }
 };

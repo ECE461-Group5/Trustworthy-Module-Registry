@@ -93,7 +93,9 @@ describe("MaintainersMetric", () => {
     await maintainersMetric.evaluate(card);
 
     expect(card.responsiveMaintainer).toBe(1);
-    expect(logger.info).toHaveBeenCalledWith("Average response time is within 72 hours (3 days). Setting score to 1.");
+    expect(logger.info).toHaveBeenCalledWith(
+      "Average response time is within 72 hours (3 days). Setting score to 1.",
+    );
   });
 
   it("should set responsiveMaintainer to 0.7 when average response time ≤ 168 hours", async () => {
@@ -125,8 +127,9 @@ describe("MaintainersMetric", () => {
     await maintainersMetric.evaluate(card);
 
     expect(card.responsiveMaintainer).toBe(0.7);
-    expect(logger.info).toHaveBeenCalledWith("Average response time is within 168 hours (7 days). Setting score to 0.7.");
-
+    expect(logger.info).toHaveBeenCalledWith(
+      "Average response time is within 168 hours (7 days). Setting score to 0.7.",
+    );
   });
 
   it("should set responsiveMaintainer to 0.4 when average response time ≤ 336 hours", async () => {
@@ -158,7 +161,9 @@ describe("MaintainersMetric", () => {
     await maintainersMetric.evaluate(card);
 
     expect(card.responsiveMaintainer).toBe(0.4);
-    expect(logger.info).toHaveBeenCalledWith("Average response time is within 336 hours (14 days). Setting score to 0.4.");
+    expect(logger.info).toHaveBeenCalledWith(
+      "Average response time is within 336 hours (14 days). Setting score to 0.4.",
+    );
   });
 
   it("should set responsiveMaintainer to 0 when average response time > 336 hours", async () => {
@@ -189,7 +194,9 @@ describe("MaintainersMetric", () => {
     await maintainersMetric.evaluate(card);
 
     expect(card.responsiveMaintainer).toBe(0);
-    expect(logger.info).toHaveBeenCalledWith("No responses found from maintainers. Setting responsiveMaintainer score to 0.");
+    expect(logger.info).toHaveBeenCalledWith(
+      "No responses found from maintainers. Setting responsiveMaintainer score to 0.",
+    );
   });
 
   it("should set responsiveMaintainer to 1 when no issues are found", async () => {
@@ -205,7 +212,9 @@ describe("MaintainersMetric", () => {
     await maintainersMetric.evaluate(card);
 
     expect(card.responsiveMaintainer).toBe(1);
-    expect(logger.info).toHaveBeenCalledWith("No open issues found. Setting responsiveMaintainer score to 1.");
+    expect(logger.info).toHaveBeenCalledWith(
+      "No open issues found. Setting responsiveMaintainer score to 1.",
+    );
   });
 
   it("should handle errors gracefully and set responsiveMaintainer to 0", async () => {
@@ -221,7 +230,7 @@ describe("MaintainersMetric", () => {
     expect(card.responsiveMaintainer).toBe(0);
     expect(logger.error).toHaveBeenCalledWith(
       "Error fetching responsiveness information for owner/repo:",
-      new Error("API Error")
+      new Error("API Error"),
     );
   });
 
@@ -253,7 +262,9 @@ describe("MaintainersMetric", () => {
     await maintainersMetric.evaluate(card);
 
     expect(card.responsiveMaintainer).toBe(0);
-    expect(logger.info).toHaveBeenCalledWith("No responses found from maintainers. Setting responsiveMaintainer score to 0.");
+    expect(logger.info).toHaveBeenCalledWith(
+      "No responses found from maintainers. Setting responsiveMaintainer score to 0.",
+    );
   });
 
   it("should calculate and set responsiveMaintainer_Latency", async () => {

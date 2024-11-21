@@ -1,7 +1,7 @@
 /*
  * Author(s): Joe Dahms
  * Purpose: Handle incoming requests to the /reset endpoint
-*/
+ */
 
 import { Request, Response } from "express";
 

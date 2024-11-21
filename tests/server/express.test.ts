@@ -9,4 +9,3 @@ describe("Root endpoint", () => {
     expect(res.body).toHaveProperty("message", "Express + TypeScript Server");
   });
 });
-
