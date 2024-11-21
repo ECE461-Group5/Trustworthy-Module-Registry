@@ -57,6 +57,47 @@ describe("/package endpoint", () => {
     expect(response.body).toEqual(expectedBody);
   });
 
+  test.each([
+    {
+      testName: "Both Content and URL set",
+      packageData: {
+        Content: "<string>",
+        URL: "<string>",
+        debloat: true,
+        JSProgram: "<string>",
+      },
+      expectedStatus: 400,
+      expectedBody: {},
+    },
+    {
+      testName: "Only Content set",
+      packageData: {
+        Content: "<string>",
+        URL: "",
+        debloat: true,
+        JSProgram: "<string>",
+      },
+      expectedStatus: 200,
+      expectedBody: {},
+    },
+    {
+      testName: "Only URL set",
+      packageData: {
+        Content: "",
+        URL: "<string>",
+        debloat: true,
+        JSProgram: "<string>",
+      },
+      expectedStatus: 200,
+      expectedBody: {},
+    },
+  ])("$testName", async ({ packageData, expectedStatus, expectedBody }) => {
+    const response = await request(app).post("/package").send(packageData);
+
+    expect(response.statusCode).toEqual(expectedStatus);
+    expect(response.body).toEqual(expectedBody);
+  });
+
   // Test for only content of url set
   // Package already exists
   // Package is not uploaded due to dq rating
