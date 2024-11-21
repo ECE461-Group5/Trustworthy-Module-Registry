@@ -54,12 +54,10 @@ describe("packages endpoint", () => {
       expectedBody: {},
     },
   ])("$testName", async ({ packages, expectedStatus, expectedBody }) => {
-    const response = await request(app)
-      .post("/packages?offset=20")
-      .send(packages);
+    const response = await request(app).post("/packages?offset=20").send(packages);
 
     expect(response.statusCode).toEqual(expectedStatus);
-    expect(response.body).toEqual(expectedBody);  
+    expect(response.body).toEqual(expectedBody);
   });
 
   // Authentication
@@ -68,13 +66,9 @@ describe("packages endpoint", () => {
   test.each([
     {
       testName: "1 under the package limit",
-      packages: [
-        { Name: "name1", Version: "version1" },
-      ],
+      packages: [{ Name: "name1", Version: "version1" }],
       expectedStatus: 200,
-      expectedBody: [
-        { Name: "name1", Version: "version1", ID: "dummyid" },
-      ],
+      expectedBody: [{ Name: "name1", Version: "version1", ID: "dummyid" }],
     },
     {
       testName: "At the package limit",
@@ -110,9 +104,7 @@ describe("packages endpoint", () => {
       expectedBody: {},
     },
   ])("$testName", async ({ packages, expectedStatus, expectedBody }) => {
-    const response = await request(app)
-      .post("/packages?offset=20")
-      .send(packages);
+    const response = await request(app).post("/packages?offset=20").send(packages);
 
     expect(response.statusCode).toEqual(expectedStatus);
     expect(response.body).toEqual(expectedBody);

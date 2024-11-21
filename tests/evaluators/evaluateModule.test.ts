@@ -44,7 +44,7 @@ describe("evaluateModule", () => {
 
     // Mock createScorecard to return a dummy Scorecard
     (createScorecard as Mock).mockResolvedValue(
-      new Scorecard("https://github.com/owner/repo")
+      new Scorecard("https://github.com/owner/repo"),
     );
 
     // Mock the evaluate methods of each metric

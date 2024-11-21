@@ -54,16 +54,19 @@ const port = 3000;
 app.use(express.json());
 app.use(express.urlencoded());
 
-app.get("/", (req: Request, res: Response) => res.json({ message: "Express + TypeScript Server" }));
+app.get("/", (req: Request, res: Response) =>
+  res.json({ message: "Express + TypeScript Server" }),
+);
 app.use("/packages", packagesRouter);
 app.use("/reset", resetRouter);
 app.use("/package", packageRouter);
-app.use("/tracks", (req: Request, res: Response) => res.json({ plannedTracks: "[none]" }));
+app.use("/tracks", (req: Request, res: Response) =>
+  res.json({ plannedTracks: "[none]" }),
+);
 
 app.use((req: Request, res: Response) => {
   res.status(404).json({ message: "Route not found" });
 });
-
 
 /*
 interface RequestParams {

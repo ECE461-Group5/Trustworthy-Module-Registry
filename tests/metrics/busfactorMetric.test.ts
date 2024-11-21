@@ -80,7 +80,9 @@ describe("BusFactorMetric", () => {
     await busFactorMetric.evaluate(card);
 
     expect(card.busFactor).toBe(0);
-    expect(logger.info).toHaveBeenCalledWith("Bus factor set to 0 (top contributor >= 80%)");
+    expect(logger.info).toHaveBeenCalledWith(
+      "Bus factor set to 0 (top contributor >= 80%)",
+    );
   });
 
   it("should set bus factor to 0.2 when top contributor has ≥ 60% contributions", async () => {
@@ -100,7 +102,9 @@ describe("BusFactorMetric", () => {
     await busFactorMetric.evaluate(card);
 
     expect(card.busFactor).toBe(0.2);
-    expect(logger.info).toHaveBeenCalledWith("Bus factor set to 0.2 (top contributor >= 60%)");
+    expect(logger.info).toHaveBeenCalledWith(
+      "Bus factor set to 0.2 (top contributor >= 60%)",
+    );
   });
 
   it("should set bus factor to 0.5 when top contributor has ≥ 40% contributions", async () => {
@@ -120,7 +124,9 @@ describe("BusFactorMetric", () => {
     await busFactorMetric.evaluate(card);
 
     expect(card.busFactor).toBe(0.5);
-    expect(logger.info).toHaveBeenCalledWith("Bus factor set to 0.5 (top contributor >= 40%)");
+    expect(logger.info).toHaveBeenCalledWith(
+      "Bus factor set to 0.5 (top contributor >= 40%)",
+    );
   });
 
   it("should set bus factor to 1 when top contributor has < 40% contributions", async () => {
@@ -140,7 +146,9 @@ describe("BusFactorMetric", () => {
     await busFactorMetric.evaluate(card);
 
     expect(card.busFactor).toBe(1);
-    expect(logger.info).toHaveBeenCalledWith("Bus factor set to 1 (top contributor < 40%)");
+    expect(logger.info).toHaveBeenCalledWith(
+      "Bus factor set to 1 (top contributor < 40%)",
+    );
   });
 
   it("should handle no contributors and set bus factor to 0", async () => {
@@ -155,7 +163,9 @@ describe("BusFactorMetric", () => {
     await busFactorMetric.evaluate(card);
 
     expect(card.busFactor).toBe(0);
-    expect(logger.info).toHaveBeenCalledWith("No contributors found, setting bus factor to 0.");
+    expect(logger.info).toHaveBeenCalledWith(
+      "No contributors found, setting bus factor to 0.",
+    );
   });
 
   it("should handle errors from GitHub API and set bus factor to 0", async () => {
@@ -168,7 +178,10 @@ describe("BusFactorMetric", () => {
     await busFactorMetric.evaluate(card);
 
     expect(card.busFactor).toBe(0);
-    expect(logger.error).toHaveBeenCalledWith("Error fetching contributors information:", new Error("API Error"));
+    expect(logger.error).toHaveBeenCalledWith(
+      "Error fetching contributors information:",
+      new Error("API Error"),
+    );
   });
 
   it("should calculate and set busFactor_Latency", async () => {

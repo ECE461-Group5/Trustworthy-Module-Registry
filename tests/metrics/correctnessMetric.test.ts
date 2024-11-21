@@ -37,7 +37,7 @@ describe("CorrectnessMetric", () => {
   let correctnessMetric: CorrectnessMetric;
   /**
    * Mock object for Octokit API interactions.
-   * 
+   *
    * @property {Object} repos - Mock for repository-related API calls.
    * @property {Mock} repos.getContent - Mock function for getting repository content.
    * @property {Object} issues - Mock for issue-related API calls.
@@ -89,7 +89,7 @@ describe("CorrectnessMetric", () => {
             scripts: {
               test: "jest",
             },
-          })
+          }),
         ).toString("base64"),
       },
     });
@@ -107,9 +107,12 @@ describe("CorrectnessMetric", () => {
 
     expect(card.correctness).toBe(0.6);
     expect(logger.info).toHaveBeenCalledWith("Test suite found: true");
-    expect(logger.info).toHaveBeenCalledWith("Calculated bug score: 0.1 (Open bug ratio: 0.3333333333333333)");
-    expect(logger.info).toHaveBeenCalledWith("Final correctness score for owner/repo: 0.6");
-
+    expect(logger.info).toHaveBeenCalledWith(
+      "Calculated bug score: 0.1 (Open bug ratio: 0.3333333333333333)",
+    );
+    expect(logger.info).toHaveBeenCalledWith(
+      "Final correctness score for owner/repo: 0.6",
+    );
   });
 
   it("should set correctness score to 0.5 when tests are absent and bug score is neutral", async () => {
@@ -125,7 +128,7 @@ describe("CorrectnessMetric", () => {
             scripts: {
               start: "node index.js",
             },
-          })
+          }),
         ).toString("base64"),
       },
     });
@@ -139,8 +142,12 @@ describe("CorrectnessMetric", () => {
 
     expect(card.correctness).toBe(0.5);
     expect(logger.info).toHaveBeenCalledWith("Test suite found: false");
-    expect(logger.info).toHaveBeenCalledWith("No bugs found, assigning neutral correctness score.");
-    expect(logger.info).toHaveBeenCalledWith("Final correctness score for owner/repo: 0.5");
+    expect(logger.info).toHaveBeenCalledWith(
+      "No bugs found, assigning neutral correctness score.",
+    );
+    expect(logger.info).toHaveBeenCalledWith(
+      "Final correctness score for owner/repo: 0.5",
+    );
   });
 
   it("should handle missing package.json and set correctness score based on bugs", async () => {
@@ -167,7 +174,9 @@ describe("CorrectnessMetric", () => {
     expect(card.correctness).toBe(0);
     expect(logger.warn).toHaveBeenCalledWith("package.json not found in the repository.");
     expect(logger.info).toHaveBeenCalledWith("Test suite found: false");
-    expect(logger.info).toHaveBeenCalledWith("Calculated bug score: 0 (Open bug ratio: 1)");
+    expect(logger.info).toHaveBeenCalledWith(
+      "Calculated bug score: 0 (Open bug ratio: 1)",
+    );
     expect(logger.info).toHaveBeenCalledWith("Final correctness score for owner/repo: 0");
   });
 
@@ -190,10 +199,17 @@ describe("CorrectnessMetric", () => {
     await correctnessMetric.evaluate(card);
 
     expect(card.correctness).toBe(0.5); // Only bug score counted
-    expect(logger.error).toHaveBeenCalledWith("Error checking for tests:", new Error("API Error"));
+    expect(logger.error).toHaveBeenCalledWith(
+      "Error checking for tests:",
+      new Error("API Error"),
+    );
     expect(logger.info).toHaveBeenCalledWith("Test suite found: false");
-    expect(logger.info).toHaveBeenCalledWith("Calculated bug score: 0.5 (Open bug ratio: 0)");
-    expect(logger.info).toHaveBeenCalledWith("Final correctness score for owner/repo: 0.5");
+    expect(logger.info).toHaveBeenCalledWith(
+      "Calculated bug score: 0.5 (Open bug ratio: 0)",
+    );
+    expect(logger.info).toHaveBeenCalledWith(
+      "Final correctness score for owner/repo: 0.5",
+    );
   });
 
   it("should handle errors during bug analysis and assign default score", async () => {
@@ -209,7 +225,7 @@ describe("CorrectnessMetric", () => {
             scripts: {
               test: "jest",
             },
-          })
+          }),
         ).toString("base64"),
       },
     });
@@ -221,8 +237,13 @@ describe("CorrectnessMetric", () => {
 
     expect(card.correctness).toBe(0.5); // Only test score counted
     expect(logger.info).toHaveBeenCalledWith("Test suite found: true");
-    expect(logger.error).toHaveBeenCalledWith("Error analyzing bugs:", new Error("API Error"));
-    expect(logger.info).toHaveBeenCalledWith("Final correctness score for owner/repo: 0.5");
+    expect(logger.error).toHaveBeenCalledWith(
+      "Error analyzing bugs:",
+      new Error("API Error"),
+    );
+    expect(logger.info).toHaveBeenCalledWith(
+      "Final correctness score for owner/repo: 0.5",
+    );
   });
 
   it("should handle total correctness score exceeding 1 by capping it at 1", async () => {
@@ -238,7 +259,7 @@ describe("CorrectnessMetric", () => {
             scripts: {
               test: "jest",
             },
-          })
+          }),
         ).toString("base64"),
       },
     });

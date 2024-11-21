@@ -89,6 +89,8 @@ describe("createScorecard", () => {
       }),
     } as Response);
 
-    await expect(createScorecard(url)).rejects.toThrow("Repository URL not found in npm package data");
+    await expect(createScorecard(url)).rejects.toThrow(
+      "Repository URL not found in npm package data",
+    );
   });
 });

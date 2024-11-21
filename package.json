@@ -10,13 +10,15 @@
     "dev": "npx nodemon src/index.ts",
     "test": "npx vitest",
     "auto-grader-test": "vitest run --silent --coverage --reporter=json --outputFile=./src/utils/reports/vitest-results.json",
-    "lint": "npx eslint --fix -c eslint.config.js -f stylish"
+    "lint": "npx eslint --fix -c eslint.config.js -f stylish",
+    "format": "npx prettier . --write"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@eslint/js": "^9.14.0",
+    "@stylistic/eslint-plugin-js": "^2.11.0",
     "@stylistic/eslint-plugin-ts": "^2.10.1",
     "@types/eslint__js": "^8.42.3",
     "@types/express": "^4.17.21",
@@ -36,6 +38,7 @@
     "nodemon": "^3.1.4",
     "pino-pretty": "^11.2.2",
     "prettier": "^3.3.3",
+    "prisma": "^5.22.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.13.0",
@@ -44,6 +47,7 @@
   },
   "dependencies": {
     "@octokit/rest": "^21.0.2",
+    "@prisma/client": "^5.22.0",
     "dotenv": "^16.4.5",
     "express": "^5.0.1",
     "fs": "^0.0.1-security",
