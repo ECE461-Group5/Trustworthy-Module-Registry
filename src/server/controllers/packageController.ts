@@ -6,7 +6,7 @@
 
 import { Request, Response } from "express";
 import { isValidRegex } from "./isValidRegex.js";
-import { PackageData, checkPackageData } from "./uploadBody.js";
+import { PackageData, checkPackageData } from "./packageData.js";
 
 /*
 interface PackageMetadata {
@@ -62,6 +62,7 @@ export const getPackage = (req: Request, res: Response): Response => {
   else if (packageID === "99999999") {
     return res.status(404).send();
   }
+  return res.status(200).send();
 };
 
 // /package/:id
@@ -79,6 +80,7 @@ export const updatePackage = (req: Request, res: Response): Response => {
   else if (packageID === "99999999") {
     return res.status(404).send();
   }
+  return res.status(200).send();
 };
 
 // /package/:id
@@ -96,6 +98,7 @@ export const deletePackage = (req: Request, res: Response): Response => {
   else if (packageID === "99999999") {
     return res.status(404).send();
   }
+  return res.status(200).send();
 };
 
 // /package/:id/rate
@@ -134,6 +137,7 @@ export const getPackageRating = (req: Request, res: Response): Response => {
  else if (packageID === "99999999") {
     return res.status(404).send();
   }
+  return res.status(200).send();
 };
 
 // /package/:id/cost
@@ -170,6 +174,7 @@ export const getPackageCost = (req: Request, res: Response): Response => {
   else if (packageID === "99999999") {
     return res.status(404).send();
   }
+  return res.status(200).send();
 };
 
 // /package/byRegEx

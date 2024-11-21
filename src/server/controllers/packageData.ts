@@ -21,6 +21,7 @@ export function checkPackageData (packageData: PackageData): boolean {
   }
 
   // Only one of URL or content can be set
+  console.log(packageData.Content);
 
   return true;
 }
