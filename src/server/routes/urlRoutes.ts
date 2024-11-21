@@ -1,8 +1,8 @@
 /**
  * @file urlRoutes.ts
- * 
+ *
  * Defines the routes for the process-url endpoint.
- * 
+ *
  */
 
 /*

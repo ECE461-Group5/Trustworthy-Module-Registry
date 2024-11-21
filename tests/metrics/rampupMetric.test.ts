@@ -19,7 +19,6 @@ vi.mock("@octokit/rest", () => {
   return { Octokit };
 });
 
-
 import { Octokit } from "@octokit/rest";
 //import { CorrectnessMetric } from "../../src/models/metrics/correctnessMetric"; Linter flagged unused
 //import exp from "constants";  Linter flagged unused
@@ -40,13 +39,12 @@ describe("RampUpMetric", () => {
     octokitMock = {
       repos: {
         getReadme: vi.fn(),
-      }
+      },
     };
 
     (Octokit as unknown as Mock).mockImplementation(() => octokitMock);
 
     rampUpMetric = new RampUpMetric();
-
   });
 
   afterEach(() => {
@@ -65,14 +63,12 @@ describe("RampUpMetric", () => {
     card.repo = "repo";
 
     octokitMock.repos.getReadme.mockResolvedValueOnce({
-      data: {
-      },
+      data: {},
     });
 
     await rampUpMetric.evaluate(card);
 
     expect(card.rampUp).toBe(0);
-  
   });
 
   it("should set ramp up score to 1 if README contains all important sections", async () => {
@@ -84,7 +80,8 @@ describe("RampUpMetric", () => {
 
     octokitMock.repos.getReadme.mockResolvedValueOnce({
       data: {
-        content: Buffer.from(`
+        content: Buffer.from(
+          `
           ## License
           ## Support
           ## Getting Started
@@ -93,14 +90,14 @@ describe("RampUpMetric", () => {
           ## Contributing
           ## License
           ## Contributing
-        `).toString("base64"),
+        `,
+        ).toString("base64"),
       },
     });
 
     await rampUpMetric.evaluate(card);
 
     expect(card.rampUp).toBe(1);
-
   });
 
   it("should set ramp up score to 0.2 if README contains more than two code blocks", async () => {
@@ -112,21 +109,22 @@ describe("RampUpMetric", () => {
 
     octokitMock.repos.getReadme.mockResolvedValueOnce({
       data: {
-        content: Buffer.from(`
+        content: Buffer.from(
+          `
           \`\`\`js
           const x = 1;
           \`\`\`
           \`\`\`js
           const y = 2;
           \`\`\`
-        `).toString("base64"),
+        `,
+        ).toString("base64"),
       },
     });
 
     await rampUpMetric.evaluate(card);
 
     expect(card.rampUp).toBe(0.2);
-
   });
 
   it("should set ramp up score to 0.1 if README contains few linting errors", async () => {
@@ -138,19 +136,20 @@ describe("RampUpMetric", () => {
 
     octokitMock.repos.getReadme.mockResolvedValueOnce({
       data: {
-        content: Buffer.from(`
+        content: Buffer.from(
+          `
           # Hello
 
           ## You're a piece of work
           
-        `).toString("base64"),
+        `,
+        ).toString("base64"),
       },
     });
 
     await rampUpMetric.evaluate(card);
 
     expect(card.rampUp).toBe(0.1);
-
   });
 
   it("should set ramp up score to 0.1 if README contains more than 5 links", async () => {
@@ -187,5 +186,4 @@ describe("RampUpMetric", () => {
 
     expect(card.rampUp).toBe(0.1);
   });
-
 });

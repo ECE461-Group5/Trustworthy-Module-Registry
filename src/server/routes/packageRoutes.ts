@@ -2,12 +2,12 @@
  * Author(s): Joe Dahms
  * Purpose: Set up the routes for the package endpoint. See controllers
  * for request handling logic.
-*/
+ */
 
 import express from "express";
 const router = express.Router();
 
-import { 
+import {
   uploadPackage,
   getPackage,
   updatePackage,

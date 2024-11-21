@@ -1,7 +1,7 @@
 /*
  * Author(s): Joe Dahms
  * Purpose: Test the package endpoint.
-*/
+ */
 
 import { expect, describe, it } from "vitest";
 import request from "supertest";
@@ -12,63 +12,55 @@ describe("/package endpoint", () => {
   test.each([
     {
       testName: "Missing Content",
-      packageData: 
-      {
-        "URL": "<string>",
-        "debloat": true,
-        "JSProgram": "<string>",
+      packageData: {
+        URL: "<string>",
+        debloat: true,
+        JSProgram: "<string>",
       },
       expectedStatus: 400,
       expectedBody: {},
     },
     {
       testName: "Missing URL",
-      packageData: 
-      {
-        "Content": "string",
-        "debloat": true,
-        "JSProgram": "<string>",
+      packageData: {
+        Content: "string",
+        debloat: true,
+        JSProgram: "<string>",
       },
       expectedStatus: 400,
       expectedBody: {},
     },
     {
       testName: "Missing debloat",
-      packageData: 
-      {
-        "Content": "string",
-        "URL": "<string>",
-        "JSProgram": "<string>",
+      packageData: {
+        Content: "string",
+        URL: "<string>",
+        JSProgram: "<string>",
       },
       expectedStatus: 400,
       expectedBody: {},
     },
     {
       testName: "Missing JSProgram",
-      packageData: 
-      {
-        "Content": "string",
-        "URL": "<string>",
-        "debloat": true,
+      packageData: {
+        Content: "string",
+        URL: "<string>",
+        debloat: true,
       },
       expectedStatus: 400,
       expectedBody: {},
     },
   ])("$testName", async ({ packageData, expectedStatus, expectedBody }) => {
-    const response = await request(app)
-      .post("/package")
-      .send(packageData);
+    const response = await request(app).post("/package").send(packageData);
 
     expect(response.statusCode).toEqual(expectedStatus);
-    expect(response.body).toEqual(expectedBody);  
+    expect(response.body).toEqual(expectedBody);
   });
 
   // Test for only content of url set
   // Package already exists
   // Package is not uploaded due to dq rating
-
 });
-
 
 describe("GET /package/:id endpoint", () => {
   // Return package
@@ -77,27 +69,25 @@ describe("GET /package/:id endpoint", () => {
       testName: "Return the package",
       packageID: "00000000",
       expectedStatus: 200,
-      expectedBody: 
-      {
-        "metadata": {
-          "Name": "<string>",
-          "Version": "<string>",
-          "ID": "00000000",
+      expectedBody: {
+        metadata: {
+          Name: "<string>",
+          Version: "<string>",
+          ID: "00000000",
         },
-        "data": {
-          "Content": "<string>",
-          "URL": "<string>",
-          "debloat": "<boolean>",
-          "JSProgram": "<string>",
+        data: {
+          Content: "<string>",
+          URL: "<string>",
+          debloat: "<boolean>",
+          JSProgram: "<string>",
         },
       },
     },
   ])("$testName", async ({ packageID, expectedStatus, expectedBody }) => {
-    const response = await request(app)
-      .get(`/package/${packageID}`);
+    const response = await request(app).get(`/package/${packageID}`);
 
     expect(response.statusCode).toEqual(expectedStatus);
-    expect(response.body).toEqual(expectedBody);  
+    expect(response.body).toEqual(expectedBody);
   });
 
   // Package ID format
@@ -115,15 +105,14 @@ describe("GET /package/:id endpoint", () => {
       expectedBody: {},
     },
   ])("$testName", async ({ packageID, expectedStatus, expectedBody }) => {
-    const response = await request(app)
-      .get(`/package/${packageID}`);
+    const response = await request(app).get(`/package/${packageID}`);
 
     expect(response.statusCode).toEqual(expectedStatus);
-    expect(response.body).toEqual(expectedBody);  
+    expect(response.body).toEqual(expectedBody);
   });
 
   // Authentication
- 
+
   // Package does not exist
   test.each([
     {
@@ -133,14 +122,13 @@ describe("GET /package/:id endpoint", () => {
       expectedBody: {},
     },
   ])("$testName", async ({ packageID, expectedStatus, expectedBody }) => {
-    const response = await request(app)
-      .get(`/package/${packageID}`);
+    const response = await request(app).get(`/package/${packageID}`);
 
     expect(response.statusCode).toEqual(expectedStatus);
-    expect(response.body).toEqual(expectedBody);  
+    expect(response.body).toEqual(expectedBody);
   });
 });
-  
+
 describe("PUT /package/:id endpoint", () => {
   // Update package
   test.each([
@@ -148,29 +136,26 @@ describe("PUT /package/:id endpoint", () => {
       testName: "update the package",
       packageID: "00000000",
       expectedStatus: 200,
-      newVersion: 
-      {
-        "metadata": {
-          "Name": "<string>",
-          "Version": "<string>",
-          "ID": "00000000",
+      newVersion: {
+        metadata: {
+          Name: "<string>",
+          Version: "<string>",
+          ID: "00000000",
         },
-        "data": {
-          "Content": "<string>",
-          "URL": "<string>",
-          "debloat": "<boolean>",
-          "JSProgram": "<string>",
+        data: {
+          Content: "<string>",
+          URL: "<string>",
+          debloat: "<boolean>",
+          JSProgram: "<string>",
         },
       },
       expectedBody: {},
     },
   ])("$testName", async ({ newVersion, packageID, expectedStatus, expectedBody }) => {
-    const response = await request(app)
-      .put(`/package/${packageID}`)
-      .send(newVersion);
+    const response = await request(app).put(`/package/${packageID}`).send(newVersion);
 
     expect(response.statusCode).toEqual(expectedStatus);
-    expect(response.body).toEqual(expectedBody);  
+    expect(response.body).toEqual(expectedBody);
   });
 
   // Package ID format
@@ -188,15 +173,14 @@ describe("PUT /package/:id endpoint", () => {
       expectedBody: {},
     },
   ])("$testName", async ({ packageID, expectedStatus, expectedBody }) => {
-    const response = await request(app)
-      .get(`/package/${packageID}`);
+    const response = await request(app).get(`/package/${packageID}`);
 
     expect(response.statusCode).toEqual(expectedStatus);
-    expect(response.body).toEqual(expectedBody);  
+    expect(response.body).toEqual(expectedBody);
   });
 
   // Authentication
- 
+
   // Package does not exist
   test.each([
     {
@@ -206,14 +190,11 @@ describe("PUT /package/:id endpoint", () => {
       expectedBody: {},
     },
   ])("$testName", async ({ packageID, expectedStatus, expectedBody }) => {
-    const response = await request(app)
-      .get(`/package/${packageID}`);
+    const response = await request(app).get(`/package/${packageID}`);
 
     expect(response.statusCode).toEqual(expectedStatus);
-    expect(response.body).toEqual(expectedBody);  
+    expect(response.body).toEqual(expectedBody);
   });
-
-
 });
 
 describe("DELETE /package/:id endpoint", () => {
@@ -226,11 +207,10 @@ describe("DELETE /package/:id endpoint", () => {
       expectedBody: {},
     },
   ])("$testName", async ({ packageID, expectedStatus, expectedBody }) => {
-    const response = await request(app)
-      .delete(`/package/${packageID}`);
+    const response = await request(app).delete(`/package/${packageID}`);
 
     expect(response.statusCode).toEqual(expectedStatus);
-    expect(response.body).toEqual(expectedBody);  
+    expect(response.body).toEqual(expectedBody);
   });
 
   // Package ID format
@@ -248,15 +228,14 @@ describe("DELETE /package/:id endpoint", () => {
       expectedBody: {},
     },
   ])("$testName", async ({ packageID, expectedStatus, expectedBody }) => {
-    const response = await request(app)
-      .delete(`/package/${packageID}`);
+    const response = await request(app).delete(`/package/${packageID}`);
 
     expect(response.statusCode).toEqual(expectedStatus);
-    expect(response.body).toEqual(expectedBody);  
+    expect(response.body).toEqual(expectedBody);
   });
 
   // Authentication
- 
+
   // Package does not exist
   test.each([
     {
@@ -266,50 +245,46 @@ describe("DELETE /package/:id endpoint", () => {
       expectedBody: {},
     },
   ])("$testName", async ({ packageID, expectedStatus, expectedBody }) => {
-    const response = await request(app)
-      .delete(`/package/${packageID}`);
+    const response = await request(app).delete(`/package/${packageID}`);
 
     expect(response.statusCode).toEqual(expectedStatus);
-    expect(response.body).toEqual(expectedBody);  
+    expect(response.body).toEqual(expectedBody);
   });
 });
 
-
 describe("/package/:id/rate endpoint", () => {
-   // Rating format
+  // Rating format
   test.each([
     {
       testName: "correctly formatted rating",
       packageID: "00000000",
       expectedStatus: 200,
-      expectedBody:
-      {
-        "RampUp": "<double>",
-        "Correctness": "<double>",
-        "BusFactor": "<double>",
-        "ResponsiveMaintainer": "<double>",
-        "LicenseScore": "<double>",
-        "GoodPinningPractice": "<double>",
-        "PullRequest": "<double>",
-        "NetScore": "<double>",
-        "RampUpLatency": "<double>",
-        "CorrectnessLatency": "<double>",
-        "BusFactorLatency": "<double>",
-        "ResponsiveMaintainerLatency": "<double>",
-        "LicenseScoreLatency": "<double>",
-        "GoodPinningPracticeLatency": "<double>",
-        "PullRequestLatency": "<double>",
-        "NetScoreLatency": "<double>",
+      expectedBody: {
+        RampUp: "<double>",
+        Correctness: "<double>",
+        BusFactor: "<double>",
+        ResponsiveMaintainer: "<double>",
+        LicenseScore: "<double>",
+        GoodPinningPractice: "<double>",
+        PullRequest: "<double>",
+        NetScore: "<double>",
+        RampUpLatency: "<double>",
+        CorrectnessLatency: "<double>",
+        BusFactorLatency: "<double>",
+        ResponsiveMaintainerLatency: "<double>",
+        LicenseScoreLatency: "<double>",
+        GoodPinningPracticeLatency: "<double>",
+        PullRequestLatency: "<double>",
+        NetScoreLatency: "<double>",
       },
     },
   ])("$testName", async ({ packageID, expectedStatus, expectedBody }) => {
-    const response = await request(app)
-      .get(`/package/${packageID}/rate`);
+    const response = await request(app).get(`/package/${packageID}/rate`);
 
     expect(response.statusCode).toEqual(expectedStatus);
-    expect(response.body).toEqual(expectedBody);  
+    expect(response.body).toEqual(expectedBody);
   });
- 
+
   // Package ID format
   test.each([
     {
@@ -325,11 +300,10 @@ describe("/package/:id/rate endpoint", () => {
       expectedBody: {},
     },
   ])("$testName", async ({ packageID, expectedStatus, expectedBody }) => {
-    const response = await request(app)
-      .get(`/package/${packageID}/rate`);
+    const response = await request(app).get(`/package/${packageID}/rate`);
 
     expect(response.statusCode).toEqual(expectedStatus);
-    expect(response.body).toEqual(expectedBody);  
+    expect(response.body).toEqual(expectedBody);
   });
 
   // Authentication
@@ -343,19 +317,17 @@ describe("/package/:id/rate endpoint", () => {
       expectedBody: {},
     },
   ])("$testName", async ({ packageID, expectedStatus, expectedBody }) => {
-    const response = await request(app)
-      .get(`/package/${packageID}/rate`);
+    const response = await request(app).get(`/package/${packageID}/rate`);
 
     expect(response.statusCode).toEqual(expectedStatus);
-    expect(response.body).toEqual(expectedBody);  
+    expect(response.body).toEqual(expectedBody);
   });
 
   // Package rating system choked on at least one of the metrics
 });
 
-
 describe("/package/:id/cost endpoint", () => {
-  // Dependency 
+  // Dependency
   test.each([
     {
       testName: "Without Dependency",
@@ -364,7 +336,7 @@ describe("/package/:id/cost endpoint", () => {
       expectedStatus: 200,
       expectedBody: {
         "00000000": {
-          "totalCost": 1.0,
+          totalCost: 1.0,
         },
       },
     },
@@ -375,21 +347,20 @@ describe("/package/:id/cost endpoint", () => {
       expectedStatus: 200,
       expectedBody: {
         "00000000": {
-          "standaloneCost": 1.0,
-          "totalCost": 1.0,
+          standaloneCost: 1.0,
+          totalCost: 1.0,
         },
         "00000001": {
-          "standaloneCost": 1.0,
-          "totalCost": 1.0,
+          standaloneCost: 1.0,
+          totalCost: 1.0,
         },
       },
     },
   ])("$testName", async ({ dependency, packageID, expectedStatus, expectedBody }) => {
-    const response = await request(app)
-      .get(`/package/${packageID}/cost${dependency}`);
+    const response = await request(app).get(`/package/${packageID}/cost${dependency}`);
 
     expect(response.statusCode).toEqual(expectedStatus);
-    expect(response.body).toEqual(expectedBody);  
+    expect(response.body).toEqual(expectedBody);
   });
 
   // Package ID format
@@ -409,11 +380,10 @@ describe("/package/:id/cost endpoint", () => {
       expectedBody: {},
     },
   ])("$testName", async ({ dependency, packageID, expectedStatus, expectedBody }) => {
-    const response = await request(app)
-      .get(`/package/${packageID}/cost${dependency}`);
+    const response = await request(app).get(`/package/${packageID}/cost${dependency}`);
 
     expect(response.statusCode).toEqual(expectedStatus);
-    expect(response.body).toEqual(expectedBody);  
+    expect(response.body).toEqual(expectedBody);
   });
 
   // Authentication
@@ -427,17 +397,14 @@ describe("/package/:id/cost endpoint", () => {
       expectedBody: {},
     },
   ])("$testName", async ({ packageID, expectedStatus, expectedBody }) => {
-    const response = await request(app)
-      .get(`/package/${packageID}/rate`);
+    const response = await request(app).get(`/package/${packageID}/rate`);
 
     expect(response.statusCode).toEqual(expectedStatus);
-    expect(response.body).toEqual(expectedBody);  
+    expect(response.body).toEqual(expectedBody);
   });
- 
+
   // Rating system choked on metric
-
 });
-
 
 describe("/package/byRegEx endpoint", () => {
   // RegEx key
@@ -445,8 +412,7 @@ describe("/package/byRegEx endpoint", () => {
     {
       testName: "regex",
       expectedStatus: 400,
-      regex: 
-      {
+      regex: {
         regex: "regexhere",
       },
       expectedBody: {},
@@ -454,8 +420,7 @@ describe("/package/byRegEx endpoint", () => {
     {
       testName: "REGEX",
       expectedStatus: 400,
-      regex: 
-      {
+      regex: {
         REGEX: "regexhere",
       },
       expectedBody: {},
@@ -463,8 +428,7 @@ describe("/package/byRegEx endpoint", () => {
     {
       testName: "notevenclosetoRegEx",
       expectedStatus: 400,
-      regex: 
-      {
+      regex: {
         notevenclosetoRegEx: "regexhere",
       },
       expectedBody: {},
@@ -472,8 +436,7 @@ describe("/package/byRegEx endpoint", () => {
     {
       testName: "RegExatthebeginning",
       expectedStatus: 400,
-      regex: 
-      {
+      regex: {
         RegExatthebeginning: "regexhere",
       },
       expectedBody: {},
@@ -481,49 +444,43 @@ describe("/package/byRegEx endpoint", () => {
     {
       testName: "itsinRegExthemiddle",
       expectedStatus: 400,
-      regex: 
-      {
+      regex: {
         itsinRegExthemiddle: "regexhere",
       },
       expectedBody: {},
     },
   ])("$testName", async ({ regex, expectedStatus, expectedBody }) => {
-    const response = await request(app)
-      .post("/package/byRegEx")
-      .send(regex);
+    const response = await request(app).post("/package/byRegEx").send(regex);
 
     expect(response.statusCode).toEqual(expectedStatus);
-    expect(response.body).toEqual(expectedBody);  
+    expect(response.body).toEqual(expectedBody);
   });
 
-  // RegEx valididty 
-   test.each([
+  // RegEx valididty
+  test.each([
     {
       testName: "valid regex",
       expectedStatus: 200,
-      regex: 
-      {
+      regex: {
         RegEx: "/hello/",
       },
-      expectedBody: 
-      [
+      expectedBody: [
         {
-          "Name": "<string>",
-          "Version": "<string>",
-          "ID": "Ozc",
+          Name: "<string>",
+          Version: "<string>",
+          ID: "Ozc",
         },
         {
-          "Name": "<string>",
-          "Version": "<string>",
-          "ID": "7Dkbwno5XdR",
+          Name: "<string>",
+          Version: "<string>",
+          ID: "7Dkbwno5XdR",
         },
       ],
     },
     {
       testName: "invalid regex: /hello(world/",
       expectedStatus: 400,
-      regex: 
-      {
+      regex: {
         RegEx: "/hello(world/",
       },
       expectedBody: {},
@@ -531,8 +488,7 @@ describe("/package/byRegEx endpoint", () => {
     {
       testName: "invalid regex: /1+*/",
       expectedStatus: 400,
-      regex: 
-      {
+      regex: {
         RegEx: "/1+*/",
       },
       expectedBody: {},
@@ -540,8 +496,7 @@ describe("/package/byRegEx endpoint", () => {
     {
       testName: "invalid regex: /[z-a]/",
       expectedStatus: 400,
-      regex: 
-      {
+      regex: {
         RegEx: "/[z-a]/",
       },
       expectedBody: {},
@@ -549,20 +504,15 @@ describe("/package/byRegEx endpoint", () => {
     {
       testName: "invalid regex: /[a-z/",
       expectedStatus: 400,
-      regex: 
-      {
+      regex: {
         RegEx: "/[a-z/",
       },
       expectedBody: {},
     },
   ])("$testName", async ({ regex, expectedStatus, expectedBody }) => {
-    const response = await request(app)
-      .post("/package/byRegEx")
-      .send(regex);
+    const response = await request(app).post("/package/byRegEx").send(regex);
 
     expect(response.statusCode).toEqual(expectedStatus);
-    expect(response.body).toEqual(expectedBody);  
+    expect(response.body).toEqual(expectedBody);
   });
-
 });
-

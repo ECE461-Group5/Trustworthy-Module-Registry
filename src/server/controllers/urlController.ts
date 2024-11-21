@@ -1,6 +1,6 @@
 /**
  * @file urlController.ts
- * 
+ *
  */
 
 /*
@@ -11,11 +11,11 @@ import URLServices from '../services/urlServices.js';
 
 /**
  * @class URLController
- * 
+ *
  * This class is the controller for the process-url endpoint.
  * It contains the processURL() method that will be called when the endpoint is hit with the appropriate HTTP request (POST).
  * That method will then call the beginScoringModule() method from the URLServices class.
- * 
+ *
  */
 /*
 class URLController {
