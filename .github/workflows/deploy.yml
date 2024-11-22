@@ -27,11 +27,15 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
+
       - name: install
         run: npm install
 
       - name: build
-        run: npm run build --if-present
+        run: |
+          rm -rf node_modules/@types/testing-library__jest-dom/
+          npm run build
+          npm run build workspace=frontend
 
       - name: test
         run: test
