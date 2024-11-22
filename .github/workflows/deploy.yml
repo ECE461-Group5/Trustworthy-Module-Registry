@@ -33,9 +33,9 @@ jobs:
 
       - name: build
         run: |
+          npm run build --workspace=frontend
           rm -rf node_modules/@types/testing-library__jest-dom/
           npm run build
-          npm run build --workspace=frontend
 
       - name: test
         run: test
