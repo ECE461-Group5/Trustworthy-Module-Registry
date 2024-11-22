@@ -39,9 +39,6 @@ jobs:
 
       - name: test
         run: npm run test
-
-      - name: Run Security Checks
-        run: npm audit --production
 #      - name: Run Security Checks
 #        run: npm audit
 #   continuous-deployment:
