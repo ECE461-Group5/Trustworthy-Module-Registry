@@ -1,44 +1,25 @@
-import React from 'react';
-import MainNavbar from './MainNavbar';
-import './App.css';
-import Buttons from './Buttons';
-import PackageUploader from './PackageUploader';
-import Search from './Search';
+import React from "react";
+import MainNavbar from "./MainNavbar";
+import "./App.css";
+import Buttons from "./Buttons";
+import PackageUploader from "./PackageUploader";
+import Search from "./Search";
 
 function App() {
-    return (
-        <div className="App">
-            <MainNavbar /> 
-            <header>
-                <h1>Welcome to ECE 461 Group 5 Project</h1>
-            </header>
-            <Buttons />
-            <PackageUploader />
-            <Search />
-        </div>
-    );
+  return (
+    <div className="App">
+      <MainNavbar />
+      <header>
+        <h1>Welcome to ECE 461 Group 5 Project</h1>
+      </header>
+      <Buttons />
+      <PackageUploader />
+      <Search />
+    </div>
+  );
 }
 
 export default App;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import React from 'react';
 // import logo from './logo.svg';
@@ -66,4 +47,3 @@ export default App;
 // }
 
 // export default App;
-

@@ -11,7 +11,7 @@
 
 .logo img {
   height: 50px; /* Set a fixed height for the image */
-  width: auto;  /* Maintain aspect ratio */
+  width: auto; /* Maintain aspect ratio */
 }
 
 .buttons {
@@ -160,7 +160,6 @@ button:hover {
   font-size: 16px;
   font-weight: bold;
 }
-
 
 /* .App {
   text-align: center;

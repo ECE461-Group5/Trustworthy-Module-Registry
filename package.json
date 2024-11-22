@@ -14,6 +14,7 @@
     "test": "npx vitest",
     "auto-grader-test": "vitest run --silent --coverage --reporter=json --outputFile=./src/utils/reports/vitest-results.json",
     "lint": "npx eslint --fix -c eslint.config.js -f stylish",
+    "format": "npx prettier --write .",
     "frontend-build": "react-scripts start",
     "frontend-start": "react-scripts build"
   },

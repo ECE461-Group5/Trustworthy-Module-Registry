@@ -5,8 +5,8 @@ services:
       context: ./website-app
       dockerfile: Dockerfile
     cache_from:
-        - '${WEBSITE_IMAGE}'
-    image: '${WEBSITE_IMAGE}'
+      - "${WEBSITE_IMAGE}"
+    image: "${WEBSITE_IMAGE}"
     ports:
       - "3000:3000"
     volumes:
@@ -15,11 +15,11 @@ services:
 
   nginx:
     build:
-     context: ./nginx
-     dockerfile: Dockerfile
+      context: ./nginx
+      dockerfile: Dockerfile
     cache_from:
-        - '${NGINX_IMAGE}'
-    image: '${NGINX_IMAGE}'
+      - "${NGINX_IMAGE}"
+    image: "${NGINX_IMAGE}"
     ports:
       - "80:80"
     volumes:
@@ -27,4 +27,3 @@ services:
       #- website:/usr/share/nginx/html/website # Copy React App's build files to the Nginx directory
 volumes:
   website:
-  
