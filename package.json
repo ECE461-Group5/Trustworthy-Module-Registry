@@ -1,6 +1,8 @@
 {
   "name": "se-phase2",
-  "workspaces": ["src/frontend"],
+  "workspaces": [
+    "src/frontend"
+  ],
   "version": "1.0.0",
   "description": "Group 5 - Phase 2",
   "main": "src/index.ts",
@@ -21,6 +23,9 @@
   "devDependencies": {
     "@eslint/js": "^9.14.0",
     "@stylistic/eslint-plugin-ts": "^2.10.1",
+    "@testing-library/jest-dom": "npm:abbrev@1",
+    "@testing-library/react": "npm:abbrev@1",
+    "@testing-library/user-event": "npm:abbrev@1",
     "@types/eslint__js": "^8.42.3",
     "@types/express": "^4.17.21",
     "@types/lodash": "^4.17.13",
@@ -40,23 +45,17 @@
     "pino-pretty": "^11.2.2",
     "prettier": "^3.3.3",
     "prisma": "^5.22.0",
+    "react-scripts": "npm:abbrev@1",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.13.0",
     "vitest": "^2.1.1",
-    "yaml-eslint-parser": "^1.2.3",
-
-
-    "@types/jest": "npm:abbrev@1",
-    "jest": "npm:abbrev@1",
-    "@testing-library/jest-dom": "npm:abbrev@1",
-    "@testing-library/react": "npm:abbrev@1",
-    "@testing-library/user-event": "npm:abbrev@1",
-    "react-scripts": "npm:abbrev@1"
+    "yaml-eslint-parser": "^1.2.3"
   },
   "dependencies": {
     "@octokit/rest": "^21.0.2",
     "@prisma/client": "^5.22.0",
+    "@vitest/coverage-v8": "^2.1.1",
     "dotenv": "^16.4.5",
     "express": "^5.0.1",
     "fs": "^0.0.1-security",
@@ -65,7 +64,6 @@
     "markdownlint": "^0.35.0",
     "pino": "^9.4.0",
     "supertest": "^7.0.0",
-    "yargs": "^17.7.2",
-    "@vitest/coverage-v8": "^2.1.1"
+    "yargs": "^17.7.2"
   }
 }
