@@ -6,10 +6,10 @@ name: Linter
 on:
   push:
     branches-ignore: ["main"]
-    paths-ignore: ["src/frontend"]
+    paths-ignore: ["src/frontend/**"]
   pull_request:
     branches: ["main"]
-    paths-ignore: ["src/frontend"]
+    paths-ignore: ["src/frontend/**"]
 
 permissions:
   contents: read
