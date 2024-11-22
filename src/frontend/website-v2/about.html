@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>461 Phase 2 | About</title>
+        <link rel="stylesheet" href="style.css">     
+</head>
+<body>
+        <ul class="navbar">
+
+            <div class="logo">
+                <img class="logo-image" src="p.jpg" alt="Logo Image">
+                <a href="#" class="logo-text">ECE461: Group 5</a>
+                
+                <li><a href="home.html" target=_self title="Home Page">HOME</a></li>             
+                <li><a href="services.html" target=_self title="Services Page">SERVICES</a></li>
+                <li><a href="about.html" target=_self title="About Page">ABOUT</a></li>
+
+            </div>
+        </ul>
+
+        <div class="banner">
+            <img class="banner-image" src="banner2.jpg">
+        </div>
+
+        <div class="main">
+
+            <div class="heading">About</div>
+                <div align="center" class="services">
+                    <h2 class="section-header">ECE 461/CS 450 Group 5 - Project Phase 2</h2>
+                        <p>This project implements a scalable and efficient system for evaluating open-source modules based on key metrics 
+                            such as bus factor, correctness, ramp-up time, maintainer responsiveness, and license compatibility. 
+                            The goal is to address concerns about open-source risks, including sparse documentation, low correctness standards, 
+                            and the timely application of critical patches. The system is primarily written in TypeScript, employs the Command 
+                            design pattern for modularity, and outputs results in NDJSON format for easy integration with the auto-grader.
+                        </p>
+
+                    <h2 class="section-header">Getting Started</h2>
+                        <p>To get started with this project, follow the steps below to install dependencies, execute the program, 
+                            and run the test suite.
+                        </p> 
+                    
+                    <h2 class="section-header">Prerequisites</h2>
+                        <h3 class="step-header">Before you begin, ensure you have the following installed:</h3>
+                        <p>- Node.js (preferably version 20.17.0)</p>
+                        <p>- npm (Node Package Manager)</p>
+                        <p>- GitHub Token (for accessing the GitHub API)</p>
+                        
+                    <h2 class="section-header">Installation</h2>
+                        <h3 class="step-header">1. Clone the repository to your local machine:</h3>
+                        <p>
+                            - git clone https://github.com/ECE461-Group5/Trustworthy-Module-Registry.git
+                        </p>
+
+                        <h3 class="step-header">2. Install the required dependencies using npm or the run bash file:</h3>
+                        <p>
+                            - npm install OR ./run install
+                        </p>  
+                        
+                        <h3 class="step-header">3. Add 📁logs folder in the root directory:</h3>
+
+                        <h3 class="step-header">4. Add ⚙️.env file in the root directory:</h3>
+                        <p>// Example .env file</p>
+                        <p>GITHUB_TOKEN= '[your GitHub personal access token]'</p>
+                        <p>LOG_LEVEL=1</p>
+                        <p>LOG_FILE=./logs/app.log</p>
+                        <p>PORT=3000</p>
+
+                    <h2 class="section-header">Project File Structure</h2>
+                        <p>└── 📁se-phase1</p>
+                        <p>. . . . . └── 📁dist</p>
+                        <p>. . . . . └── 📁node_modules</p>
+                        <p>. . . . . └── 📁logs</p>
+                        <p>. . . . . . . . . . └── app.log</p>
+                        <p>. . . . . └── 📁src</p>
+                        <p>. . . . . . . . . . └── 📁models</p>
+                        <p>. . . . . . . . . . . . . . . └── 📁evaluators</p>
+                        <p>. . . . . . . . . . . . . . . . . . . . └── createScorecard.ts</p>
+                        <p>. . . . . . . . . . . . . . . . . . . . └── evaluateModule.ts</p>
+                        <p>. . . . . . . . . . . . . . . . . . . . └── readURLsFromFile.ts</p>
+                        <p>. . . . . . . . . . . . . . . └── 📁metrics</p>
+                        <p>. . . . . . . . . . . . . . . . . . . . └── busfactorMetric.ts</p>
+                        <p>. . . . . . . . . . . . . . . . . . . . └── correctnessMetric.ts</p>
+                        <p>. . . . . . . . . . . . . . . . . . . . └── licenseMetric.ts</p>
+                        <p>. . . . . . . . . . . . . . . . . . . . └── maintainersMetric.ts</p>
+                        <p>. . . . . . . . . . . . . . . . . . . . └── metric.ts</p>
+                        <p>. . . . . . . . . . . . . . . . . . . . └── rampupMetric.ts</p>
+                        <p>. . . . . . . . . . . . . . . └── 📁scores</p>
+                        <p>. . . . . . . . . . . . . . . . . . . . └── scorecard.ts</p>
+                        <p>. . . . . . . . . . └── index.ts</p>
+                        <p>. . . . . . . . . . └── logger.ts</p>
+                        <p>. . . . . └── .env</p>
+                        <p>. . . . . └── .gitignore</p>
+                        <p>. . . . . └── .npmrc</p>
+                        <p>. . . . . └── package-lock.json</p>
+                        <p>. . . . . └── package.json</p>
+                        <p>. . . . . └── README.md</p>
+                        <p>. . . . . └── run</p>
+                        <p>. . . . . └── sample-file.txt</p>
+                        <p>. . . . . └── tsconfig.json</p>
+
+                    <h2 class="section-header">Running the Program</h2>
+                        <h3 class="step-header">To evaluate a list of open-source modules:</h3>
+                            <p>1. Prepare a file (e.g., sample-file.txt already in the project) containing the URLs of the repositories to be evaluated.</p>
+                            <p>2. Execute the program with the following command:</p>
+                            <p>-----> ./run [URL_FILE]</URL_FILE></p>
+                            
+                        <h3 class="step-header">Example:</h3>
+                            <p>-----> ./run sample-file.txt</p>
+                            <p>This will produce the output with the module scores in NDJSON format.</p>
+
+                    <h2 class="section-header">Running Tests</h2>
+                        <h3 class="step-header">To ensure everything is functioning correctly, you can run the test suite using npm or the bash file:</h3>
+                            <p>-----> npm run test OR ./run test</p>
+                            <p>This output will include a summary of test results, showing the number of tests passed and the code coverage percentage.</p>
+                            
+                    <h2 class="section-header">Logging</h2>
+                        <h3 class="step-header">The program supports logging, which can be configured through environment variables:</h3>
+                            <p>- LOG_FILE: Specifies the location of the log file.</p>
+                            <p>- LOG_LEVEL: Controls the verbosity of logs (0 = silent, 1 = informational, 2 = debug). By default, the log level is set to 0 (silent).</p>
+                            <p>See example .env file above for possible configuration.</p>
+
+                    <h2 class="section-header">Actions</h2>
+                        <h3 class="step-header">Super Linter:</h3>
+                            <p><a href="https://github.com/marketplace/actions/super-linter" target=_self title="Super-linter">Super-Linter</a></p>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+</body>
+</html>
