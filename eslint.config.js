@@ -17,6 +17,7 @@ export default [
       "vitest.config.ts",
       "src/models/",
       "src/utils",
+      "src/frontend/"
     ],
   },
   {
