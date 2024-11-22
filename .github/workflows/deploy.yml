@@ -33,7 +33,7 @@ jobs:
           npm test
 
       - name: Run Security Checks
-        run: npm audit fix --force
+        run: npm audit fix
 #   continuous-deployment:
 #     runs-on: ubuntu-latest
 #     needs: continuous-integration
