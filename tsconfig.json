@@ -10,8 +10,9 @@
     "rootDir": "./",
     "strict": true,
     "esModuleInterop": true,
-    "types": ["node", "vitest/globals"],
-    "typeRoots": ["node_modules/@types"]
+    "types": ["node"],
+    //"types": ["node", "vitest/globals"],
+    "typeRoots": ["./node_modules/@types"]
   },
   "include": ["src/**/*.ts", "tests/server/**/*.test.ts"],
   "exclude": ["node_modules", "tests/metrics/"]
