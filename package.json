@@ -51,7 +51,15 @@
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.13.0",
     "vitest": "^2.1.1",
-    "yaml-eslint-parser": "^1.2.3"
+    "yaml-eslint-parser": "^1.2.3",
+
+
+    "@types/jest": "npm:abbrev@1",
+    "jest": "npm:abbrev@1",
+    "@testing-library/jest-dom": "npm:abbrev@1",
+    "@testing-library/react": "npm:abbrev@1",
+    "@testing-library/user-event": "npm:abbrev@1",
+    "react-scripts": "npm:abbrev@1"
   },
   "dependencies": {
     "@octokit/rest": "^21.0.2",
