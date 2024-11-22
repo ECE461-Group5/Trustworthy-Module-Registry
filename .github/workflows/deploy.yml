@@ -38,7 +38,7 @@ jobs:
           npm run build
 
       - name: test
-        run: test
+        run: npm run test
 
       - name: Run Security Checks
         run: npm audit --production
