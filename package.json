@@ -1,5 +1,6 @@
 {
   "name": "se-phase2",
+  "workspaces": ["src/frontend"],
   "version": "1.0.0",
   "description": "Group 5 - Phase 2",
   "main": "src/index.ts",
