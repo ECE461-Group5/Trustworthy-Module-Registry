@@ -1,6 +1,6 @@
 /*
  * Author(s): Joe Dahms
- * Purpose: Define the PackageData data type and a function to ensure that an object of said
+ * Purpose: Define the PackageData data type and a function to ensure that an object of said 
  * type contains all the fields
  */
 
@@ -11,7 +11,7 @@ export interface PackageData {
   JSProgram?: string;
 }
 
-export function checkPackageData(packageData: PackageData): boolean {
+export function checkPackageData (packageData: PackageData): boolean {
   // All fields need to be present
   if (!("Content" in packageData)) {
     return false;

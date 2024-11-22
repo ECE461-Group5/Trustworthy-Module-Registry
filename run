@@ -26,9 +26,10 @@ fi
 
 # Check if the argument is a file path
 if [ -f "$arg" ]; then
+  # Compile TS files
+  npm run build
   # Pass the file path index.js
-  node dist/server/server.js --file "$arg" &
-  npm run start --workspace=frontend
+  node dist/server/server.js --file "$arg"
   exit 0
 fi
 
