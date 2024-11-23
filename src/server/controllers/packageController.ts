@@ -1,5 +1,5 @@
 /*
- * Author(s): Joe Dahms
+ * Author(s): Joe Dahms, Jonah Salyers
  * Purpose: Handle requests to the package endpoint. All package endpoint
  * controllers are currently contained in this file.
  */
@@ -7,7 +7,8 @@
 import { Request, Response } from "express";
 import { isValidRegex } from "./isValidRegex.js";
 import { PackageData, checkPackageData } from "./packageData.js";
-
+import prisma from '../database/database.js'; // Adjust this path
+import { evaluateModule } from '../../models/evaluators/evaluateModule.js';
 /*
 interface PackageMetadata {
   Name: string;
@@ -16,23 +17,73 @@ interface PackageMetadata {
 }
 */
 
-// /package
-export const uploadPackage = (
+export const uploadPackage = async (
   request: Request<unknown, unknown, PackageData, unknown>,
   response: Response,
-): Response => {
-  const { body } = request;
-  if (checkPackageData(body) === false) {
-    return response.status(400).send();
+): Promise<Response> => {
+  try {
+    const { body } = request;
+    if (checkPackageData(body) === false) {
+      return response.status(400).json({ error: 'Invalid package data.' });
+    }
+
+    const { metadata, data } = body;
+
+    // Check if the package already exists
+    const existingPackage = await prisma.package.findFirst({
+      where: {
+        name: metadata.Name,
+        version: metadata.Version,
+      },
+    });
+
+    if (existingPackage) {
+      return response.status(409).json({ error: 'Package already exists.' });
+    }
+
+    // Save package to the database
+    const newPackage = await prisma.package.create({
+      data: {
+        name: metadata.Name,
+        version: metadata.Version,
+        content: data.Content ? Buffer.from(data.Content, 'base64') : null,
+        url: data.URL,
+        debloat: data.debloat || false,
+        jsProgram: data.JSProgram,
+      },
+    });
+
+    // Calculate metrics using evaluateModule function
+    if (newPackage.url) {
+      const evaluationResult = await evaluateModule(newPackage.url);
+      const metrics = JSON.parse(evaluationResult);
+
+      // Save metrics to the database
+      await prisma.packageRating.create({
+        data: {
+          packageId: newPackage.id,
+          rampUp: metrics.RampUp,
+          correctness: metrics.Correctness,
+          busFactor: metrics.BusFactor,
+          responsiveMaintainer: metrics.ResponsiveMaintainer,
+          licenseScore: metrics.License,
+          netScore: metrics.NetScore,
+          // Include latency metrics if available
+          rampUpLatency: metrics.RampUp_Latency,
+          correctnessLatency: metrics.Correctness_Latency,
+          busFactorLatency: metrics.BusFactor_Latency,
+          responsiveMaintainerLatency: metrics.ResponsiveMaintainer_Latency,
+          licenseScoreLatency: metrics.License_Latency,
+          netScoreLatency: metrics.NetScore_Latency,
+        },
+      });
+    }
+
+    return response.status(201).json({ metadata: newPackage });
+  } catch (error) {
+    console.error(error);
+    return response.status(500).json({ error: 'Server error' });
   }
-  // DATABASE FUNCTION HERE
-  // Take in PackageData
-  // Return PackageMetadata
-  // PackageMetadata commented out for the moment as it is not used
-  //
-  //
-  // Handle exists already and not uploaded
-  return response.status(200).send();
 };
 
 // /package/:id

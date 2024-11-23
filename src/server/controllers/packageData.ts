@@ -1,14 +1,22 @@
 /*
- * Author(s): Joe Dahms
+ * Author(s): Joe Dahms, Jonah Salyers
  * Purpose: Define the PackageData data type and a function to ensure that an object of said 
  * type contains all the fields
  */
 
 export interface PackageData {
-  Content?: string;
-  URL?: string;
-  debloat?: boolean;
-  JSProgram?: string;
+  metadata: PackageMetadata;
+  data: {
+    Content?: string;
+    URL?: string;
+    debloat?: boolean;
+    JSProgram?: string;
+  };
+}
+export interface PackageMetadata {
+  Name: string;
+  Version: string;
+  ID?: string; 
 }
 
 export function checkPackageData (packageData: PackageData): boolean {
