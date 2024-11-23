@@ -38,7 +38,8 @@ export const getPackages = (
         break;
       }
     }
-  } else {
+  }
+ else {
     validRequest = false;
     validFormat = false;
   }
@@ -58,9 +59,11 @@ export const getPackages = (
       requestedPackage.ID = "dummyid";
     }
     res.json(requestBody);
-  } else if (!validFormat) {
+  }
+ else if (!validFormat) {
     res.status(400).send();
-  } else if (!validNumPackages) {
+  }
+ else if (!validNumPackages) {
     res.status(413).send();
   }
 };
