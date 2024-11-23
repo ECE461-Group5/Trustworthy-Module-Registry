@@ -5,7 +5,7 @@
 
 import { expect, describe, it } from "vitest";
 import request from "supertest";
-import app from "../../../src/server/server.ts";
+import app from "../../../backend/server/server.js";
 
 describe("/package endpoint", () => {
   // Missing fields in package data
