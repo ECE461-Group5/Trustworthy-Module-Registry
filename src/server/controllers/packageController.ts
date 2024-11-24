@@ -12,44 +12,86 @@ import { evaluateModule } from "../../models/evaluators/evaluateModule.js";
 import { PackageMetadata } from "./packageMetadata.js";
 import { RegexData } from "./regexData.js";
 
-const dbUploadPackage = async (packageData: PackageData): PackageMetadata => {
-  boolean contentExists = true;
+const dbUploadPackage = async (packageData: PackageData): Promise<PackageMetadata> => {
+  let contentExists: boolean = true;
   if (packageData.Content === "") {
-    contentExists = false
+    contentExists = false;
   }
 
   // Check exists with content
   if (contentExists) {
-    const existingPackage = await prisma.package.findFirst({
+    const existingPackage = await prisma.package.findUnique({
       where: {
-        Content: packageData.Content;
-      }
-    })
+        Content: packageData.Content,
+      },
+    });
   } 
   // Check exists with url
   else {
-    const existingPackage = await prisma.package.findFirst({
+    const existingPackage = await prisma.package.findUnique({
       where: {
-        URL: packageData.URL;
-      }
-    })
+        URL: packageData.URL,
+      },
+    });
+  }
+  console.log(existingPackage);
+
+  const newPackage = await prisma.package.create({
+    data: {
+      Name: "test",
+      Version: "test",
+      ID: "test",
+      Content: "test",
+      URL: "test",
+      debloat: "test",
+      JSProgram: "test",
+    }, 
+  });
+  
+  // Calculate metrics using evaluateModule function
+  if (newPackage.URL != "") {
+    const evaluationResult = await evaluateModule(newPackage.URL);
+    const metrics = JSON.parse(evaluationResult);
+
+    // Save metrics to the database
+    await prisma.packageRating.create({
+      data: {
+        packageId: newPackage.id,
+        rampUp: metrics.RampUp,
+        correctness: metrics.Correctness,
+        busFactor: metrics.BusFactor,
+        responsiveMaintainer: metrics.ResponsiveMaintainer,
+        licenseScore: metrics.License,
+        netScore: metrics.NetScore,
+        // Include latency metrics if available
+        rampUpLatency: metrics.RampUp_Latency,
+        correctnessLatency: metrics.Correctness_Latency,
+        busFactorLatency: metrics.BusFactor_Latency,
+        responsiveMaintainerLatency: metrics.ResponsiveMaintainer_Latency,
+        licenseScoreLatency: metrics.License_Latency,
+        netScoreLatency: metrics.NetScore_Latency,
+      },
+    });
   }
 
+  const
 
 
-}
+};
 
 export const uploadPackage = async (
   request: Request<unknown, unknown, PackageData, unknown>,
   response: Response,
 ): Promise<Response> => {
-  try {
+//  try {
     const { body } = request;
     if (checkPackageData(body) === false) {
       return response.status(400).json({ error: "Invalid package data." });
     }
 
-    const { data } = body;
+
+    const packageMetadata: PackageMetadata = await dbUploadPackage(body);
+    /*
 
     // Check if the package already exists
     const existingPackage = await prisma.package.findFirst({
@@ -62,7 +104,9 @@ export const uploadPackage = async (
     if (existingPackage) {
       return response.status(409).json({ error: "Package already exists." });
     }
+    */
 
+    /*
     // Save package to the database
     const newPackage = await prisma.package.create({
       data: {
@@ -74,7 +118,9 @@ export const uploadPackage = async (
         jsProgram: data.JSProgram,
       },
     });
+    */
 
+    /*
     // Calculate metrics using evaluateModule function
     if (newPackage.url) {
       const evaluationResult = await evaluateModule(newPackage.url);
@@ -100,13 +146,14 @@ export const uploadPackage = async (
         },
       });
     }
+    */
 
-    return response.status(201).json({ metadata: newPackage });
-  }
- catch (error) {
-    console.error(error);
-    return response.status(500).json({ error: "Server error" });
-  }
+    //return response.status(201).json({ metadata: newPackage });
+  //}
+ //catch (error) {
+   // console.error(error);
+  //  return response.status(500).json({ error: "Server error" });
+  //}
   // DATABASE FUNCTION HERE
   // Take in PackageData
   // Return PackageMetadata
@@ -114,7 +161,7 @@ export const uploadPackage = async (
   //
   //
   // Handle exists already and not uploaded
-  return response.status(200).send();
+  //return response.status(200).send();
 };
 
 // /package/:id
