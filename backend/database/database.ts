@@ -1,7 +1,7 @@
 // src/database.ts
 // Allows Prisma to work within the application
 
-const { PrismaClient } = await import("@prisma/client");
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
