@@ -30,7 +30,8 @@ const asyncHandler =
     void (async (): Promise<void> => {
       try {
         await fn(req, res, next);
-      } catch (error) {
+      }
+ catch (error) {
         next(error);
       }
     })();

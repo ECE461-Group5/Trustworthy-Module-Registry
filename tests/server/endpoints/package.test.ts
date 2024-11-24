@@ -3,9 +3,12 @@
  * Purpose: Test the package endpoint.
  */
 
-import { expect, describe } from "vitest";
+import { expect, describe, test, vi } from "vitest";
 import request from "supertest";
 import app from "../../../src/server/server.ts";
+import { dbUploadPackage } from "../../../src/server/controllers/packageController.js";
+import prismaMock from "../../../src/database/__mocks__/prisma.js";
+
 
 describe("/package endpoint", () => {
   // Missing fields in package data
@@ -557,3 +560,78 @@ describe("/package/byRegEx endpoint", () => {
     expect(response.body).toEqual(expectedBody);
   });
 });
+
+  vi.mock("../../../src/database/prisma.js");
+describe("prisma test", () => {
+
+
+  test.each([
+    {
+      testName: "prisma",
+      _package: {
+        metadata: {
+          Name: null,
+          Version: null,
+        },
+        data: {
+          Content: "abcd",
+          URL: null,
+          debloat: null,
+          JSProgram: null,
+        },
+      },
+    },
+  ])("$testName", async ({ _package }) => {
+      const newPackage = {
+        metadata: {
+          Name: _package.metadata.Name,
+          Version: _package.metadata.Version,
+          ID: _package.metadata.ID,
+        },
+        data: {
+          Content: _package.data.Content,
+          URL: _package.data.URL,
+          debloat: _package.data.debloat,
+          JSProgram: _package.data.JSProgram,
+        },
+      };
+
+      prismaMock.package.create.mockResolvedValue({
+      ...newPackage, 
+          metadata: {
+//            Name: null,
+ //           Version: null,
+            ID: 1,
+          },
+   //       data: {
+  //          Content: null,
+    //        URL: null,
+     //       debloat: null,
+      //      JSProgram: null,
+       //   },
+      });
+
+
+      const newPackageReturned = await dbUploadPackage(newPackage);
+
+
+      expect(newPackageReturned).toStrictEqual(
+        { 
+          ...newPackage, 
+          metadata: {
+            Name: null,
+            Version: null,
+            ID: 2,
+          },
+           data: {
+            Content: null,
+            URL: null,
+            debloat: null,
+            JSProgram: null,
+          },
+         
+
+      });
+  });
+});
+
