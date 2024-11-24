@@ -1,6 +1,6 @@
 /*
  * Author(s): Joe Dahms
- * Purpose: Define the PackageData data type and a function to ensure that an object of said 
+ * Purpose: Define the PackageData data type and a function to ensure that an object of said
  * type contains all the fields
  */
 

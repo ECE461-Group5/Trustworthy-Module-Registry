@@ -7,14 +7,8 @@
 import { Request, Response } from "express";
 import { isValidRegex } from "./isValidRegex.js";
 import { PackageData, checkPackageData } from "./packageData.js";
-
-/*
-interface PackageMetadata {
-  Name: string;
-  Version: string;
-  ID: string;
-}
-*/
+import { PackageMetadata } from "./packageMetadata.js";
+import { RegexData } from "./regexData.js";
 
 // /package
 export const uploadPackage = (
@@ -28,7 +22,7 @@ export const uploadPackage = (
   // DATABASE FUNCTION HERE
   // Take in PackageData
   // Return PackageMetadata
-  // PackageMetadata commented out for the moment as it is not used
+  // function dbfunction(param1: PackageData): PackageMetadata
   //
   //
   // Handle exists already and not uploaded
@@ -178,15 +172,25 @@ export const getPackageCost = (req: Request, res: Response): Response => {
 };
 
 // /package/byRegEx
-export const getPackageByRegEx = (req: Request, res: Response): Response => {
+export const getPackageByRegEx = (
+  request: Request<unknown, unknown, RegexData, unknown>,
+  res: Response,
+): Response => {
+  const { body } = request;
   // Check if key is formatted properly
-  if (req.body.RegEx === undefined) {
+  if (body.RegEx === undefined) {
     return res.status(400).send();
   }
- else if (isValidRegex(req.body.RegEx) === false) {
+ else if (isValidRegex(body.RegEx) === false) {
     return res.status(400).send();
+
+    // DB FUNCTION HERE
+    // Take in an object of type RegexData and return an array of package metadata objects
+    // function dbfunction(param1: RegexData): PackageMetadata[] {
+    //
+    // }
   }
- else if (req.body.RegEx === "/hello/") {
+ else if (body.RegEx === "/hello/") {
     return res.send([
       {
         Name: "<string>",
