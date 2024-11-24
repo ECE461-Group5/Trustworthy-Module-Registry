@@ -1,6 +1,6 @@
 import { expect, describe, it } from "vitest";
 import request from "supertest";
-import app from "../../../backend/server/server.js";
+import app from "../../../server/server.js";
 
 describe("reset endpoint", () => {
   it("Reset the registry", async () => {

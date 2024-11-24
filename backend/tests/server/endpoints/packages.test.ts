@@ -1,6 +1,6 @@
 import { expect, describe, test } from "vitest";
 import request from "supertest";
-import app from "../../../backend/server/server.js";
+import app from "../../../server/server.js";
 
 describe("packages endpoint", () => {
   // Correct key format

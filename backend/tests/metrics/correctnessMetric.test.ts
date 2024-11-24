@@ -1,11 +1,11 @@
 // tests/metrics/correctnessMetric.test.ts
 
 import { describe, it, expect, vi, beforeEach, afterEach, Mock } from "vitest";
-import { CorrectnessMetric } from "../../src/models/metrics/correctnessMetric";
-import { Scorecard } from "../../src/models/scores/scorecard";
+import { CorrectnessMetric } from "../../models/metrics/correctnessMetric";
+import { Scorecard } from "../../models/scores/scorecard";
 
 // Mock the logger
-vi.mock("../../src/logger.js", () => ({
+vi.mock("../../logger.js", () => ({
   default: {
     info: vi.fn(),
     debug: vi.fn(),
@@ -30,7 +30,7 @@ vi.mock("@octokit/rest", () => {
 });
 
 // Import the mocked modules
-import logger from "../../src/logger.js";
+import logger from "../../logger.js";
 import { Octokit } from "@octokit/rest";
 
 describe("CorrectnessMetric", () => {
@@ -235,7 +235,7 @@ describe("CorrectnessMetric", () => {
 
     await correctnessMetric.evaluate(card);
 
-    expect(card.correctness).toBe(0.5); // Only test score counted
+    expect(card.correctness).toBe 0.5); // Only test score counted
     expect(logger.info).toHaveBeenCalledWith("Test suite found: true");
     expect(logger.error).toHaveBeenCalledWith(
       "Error analyzing bugs:",

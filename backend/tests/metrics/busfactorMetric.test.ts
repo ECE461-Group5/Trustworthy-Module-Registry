@@ -5,7 +5,7 @@ import { BusFactorMetric } from "../../models/metrics/busfactorMetric";
 import { Scorecard } from "../../models/scores/scorecard";
 
 // Mock the logger
-vi.mock("../../src/logger.js", () => ({
+vi.mock("../../logger.js", () => ({
   default: {
     info: vi.fn(),
     debug: vi.fn(),
