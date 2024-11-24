@@ -12,6 +12,6 @@
     "esModuleInterop": true,
     "types": ["node", "vitest/globals"]
   },
-  "include": ["backend/**/*.ts", "backend/tests/server/**/*.test.ts"],
+  "include": ["**/*.ts", "tests/server/**/*.test.ts"],
   "exclude": ["node_modules", "tests/metrics/"]
 }
