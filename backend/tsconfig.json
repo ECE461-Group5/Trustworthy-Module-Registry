@@ -10,7 +10,10 @@
     "rootDir": "./",
     "strict": true,
     "esModuleInterop": true,
-    "types": ["node", "vitest/globals"]
+    "types": ["node", "vitest/globals"],
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true
   },
   "include": ["**/*.ts", "tests/server/**/*.test.ts"],
   "exclude": ["node_modules", "tests/metrics/"]
