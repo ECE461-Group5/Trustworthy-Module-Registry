@@ -1,5 +1,6 @@
-# This workflow executes several linters on changed files based on languages
-# used in your code base whenever you push a code or open a pull request.
+#  Author(s): Geromy Cunningham, Joe Dahms
+#  Purpose: This workflow executes estlint and prettier on changed files in the backend and client directories.
+#  Used in your code base whenever you push a code update or open a pull request on main.
 ---
 name: Linter
 

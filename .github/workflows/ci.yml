@@ -1,3 +1,6 @@
+#  Author(s): Geromy Cunningham
+#  Purpose: continuous integration pipeline for the Trustworthy Module Registry project. Builds and tests the backend and frontend of the project. Runs security checks on the project.
+---
 name: CI/CD Pipeline
 
 on:

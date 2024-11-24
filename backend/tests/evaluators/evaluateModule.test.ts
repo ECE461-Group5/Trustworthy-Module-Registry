@@ -29,11 +29,11 @@ vi.mock("../../metrics/rampupMetric.js");
 
 // Import the mocks
 import { createScorecard } from "../../models/evaluators/createScorecard.js";
-import { BusFactorMetric } from "../../metrics/busfactorMetric";
-import { CorrectnessMetric } from "../../metrics/correctnessMetric";
-import { LicenseMetric } from "../../metrics/licenseMetric";
-import { MaintainersMetric } from "../../metrics/maintainersMetric";
-import { RampUpMetric } from "../../metrics/rampupMetric";
+import { BusFactorMetric } from "../../models/metrics/busfactorMetric.js";
+import { CorrectnessMetric } from "../../models/metrics/correctnessMetric.js";
+import { LicenseMetric } from "../../models/metrics/licenseMetric.js";
+import { MaintainersMetric } from "../../models/metrics/maintainersMetric.js";
+import { RampUpMetric } from "../../models/metrics/rampupMetric.js";
 
 describe("evaluateModule", () => {
   const mockEvaluate = vi.fn();
