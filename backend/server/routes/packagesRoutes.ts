@@ -4,7 +4,6 @@
  * for request handling logic.
  */
 
-
 import express from "express";
 import { getPackages } from "../controllers/packagesController.js";
 
