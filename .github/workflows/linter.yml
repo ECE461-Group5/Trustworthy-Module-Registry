@@ -23,8 +23,13 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: install dependencies
+      - name: Install Dependencies BE
         run: npm install
+        working-directory: ./backend
+
+      - name: Install Dependencies FE
+        run: npm install
+        working-directory: ./client
 
       - name: eslint
         run: npm run lint
