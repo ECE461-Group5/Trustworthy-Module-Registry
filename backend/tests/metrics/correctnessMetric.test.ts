@@ -235,7 +235,7 @@ describe("CorrectnessMetric", () => {
 
     await correctnessMetric.evaluate(card);
 
-    expect(card.correctness).toBe 0.5); // Only test score counted
+    expect(card.correctness).toBe(0.5); // Only test score counted
     expect(logger.info).toHaveBeenCalledWith("Test suite found: true");
     expect(logger.error).toHaveBeenCalledWith(
       "Error analyzing bugs:",
