@@ -1,8 +1,7 @@
 {
-  "name": "se-phase2",
-  "version": "1.0.0",
-  "description": "**Group 5 - Phase 2**",
-  "main": "src/index.ts",
+  "name": "backend",
+  "private": true,
+  "version": "3.0.0",
   "type": "module",
   "scripts": {
     "build": "npx tsc -p ./tsconfig.compile.json",

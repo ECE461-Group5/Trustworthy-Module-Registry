@@ -1,8 +1,10 @@
-import React from 'react'
+// import React from 'react'
 
 const App = () => {
   return (
-    <div>App</div>
+    <div>
+      Group 5 - Trustworthy Module Registry Front End Holder
+    </div>
   )
 }
 
