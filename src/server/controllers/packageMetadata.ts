@@ -3,7 +3,7 @@
  * Purpose: Data type representing Package Metadata. Improve transfer of data between Express server and database
  */
 
-interface PackageMetadata {
+export interface PackageMetadata {
   Name: string;
   Version: string;
   ID: string;

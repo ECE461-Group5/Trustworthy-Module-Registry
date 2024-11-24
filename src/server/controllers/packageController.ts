@@ -7,8 +7,8 @@
 import { Request, Response } from "express";
 import { isValidRegex } from "./isValidRegex.js";
 import { PackageData, checkPackageData } from "./packageData.js";
-import { PackageMetadata } from "./packageMetadata.ts";
-import { regexData } from "./regexData.ts";
+import { PackageMetadata } from "./packageMetadata.js";
+import { RegexData } from "./regexData.js";
 
 // /package
 export const uploadPackage = (
