@@ -5,18 +5,10 @@
  */
 
 export interface PackageData {
-  metadata: PackageMetadata;
-  data: {
-    Content?: string;
-    URL?: string;
-    debloat?: boolean;
-    JSProgram?: string;
-  };
-}
-export interface PackageMetadata {
-  Name: string;
-  Version: string;
-  ID?: string; 
+  Content?: string;
+  URL?: string;
+  debloat?: boolean;
+  JSProgram?: string;
 }
 
 export function checkPackageData (packageData: PackageData): boolean {

@@ -7,10 +7,37 @@
 import { Request, Response } from "express";
 import { isValidRegex } from "./isValidRegex.js";
 import { PackageData, checkPackageData } from "./packageData.js";
-import { prisma } from "../../database/database.js"; // Adjust this path
+import prisma  from "../../database/database.js"; // Adjust this path
 import { evaluateModule } from "../../models/evaluators/evaluateModule.js";
 import { PackageMetadata } from "./packageMetadata.js";
 import { RegexData } from "./regexData.js";
+
+const dbUploadPackage = async (packageData: PackageData): PackageMetadata => {
+  boolean contentExists = true;
+  if (packageData.Content === "") {
+    contentExists = false
+  }
+
+  // Check exists with content
+  if (contentExists) {
+    const existingPackage = await prisma.package.findFirst({
+      where: {
+        Content: packageData.Content;
+      }
+    })
+  } 
+  // Check exists with url
+  else {
+    const existingPackage = await prisma.package.findFirst({
+      where: {
+        URL: packageData.URL;
+      }
+    })
+  }
+
+
+
+}
 
 export const uploadPackage = async (
   request: Request<unknown, unknown, PackageData, unknown>,
@@ -22,7 +49,7 @@ export const uploadPackage = async (
       return response.status(400).json({ error: "Invalid package data." });
     }
 
-    const { metadata, data } = body;
+    const { data } = body;
 
     // Check if the package already exists
     const existingPackage = await prisma.package.findFirst({
