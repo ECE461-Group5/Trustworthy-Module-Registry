@@ -1,8 +1,8 @@
 // tests/helpers/evaluateModule.test.ts
 
 import { describe, it, expect, vi, beforeEach, afterEach, Mock } from "vitest";
-import { evaluateModule } from "../../models/evaluators/evaluateModule";
-import { Scorecard } from "../../models/scores/scorecard";
+import { evaluateModule } from "../../models/evaluators/evaluateModule.js";
+import { Scorecard } from "../../models/scores/scorecard.js";
 //import { Metric } from "../../src/models/metrics/metric"; // Linter flagged as ununsed
 
 // Mock the logger
