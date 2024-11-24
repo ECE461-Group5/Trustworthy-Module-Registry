@@ -6,13 +6,72 @@
 
 import { Request, Response } from "express";
 import { isValidRegex } from "./isValidRegex.js";
-import { PackageData, checkPackageData } from "./packageData.js";
-import prisma  from "../../database/database.js"; // Adjust this path
+import prisma from "../../database/database.js"; // Adjust this path
 import { evaluateModule } from "../../models/evaluators/evaluateModule.js";
+
 import { PackageMetadata } from "./packageMetadata.js";
+import { PackageData, checkPackageData } from "./packageData.js";
+import { Package } from "./package.js";
+
 import { RegexData } from "./regexData.js";
 
-const dbUploadPackage = async (packageData: PackageData): Promise<PackageMetadata> => {
+const dbUploadPackage = async (_package: Package): Promise<Package> => {
+  const newPackage = await prisma.package.create({
+    data: {
+      name: "noname",
+      version: "noversion",
+      content: _package.data.Content,
+      url: _package.data.URL,
+      debloat: _package.data.debloat,
+      jsProgram: _package.data.JSProgram,
+    },
+  });
+
+  /*
+  if (_package.metadata.ID != undefined) {
+    const foundPackage = await prisma.package.findUnique({
+      where: {
+        id: _package.metadata.ID,
+      },
+    });
+
+    if (foundPackage != null) {
+      const returnVal: Package = {
+        metadata: {
+          Name: foundPackage.name,
+          Version: foundPackage.version,
+          ID: foundPackage.id,
+        },
+        data: {
+          Content: foundPackage.content,
+          URL: foundPackage.url,
+          debloat: foundPackage.debloat,
+          JSProgram: foundPackage.jsProgram,
+        },
+      };
+
+      console.log(returnVal);
+      return returnVal;
+    }
+  }
+*/
+
+  const test: Package = {
+    metadata: {
+      Name: null,
+      Version: null,
+      ID: null,
+    },
+    data: {
+      Content: null,
+      URL: null,
+      debloat: null,
+      JSProgram: null,
+    },
+  };
+  return test;
+
+  /*
   let contentExists: boolean = true;
   if (packageData.Content === "") {
     contentExists = false;
@@ -75,23 +134,38 @@ const dbUploadPackage = async (packageData: PackageData): Promise<PackageMetadat
   }
 
   const
-
-
+*/
 };
 
 export const uploadPackage = async (
   request: Request<unknown, unknown, PackageData, unknown>,
   response: Response,
-): Promise<Response> => {
-//  try {
-    const { body } = request;
-    if (checkPackageData(body) === false) {
-      return response.status(400).json({ error: "Invalid package data." });
-    }
+): Promise<void | Response> => {
+  //  try {
+  const { body } = request;
+  console.log(body);
+  const _package: Package = {
+    metadata: {
+      Name: null,
+      Version: null,
+      ID: null,
+    },
+    data: {
+      Content: body.Content,
+      URL: body.URL,
+      debloat: body.debloat,
+      JSProgram: body.JSProgram,
+    },
+  };
+  /*
+  if (checkPackageData(body) === false) {
+    return response.status(400).json({ error: "Invalid package data." });
+  }
+  */
+  const returnPackage: Package = await dbUploadPackage(_package);
 
-
-    const packageMetadata: PackageMetadata = await dbUploadPackage(body);
-    /*
+  return response.status(400).json({ error: "Invalid package data." });
+  /*
 
     // Check if the package already exists
     const existingPackage = await prisma.package.findFirst({
@@ -106,7 +180,7 @@ export const uploadPackage = async (
     }
     */
 
-    /*
+  /*
     // Save package to the database
     const newPackage = await prisma.package.create({
       data: {
@@ -120,7 +194,7 @@ export const uploadPackage = async (
     });
     */
 
-    /*
+  /*
     // Calculate metrics using evaluateModule function
     if (newPackage.url) {
       const evaluationResult = await evaluateModule(newPackage.url);
@@ -148,10 +222,10 @@ export const uploadPackage = async (
     }
     */
 
-    //return response.status(201).json({ metadata: newPackage });
+  //return response.status(201).json({ metadata: newPackage });
   //}
- //catch (error) {
-   // console.error(error);
+  //catch (error) {
+  // console.error(error);
   //  return response.status(500).json({ error: "Server error" });
   //}
   // DATABASE FUNCTION HERE
@@ -256,14 +330,11 @@ export const getPackageRating = (req: Request, res: Response): Response => {
       PullRequestLatency: "<double>",
       NetScoreLatency: "<double>",
     });
-  }
- else if (packageID === "1234567") {
+  } else if (packageID === "1234567") {
     return res.status(400).send();
-  }
- else if (packageID === "123456789") {
+  } else if (packageID === "123456789") {
     return res.status(400).send();
-  }
- else if (packageID === "99999999") {
+  } else if (packageID === "99999999") {
     return res.status(404).send();
   }
   return res.status(200).send();
@@ -286,8 +357,7 @@ export const getPackageCost = (req: Request, res: Response): Response => {
           totalCost: 1.0,
         },
       });
-    }
- else if (dependency === "false") {
+    } else if (dependency === "false") {
       return res.send({
         "00000000": {
           totalCost: 1.0,
@@ -315,8 +385,7 @@ export const getPackageByRegEx = (
   // Check if key is formatted properly
   if (body.RegEx === undefined) {
     return res.status(400).send();
-  }
- else if (isValidRegex(body.RegEx) === false) {
+  } else if (isValidRegex(body.RegEx) === false) {
     return res.status(400).send();
 
     // DB FUNCTION HERE
@@ -324,8 +393,7 @@ export const getPackageByRegEx = (
     // function dbfunction(param1: RegexData): PackageMetadata[] {
     //
     // }
-  }
- else if (body.RegEx === "/hello/") {
+  } else if (body.RegEx === "/hello/") {
     return res.send([
       {
         Name: "<string>",
@@ -338,8 +406,7 @@ export const getPackageByRegEx = (
         ID: "7Dkbwno5XdR",
       },
     ]);
-  }
- else {
+  } else {
     return res.status(200).send();
   }
 };
