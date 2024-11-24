@@ -15,6 +15,8 @@ export default [
   prettier,
   {
     plugins: {
+      react: pluginReact,
+      typescript: tseslint,
       prettier: pluginPrettier,
     },
     rules: {
