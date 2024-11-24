@@ -17,5 +17,8 @@ export default [
     plugins: {
       prettier: pluginPrettier,
     },
+    rules: {
+      'react/react-in-jsx-scope': 0,
+    },
   },
 ];
