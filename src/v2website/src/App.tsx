@@ -1,8 +1,14 @@
+/*
+Author(s): Djamel Almabouada, Derek Petersen
+Purpose: Class for React App 
+*/
+
 import React from "react";
 import MainNavbar from "./MainNavbar";
 import "./App.css";
 import Buttons from "./Buttons";
 import PackageUploader from "./PackageUploader";
+import PackageDownloader from "./PackageDownloader";
 import Search from "./Search";
 
 function App() {
@@ -15,6 +21,7 @@ function App() {
       <Buttons />
       <PackageUploader />
       <Search />
+      <PackageDownloader />
     </div>
   );
 }

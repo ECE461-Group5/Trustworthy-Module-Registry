@@ -1,3 +1,8 @@
+/*
+Author(s): Djamel Almabouada, Derek Petersen
+Purpose: Class for Styling the Webpage 
+*/
+
 .App {
   text-align: center;
 }
@@ -98,12 +103,41 @@ button {
   border-radius: 5px;
 }
 
+.downloaded-data {
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.downloaded-data h3 {
+  margin-bottom: 15px;
+}
+
+.data-item {
+  margin-bottom: 20px;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.data-item h4 {
+  margin: 0;
+  color: #007bff;
+}
+
+.data-item p {
+  margin: 5px 0;
+  line-height: 1.5;
+}
+
 .error-message {
   color: red;
 }
 
 button {
   padding: 10px 20px;
+  margin: 5px;
   background-color: #007bff;
   color: white;
   border: none;
@@ -143,7 +177,7 @@ button:hover {
 
 .search-component button {
   padding: 10px 20px;
-  background-color: #51657b;
+  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 5px;
