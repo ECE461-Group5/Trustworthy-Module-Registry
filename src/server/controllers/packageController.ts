@@ -22,7 +22,7 @@ export const uploadPackage = (
   // DATABASE FUNCTION HERE
   // Take in PackageData
   // Return PackageMetadata
-  // PackageMetadata commented out for the moment as it is not used
+  // function dbfunction(param1: PackageData): PackageMetadata
   //
   //
   // Handle exists already and not uploaded
@@ -121,11 +121,14 @@ export const getPackageRating = (req: Request, res: Response): Response => {
       PullRequestLatency: "<double>",
       NetScoreLatency: "<double>",
     });
-  } else if (packageID === "1234567") {
+  }
+ else if (packageID === "1234567") {
     return res.status(400).send();
-  } else if (packageID === "123456789") {
+  }
+ else if (packageID === "123456789") {
     return res.status(400).send();
-  } else if (packageID === "99999999") {
+  }
+ else if (packageID === "99999999") {
     return res.status(404).send();
   }
   return res.status(200).send();
@@ -148,7 +151,8 @@ export const getPackageCost = (req: Request, res: Response): Response => {
           totalCost: 1.0,
         },
       });
-    } else if (dependency === "false") {
+    }
+ else if (dependency === "false") {
       return res.send({
         "00000000": {
           totalCost: 1.0,
@@ -176,12 +180,17 @@ export const getPackageByRegEx = (
   // Check if key is formatted properly
   if (body.RegEx === undefined) {
     return res.status(400).send();
-  } else if (isValidRegex(body.RegEx) === false) {
+  }
+ else if (isValidRegex(body.RegEx) === false) {
     return res.status(400).send();
 
-    // DB FUNCITON HERE
+    // DB FUNCTION HERE
     // Take in an object of type RegexData and return an array of package metadata objects
-  } else if (body.RegEx === "/hello/") {
+    // function dbfunction(param1: RegexData): PackageMetadata[] {
+    //
+    // }
+  }
+ else if (body.RegEx === "/hello/") {
     return res.send([
       {
         Name: "<string>",
@@ -194,7 +203,8 @@ export const getPackageByRegEx = (
         ID: "7Dkbwno5XdR",
       },
     ]);
-  } else {
+  }
+ else {
     return res.status(200).send();
   }
 };

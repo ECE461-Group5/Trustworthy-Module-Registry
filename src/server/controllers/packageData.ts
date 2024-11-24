@@ -11,7 +11,7 @@ export interface PackageData {
   JSProgram?: string;
 }
 
-export function checkPackageData(packageData: PackageData): boolean {
+export function checkPackageData (packageData: PackageData): boolean {
   // All fields need to be present
   if (!("Content" in packageData)) {
     return false;
