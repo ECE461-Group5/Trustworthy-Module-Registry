@@ -7,15 +7,10 @@
 import { Request, Response } from "express";
 import { isValidRegex } from "./isValidRegex.js";
 import { PackageData, checkPackageData } from "./packageData.js";
-import prisma from '../database/database.js'; // Adjust this path
-import { evaluateModule } from '../../models/evaluators/evaluateModule.js';
-/*
-interface PackageMetadata {
-  Name: string;
-  Version: string;
-  ID: string;
-}
-*/
+import { prisma } from "../../database/database.js"; // Adjust this path
+import { evaluateModule } from "../../models/evaluators/evaluateModule.js";
+import { PackageMetadata } from "./packageMetadata.js";
+import { RegexData } from "./regexData.js";
 
 export const uploadPackage = async (
   request: Request<unknown, unknown, PackageData, unknown>,
@@ -24,7 +19,7 @@ export const uploadPackage = async (
   try {
     const { body } = request;
     if (checkPackageData(body) === false) {
-      return response.status(400).json({ error: 'Invalid package data.' });
+      return response.status(400).json({ error: "Invalid package data." });
     }
 
     const { metadata, data } = body;
@@ -38,7 +33,7 @@ export const uploadPackage = async (
     });
 
     if (existingPackage) {
-      return response.status(409).json({ error: 'Package already exists.' });
+      return response.status(409).json({ error: "Package already exists." });
     }
 
     // Save package to the database
@@ -46,7 +41,7 @@ export const uploadPackage = async (
       data: {
         name: metadata.Name,
         version: metadata.Version,
-        content: data.Content ? Buffer.from(data.Content, 'base64') : null,
+        content: data.Content ? Buffer.from(data.Content, "base64") : null,
         url: data.URL,
         debloat: data.debloat || false,
         jsProgram: data.JSProgram,
@@ -80,10 +75,19 @@ export const uploadPackage = async (
     }
 
     return response.status(201).json({ metadata: newPackage });
-  } catch (error) {
-    console.error(error);
-    return response.status(500).json({ error: 'Server error' });
   }
+ catch (error) {
+    console.error(error);
+    return response.status(500).json({ error: "Server error" });
+  }
+  // DATABASE FUNCTION HERE
+  // Take in PackageData
+  // Return PackageMetadata
+  // function dbfunction(param1: PackageData): PackageMetadata
+  //
+  //
+  // Handle exists already and not uploaded
+  return response.status(200).send();
 };
 
 // /package/:id
@@ -229,15 +233,25 @@ export const getPackageCost = (req: Request, res: Response): Response => {
 };
 
 // /package/byRegEx
-export const getPackageByRegEx = (req: Request, res: Response): Response => {
+export const getPackageByRegEx = (
+  request: Request<unknown, unknown, RegexData, unknown>,
+  res: Response,
+): Response => {
+  const { body } = request;
   // Check if key is formatted properly
-  if (req.body.RegEx === undefined) {
+  if (body.RegEx === undefined) {
     return res.status(400).send();
   }
- else if (isValidRegex(req.body.RegEx) === false) {
+ else if (isValidRegex(body.RegEx) === false) {
     return res.status(400).send();
+
+    // DB FUNCTION HERE
+    // Take in an object of type RegexData and return an array of package metadata objects
+    // function dbfunction(param1: RegexData): PackageMetadata[] {
+    //
+    // }
   }
- else if (req.body.RegEx === "/hello/") {
+ else if (body.RegEx === "/hello/") {
     return res.send([
       {
         Name: "<string>",

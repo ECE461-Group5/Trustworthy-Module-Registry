@@ -17,7 +17,15 @@ import {
   getPackageByRegEx,
 } from "../controllers/packageController.js";
 
-router.post("/", uploadPackage);
+const asyncHandler = (fn: RequestHandler): RequestHandler => (
+  req: Request,
+  res: Response,
+  next: express.NextFunction,
+) => {
+  Promise.resolve(fn(req, res, next)).catch(next);
+};
+
+router.post("/", asyncHandler(uploadPackage));
 router.get("/:id", getPackage);
 router.put("/:id", updatePackage);
 router.delete("/:id", deletePackage);

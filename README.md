@@ -1,11 +1,17 @@
 # ECE 461/CS 450 Group 5 - Project Phase 2
 
-This project implements a scalable and efficient system for evaluating open-source modules based on key metrics such as bus factor, correctness, ramp-up time, maintainer responsiveness, and license compatibility.
-The goal is to address concerns about open-source risks, including sparse documentation, low correctness standards, and the timely application of critical patches. The system is primarily written in TypeScript, employs the Command design pattern for modularity, and outputs results in NDJSON format for easy integration with the auto-grader.
+This project implements a scalable and efficient system for evaluating open-source modules
+based on key metrics such as bus factor, correctness, ramp-up time, maintainer
+responsiveness, and license compatibility. The goal is to address concerns about
+open-source risks, including sparse documentation, low correctness standards, and the
+timely application of critical patches. The system is primarily written in TypeScript,
+employs the Command design pattern for modularity, and outputs results in NDJSON format
+for easy integration with the auto-grader.
 
 ## Getting Started
 
-To get started with this project, follow the steps below to install dependencies, execute the program, and run the test suite.
+To get started with this project, follow the steps below to install dependencies, execute
+the program, and run the test suite.
 
 ### Prerequisites
 
@@ -80,7 +86,8 @@ PORT=3000
 
 To evaluate a list of open-source modules:
 
-1. Prepare a file (e.g., `sample-file.txt` already in the project) containing the URLs of the repositories to be evaluated.
+1. Prepare a file (e.g., `sample-file.txt` already in the project) containing the URLs of
+   the repositories to be evaluated.
 2. Execute the program with the following command:
 
 ```plaintext
@@ -97,20 +104,23 @@ This will produce the output with the module scores in NDJSON format.
 
 ### Running Tests
 
-To ensure everything is functioning correctly, you can run the test suite using npm or the bash file:
+To ensure everything is functioning correctly, you can run the test suite using npm or the
+bash file:
 
 ```plaintext
 npm run test OR ./run test
 ```
 
-This output will include a summary of test results, showing the number of tests passed and the code coverage percentage.
+This output will include a summary of test results, showing the number of tests passed and
+the code coverage percentage.
 
 ### Logging
 
 The program supports logging, which can be configured through environment variables:
 
 - LOG_FILE: Specifies the location of the log file.
-- LOG_LEVEL: Controls the verbosity of logs (0 = silent, 1 = informational, 2 = debug). By default, the log level is set to 0 (silent).
+- LOG_LEVEL: Controls the verbosity of logs (0 = silent, 1 = informational, 2 = debug). By
+  default, the log level is set to 0 (silent).
 
 See example `.env` file above for possible configuration.
 
