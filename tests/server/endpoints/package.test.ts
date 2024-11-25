@@ -25,7 +25,7 @@ describe("/package endpoint", () => {
     {
       testName: "Missing URL",
       packageData: {
-        Content: "string",
+        Content: Buffer.from("sadfashjklfgasdkjhfgjkd", "base64"),
         debloat: true,
         JSProgram: "<string>",
       },
@@ -35,7 +35,7 @@ describe("/package endpoint", () => {
     {
       testName: "Missing debloat",
       packageData: {
-        Content: "string",
+        Content: Buffer.from("sadfashjklfgasdkjhfgjkd", "base64"),
         URL: "<string>",
         JSProgram: "<string>",
       },
@@ -45,7 +45,7 @@ describe("/package endpoint", () => {
     {
       testName: "Missing JSProgram",
       packageData: {
-        Content: "string",
+        Content: Buffer.from("sadfashjklfgasdkjhfgjkd", "base64"),
         URL: "<string>",
         debloat: true,
       },
@@ -569,14 +569,14 @@ describe("prisma test", () => {
         name: "noname",
         version: "noversion",
         id: undefined,
-        content: "test content",
+        content: Buffer.alloc(0),
         url: "http://test.com",
         debloat: true,
         jsProgram: "console.log(\"test\")",
       },
       inputPackage: {
         data: {
-          Content: "test content",
+          Content: Buffer.alloc(0),
           URL: "http://test.com",
           debloat: true,
           JSProgram: "console.log(\"test\")",
@@ -589,14 +589,14 @@ describe("prisma test", () => {
         name: "noname",
         version: "noversion",
         id: undefined,
-        content: "",
+        content: Buffer.alloc(0),
         url: "http://test.com",
         debloat: null,
         jsProgram: null,
       },
       inputPackage: {
         data: {
-          Content: "",
+          Content: Buffer.alloc(0),
           URL: "http://test.com",
           debloat: null,
           JSProgram: null,

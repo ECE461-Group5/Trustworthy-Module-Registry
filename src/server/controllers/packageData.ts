@@ -12,6 +12,7 @@ export interface PackageData {
 }
 
 export function checkPackageData (packageData: PackageData): boolean {
+  console.log(packageData);
   // All fields need to be present
   if (!("Content" in packageData)) {
     return false;

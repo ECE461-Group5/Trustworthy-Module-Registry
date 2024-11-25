@@ -28,6 +28,7 @@ export const dbUploadPackage = async (_package: Package): Promise<Package> => {
   });
 
 
+  console.log(newPackage);
   const test: Package = {
     metadata: {
       Name: newPackage.name,
@@ -41,7 +42,6 @@ export const dbUploadPackage = async (_package: Package): Promise<Package> => {
       JSProgram: newPackage.jsProgram,
     },
   };
-  console.log(test);
   return test;
 
   /*
