@@ -26,12 +26,10 @@ export function checkPackageData (packageData: PackageData): boolean {
     return false;
   }
 
-  /*
   // Only one of URL or content can be set
-  if (packageData.Content != "" && packageData.URL != "") {
+  if (packageData.Content.byteLength != 0 && packageData.URL != "") {
     return false;
   }
-  */
 
   return true;
 }

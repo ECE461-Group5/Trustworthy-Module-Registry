@@ -63,7 +63,7 @@ describe("/package endpoint", () => {
     {
       testName: "Both Content and URL set",
       packageData: {
-        Content: "<string>",
+        Content: Buffer.from("sadfashjklfgasdkjhfgjkd", "base64"),
         URL: "<string>",
         debloat: true,
         JSProgram: "<string>",
@@ -74,7 +74,7 @@ describe("/package endpoint", () => {
     {
       testName: "Only Content set",
       packageData: {
-        Content: "<string>",
+        Content: Buffer.from("sdakljfghasdkhjgfasdkjhgf", "base64"), 
         URL: "",
         debloat: true,
         JSProgram: "<string>",
@@ -85,7 +85,7 @@ describe("/package endpoint", () => {
     {
       testName: "Only URL set",
       packageData: {
-        Content: "",
+        Content: Buffer.alloc(0),
         URL: "<string>",
         debloat: true,
         JSProgram: "<string>",
@@ -584,7 +584,7 @@ describe("prisma test", () => {
       },
     },
     {
-      testName: "package with null values",
+      testName: "package with null debloat and JSProgram values",
       mockPackage: {
         name: "noname",
         version: "noversion",

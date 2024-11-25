@@ -44,36 +44,6 @@ export const dbUploadPackage = async (_package: Package): Promise<Package> => {
   console.log(test);
   return test;
 
-
-  /*
-  if (_package.metadata.ID != undefined) {
-    const foundPackage = await prisma.package.findUnique({
-      where: {
-        id: _package.metadata.ID,
-      },
-    });
-
-    if (foundPackage != null) {
-      const returnVal: Package = {
-        metadata: {
-          Name: foundPackage.name,
-          Version: foundPackage.version,
-          ID: foundPackage.id,
-        },
-        data: {
-          Content: foundPackage.content,
-          URL: foundPackage.url,
-          debloat: foundPackage.debloat,
-          JSProgram: foundPackage.jsProgram,
-        },
-      };
-
-      console.log(returnVal);
-      return returnVal;
-    }
-  }
-*/
-
   /*
   let contentExists: boolean = true;
   if (packageData.Content === "") {
@@ -103,9 +73,8 @@ export const uploadPackage = async (
   request: Request<unknown, unknown, PackageData, unknown>,
   response: Response,
 ): Promise<void | Response> => {
-  //  try {
   const { body } = request;
-  //console.log(body);
+
   const _package: Package = {
     metadata: {
       Name: null,
@@ -119,70 +88,15 @@ export const uploadPackage = async (
       JSProgram: body.JSProgram,
     },
   };
-  /*
+
   if (checkPackageData(body) === false) {
-    return response.status(400).json({ error: "Invalid package data." });
+    return response.status(400).send();
   }
-  */
+
   const returnPackage: Package = await dbUploadPackage(_package);
 
-  return response.status(400).json({ error: "Invalid package data." });
-  /*
+  return response.send({ returnPackage });
 
-    // Check if the package already exists
-    const existingPackage = await prisma.package.findFirst({
-      where: {
-        name: metadata.Name,
-        version: metadata.Version,
-      },
-    });
-
-    if (existingPackage) {
-      return response.status(409).json({ error: "Package already exists." });
-    }
-    */
-
-  /*
-    // Save package to the database
-    const newPackage = await prisma.package.create({
-      data: {
-        name: metadata.Name,
-        version: metadata.Version,
-        content: data.Content ? Buffer.from(data.Content, "base64") : null,
-        url: data.URL,
-        debloat: data.debloat || false,
-        jsProgram: data.JSProgram,
-      },
-    });
-    */
-
-  /*
-    // Calculate metrics using evaluateModule function
-    if (newPackage.url) {
-      const evaluationResult = await evaluateModule(newPackage.url);
-      const metrics = JSON.parse(evaluationResult);
-
-      // Save metrics to the database
-      await prisma.packageRating.create({
-        data: {
-          packageId: newPackage.id,
-          rampUp: metrics.RampUp,
-          correctness: metrics.Correctness,
-          busFactor: metrics.BusFactor,
-          responsiveMaintainer: metrics.ResponsiveMaintainer,
-          licenseScore: metrics.License,
-          netScore: metrics.NetScore,
-          // Include latency metrics if available
-          rampUpLatency: metrics.RampUp_Latency,
-          correctnessLatency: metrics.Correctness_Latency,
-          busFactorLatency: metrics.BusFactor_Latency,
-          responsiveMaintainerLatency: metrics.ResponsiveMaintainer_Latency,
-          licenseScoreLatency: metrics.License_Latency,
-          netScoreLatency: metrics.NetScore_Latency,
-        },
-      });
-    }
-    */
 
   //return response.status(201).json({ metadata: newPackage });
   //}
