@@ -16,10 +16,6 @@ import { Package } from "./package.js";
 import { RegexData } from "./regexData.js";
 
 export const dbUploadPackage = async (_package: Package): Promise<Package> => {
-
-
-
-
   const newPackage = await prisma.package.create({
     data: {
       name: "noname",
@@ -30,6 +26,24 @@ export const dbUploadPackage = async (_package: Package): Promise<Package> => {
       jsProgram: _package.data.JSProgram,
     },
   });
+
+
+  const test: Package = {
+    metadata: {
+      Name: newPackage.name,
+      Version: newPackage.version,
+      ID: newPackage.id,
+    },
+    data: {
+      Content: newPackage.content,
+      URL: newPackage.url,
+      debloat: newPackage.debloat,
+      JSProgram: newPackage.jsProgram,
+    },
+  };
+  console.log(test);
+  return test;
+
 
   /*
   if (_package.metadata.ID != undefined) {
@@ -60,21 +74,6 @@ export const dbUploadPackage = async (_package: Package): Promise<Package> => {
   }
 */
 
-  const test: Package = {
-    metadata: {
-      Name: null,
-      Version: null,
-      ID: newPackage.id,
-    },
-    data: {
-      Content: null,
-      URL: null,
-      debloat: null,
-      JSProgram: null,
-    },
-  };
-  return test;
-
   /*
   let contentExists: boolean = true;
   if (packageData.Content === "") {
@@ -97,48 +96,7 @@ export const dbUploadPackage = async (_package: Package): Promise<Package> => {
       },
     });
   }
-  console.log(existingPackage);
-
-  const newPackage = await prisma.package.create({
-    data: {
-      Name: "test",
-      Version: "test",
-      ID: "test",
-      Content: "test",
-      URL: "test",
-      debloat: "test",
-      JSProgram: "test",
-    }, 
-  });
-  
-  // Calculate metrics using evaluateModule function
-  if (newPackage.URL != "") {
-    const evaluationResult = await evaluateModule(newPackage.URL);
-    const metrics = JSON.parse(evaluationResult);
-
-    // Save metrics to the database
-    await prisma.packageRating.create({
-      data: {
-        packageId: newPackage.id,
-        rampUp: metrics.RampUp,
-        correctness: metrics.Correctness,
-        busFactor: metrics.BusFactor,
-        responsiveMaintainer: metrics.ResponsiveMaintainer,
-        licenseScore: metrics.License,
-        netScore: metrics.NetScore,
-        // Include latency metrics if available
-        rampUpLatency: metrics.RampUp_Latency,
-        correctnessLatency: metrics.Correctness_Latency,
-        busFactorLatency: metrics.BusFactor_Latency,
-        responsiveMaintainerLatency: metrics.ResponsiveMaintainer_Latency,
-        licenseScoreLatency: metrics.License_Latency,
-        netScoreLatency: metrics.NetScore_Latency,
-      },
-    });
-  }
-
-  const
-*/
+ */
 };
 
 export const uploadPackage = async (
@@ -147,7 +105,7 @@ export const uploadPackage = async (
 ): Promise<void | Response> => {
   //  try {
   const { body } = request;
-  console.log(body);
+  //console.log(body);
   const _package: Package = {
     metadata: {
       Name: null,

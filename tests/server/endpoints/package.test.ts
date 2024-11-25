@@ -5,10 +5,9 @@
 
 import { expect, describe, test, vi } from "vitest";
 import request from "supertest";
-import app from "../../../src/server/server.ts";
+import app from "../../../src/server/server.js";
 import { dbUploadPackage } from "../../../src/server/controllers/packageController.js";
 import prismaMock from "../../../src/database/__mocks__/prisma.js";
-
 
 describe("/package endpoint", () => {
   // Missing fields in package data
@@ -561,77 +560,66 @@ describe("/package/byRegEx endpoint", () => {
   });
 });
 
-  vi.mock("../../../src/database/prisma.js");
+vi.mock("../../../src/database/prisma.js");
 describe("prisma test", () => {
-
-
   test.each([
     {
-      testName: "prisma",
-      _package: {
-        metadata: {
-          Name: null,
-          Version: null,
-        },
+      testName: "standard package",
+      mockPackage: {
+        name: "noname",
+        version: "noversion",
+        id: undefined,
+        content: "test content",
+        url: "http://test.com",
+        debloat: true,
+        jsProgram: "console.log(\"test\")",
+      },
+      inputPackage: {
         data: {
-          Content: "abcd",
-          URL: null,
+          Content: "test content",
+          URL: "http://test.com",
+          debloat: true,
+          JSProgram: "console.log(\"test\")",
+        },
+      },
+    },
+    {
+      testName: "package with null values",
+      mockPackage: {
+        name: "noname",
+        version: "noversion",
+        id: undefined,
+        content: "",
+        url: "http://test.com",
+        debloat: null,
+        jsProgram: null,
+      },
+      inputPackage: {
+        data: {
+          Content: "",
+          URL: "http://test.com",
           debloat: null,
           JSProgram: null,
         },
       },
     },
-  ])("$testName", async ({ _package }) => {
-      const newPackage = {
-        metadata: {
-          Name: _package.metadata.Name,
-          Version: _package.metadata.Version,
-          ID: _package.metadata.ID,
-        },
-        data: {
-          Content: _package.data.Content,
-          URL: _package.data.URL,
-          debloat: _package.data.debloat,
-          JSProgram: _package.data.JSProgram,
-        },
-      };
+  ])("$testName", async ({ mockPackage, inputPackage }) => {
+    prismaMock.package.create.mockResolvedValue(mockPackage);
 
-      prismaMock.package.create.mockResolvedValue({
-      ...newPackage, 
-          metadata: {
-//            Name: null,
- //           Version: null,
-            ID: 1,
-          },
-   //       data: {
-  //          Content: null,
-    //        URL: null,
-     //       debloat: null,
-      //      JSProgram: null,
-       //   },
-      });
+    const result = await dbUploadPackage(inputPackage);
 
-
-      const newPackageReturned = await dbUploadPackage(newPackage);
-
-
-      expect(newPackageReturned).toStrictEqual(
-        { 
-          ...newPackage, 
-          metadata: {
-            Name: null,
-            Version: null,
-            ID: 2,
-          },
-           data: {
-            Content: null,
-            URL: null,
-            debloat: null,
-            JSProgram: null,
-          },
-         
-
-      });
+    expect(result).toEqual({
+      metadata: {
+        Name: mockPackage.name,
+        Version: mockPackage.version,
+        ID: mockPackage.id,
+      },
+      data: {
+        Content: mockPackage.content,
+        URL: mockPackage.url,
+        debloat: mockPackage.debloat,
+        JSProgram: mockPackage.jsProgram,
+      },
+    });
   });
 });
-
