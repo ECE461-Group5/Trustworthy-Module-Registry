@@ -8,8 +8,8 @@ export default defineConfig({
     coverage: {
       enabled: true, // Enable coverage reports
       reporter: ["json-summary"], // Generate coverage reports
-      include: ["src/**/*.ts"],
-      exclude: ["src/server/**/*.ts"],
+      include: ["models/**/*.ts"],
+      exclude: ["server/**/*.ts"],
       reportsDirectory: "src/utils/reports/coverage",
     },
   },

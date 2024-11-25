@@ -1,8 +1,8 @@
 // tests/helpers/createScorecard.test.ts
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { createScorecard } from "../../src/models/evaluators/createScorecard";
-import { Scorecard } from "../../src/models/scores/scorecard";
+import { createScorecard } from "../../models/evaluators/createScorecard.js";
+import { Scorecard } from "../../models/scores/scorecard.js";
 
 // Mock the logger
 vi.mock("../../logger.js", () => ({

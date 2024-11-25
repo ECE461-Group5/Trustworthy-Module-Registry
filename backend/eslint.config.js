@@ -15,8 +15,8 @@ export default [
       "tests/metrics/",
       "tests/evaluators/",
       "vitest.config.ts",
-      "src/models/",
-      "src/utils",
+      "models/",
+      "utils",
     ],
   },
   {

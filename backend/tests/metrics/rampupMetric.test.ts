@@ -1,8 +1,8 @@
 // tests/metrics/correctnessMetric.test.ts
 
 import { describe, it, expect, vi, beforeEach, afterEach, Mock } from "vitest";
-import { RampUpMetric } from "../../src/models/metrics/rampupMetric";
-import { Scorecard } from "../../src/models/scores/scorecard";
+import { RampUpMetric } from "../../models/metrics/rampupMetric";
+import { Scorecard } from "../../models/scores/scorecard";
 
 // Mock dotenv
 vi.mock("dotenv", () => {

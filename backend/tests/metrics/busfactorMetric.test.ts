@@ -1,11 +1,11 @@
 // tests/metrics/busFactorMetric.test.ts
 
 import { describe, it, expect, vi, beforeEach, afterEach, Mock } from "vitest";
-import { BusFactorMetric } from "../../src/models/metrics/busfactorMetric";
-import { Scorecard } from "../../src/models/scores/scorecard";
+import { BusFactorMetric } from "../../models/metrics/busfactorMetric";
+import { Scorecard } from "../../models/scores/scorecard";
 
 // Mock the logger
-vi.mock("../../src/logger.js", () => ({
+vi.mock("../../logger.js", () => ({
   default: {
     info: vi.fn(),
     debug: vi.fn(),
@@ -30,7 +30,7 @@ vi.mock("@octokit/rest", () => {
 });
 
 // Import the mocked modules
-import logger from "../../src/logger.js";
+import logger from "../../logger.js";
 import { Octokit } from "@octokit/rest";
 
 describe("BusFactorMetric", () => {

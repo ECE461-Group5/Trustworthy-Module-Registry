@@ -1,15 +1,15 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { LicenseMetric } from "../../src/models/metrics/licenseMetric";
-import { Scorecard } from "../../src/models/scores/scorecard";
+import { LicenseMetric } from "../../models/metrics/licenseMetric";
+import { Scorecard } from "../../models/scores/scorecard";
 import fs from "fs";
 //import path from "path"; Linter flagged unused
 import git from "isomorphic-git";
 //import http from "isomorphic-git/http/node/index.cjs";  Linter flagged unused
-import logger from "../../src/logger";
+import logger from "../../logger";
 
 vi.mock("fs");
 vi.mock("isomorphic-git");
-vi.mock("../../src/logger");
+vi.mock("../../logger");
 
 describe("LicenseMetric", () => {
   let licenseMetric: LicenseMetric;

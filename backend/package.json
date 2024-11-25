@@ -1,8 +1,7 @@
 {
-  "name": "se-phase2",
-  "version": "1.0.0",
-  "description": "**Group 5 - Phase 2**",
-  "main": "src/index.ts",
+  "name": "backend",
+  "private": true,
+  "version": "3.0.0",
   "type": "module",
   "scripts": {
     "build": "npx tsc -p ./tsconfig.compile.json",
@@ -27,8 +26,6 @@
     "@types/node": "^22.5.4",
     "@types/node-fetch": "^2.6.11",
     "@types/pino": "^7.0.4",
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
     "@types/supertest": "^6.0.2",
     "@types/yargs": "^17.0.33",
     "@typescript-eslint/eslint-plugin": "^8.13.0",
