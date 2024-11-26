@@ -4,9 +4,14 @@
  * controllers are currently contained in this file.
  */
 
+import logger from "../../logger.js";
+
 import { Request, Response } from "express";
 import { isValidRegex } from "./isValidRegex.js";
-import prisma from "../../database/prisma.js"; // Adjust this path
+
+import prisma from "../../database/prisma.js";
+import { dbUploadPackage } from "../../database/controllers/package/upload.js";
+
 import { evaluateModule } from "../../models/evaluators/evaluateModule.js";
 
 import { PackageMetadata } from "./packageMetadata.js";
@@ -15,66 +20,12 @@ import { Package } from "./package.js";
 
 import { RegexData } from "./regexData.js";
 
-export const dbUploadPackage = async (_package: Package): Promise<Package> => {
-  const newPackage = await prisma.package.create({
-    data: {
-      name: "noname",
-      version: "noversion",
-      content: _package.data.Content,
-      url: _package.data.URL,
-      debloat: _package.data.debloat,
-      jsProgram: _package.data.JSProgram,
-    },
-  });
-
-
-  console.log(newPackage);
-  const test: Package = {
-    metadata: {
-      Name: newPackage.name,
-      Version: newPackage.version,
-      ID: newPackage.id,
-    },
-    data: {
-      Content: newPackage.content,
-      URL: newPackage.url,
-      debloat: newPackage.debloat,
-      JSProgram: newPackage.jsProgram,
-    },
-  };
-  return test;
-
-  /*
-  let contentExists: boolean = true;
-  if (packageData.Content === "") {
-    contentExists = false;
-  }
-
-  // Check exists with content
-  if (contentExists) {
-    const existingPackage = await prisma.package.findUnique({
-      where: {
-        Content: packageData.Content,
-      },
-    });
-  } 
-  // Check exists with url
-  else {
-    const existingPackage = await prisma.package.findUnique({
-      where: {
-        URL: packageData.URL,
-      },
-    });
-  }
- */
-};
-
 export const uploadPackage = async (
   request: Request<unknown, unknown, PackageData, unknown>,
   response: Response,
 ): Promise<void | Response> => {
+  try {
   const { body } = request;
-
   const _package: Package = {
     metadata: {
       Name: null,
@@ -93,25 +44,16 @@ export const uploadPackage = async (
     return response.status(400).send();
   }
 
+  console.log("here");
   const returnPackage: Package = await dbUploadPackage(_package);
+  console.log("here2");
 
   return response.send({ returnPackage });
-
-
-  //return response.status(201).json({ metadata: newPackage });
-  //}
-  //catch (error) {
-  // console.error(error);
-  //  return response.status(500).json({ error: "Server error" });
-  //}
-  // DATABASE FUNCTION HERE
-  // Take in PackageData
-  // Return PackageMetadata
-  // function dbfunction(param1: PackageData): PackageMetadata
-  //
-  //
-  // Handle exists already and not uploaded
-  //return response.status(200).send();
+  }
+  catch (error) {
+    logger.error("Error uploading package:", error);
+    return response.status(500).send();
+  }
 };
 
 // /package/:id
