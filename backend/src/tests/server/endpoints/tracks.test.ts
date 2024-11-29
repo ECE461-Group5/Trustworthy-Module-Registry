@@ -1,6 +1,6 @@
 import { expect, describe, it } from "vitest";
 import request from "supertest";
-import app from "../../../server/server.js";
+import app from "../../../src/server/server.js";
 
 describe("tracks endpoint", () => {
   it("GET /tracks should say we aren't pursing any tracks", async () => {

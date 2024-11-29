@@ -5,7 +5,7 @@
 
 import { Scorecard } from "../scores/scorecard.js";
 import { Metric } from "./metric.js";
-import logger from "../../logger.js";
+import logger from "../../../logger.js";
 
 import fs from "fs";
 import path from "path";

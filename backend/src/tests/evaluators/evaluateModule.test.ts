@@ -1,8 +1,8 @@
 // tests/helpers/evaluateModule.test.ts
 
 import { describe, it, expect, vi, beforeEach, afterEach, Mock } from "vitest";
-import { evaluateModule } from "../../models/evaluators/evaluateModule.js";
-import { Scorecard } from "../../models/scores/scorecard.js";
+import { evaluateModule } from "../../src/models/evaluators/evaluateModule.js";
+import { Scorecard } from "../../src/models/scores/scorecard.js";
 //import { Metric } from "../../src/models/metrics/metric"; // Linter flagged as ununsed
 
 // Mock the logger
@@ -28,12 +28,12 @@ vi.mock("../../metrics/maintainersMetric.js");
 vi.mock("../../metrics/rampupMetric.js");
 
 // Import the mocks
-import { createScorecard } from "../../models/evaluators/createScorecard.js";
-import { BusFactorMetric } from "../../models/metrics/busfactorMetric.js";
-import { CorrectnessMetric } from "../../models/metrics/correctnessMetric.js";
-import { LicenseMetric } from "../../models/metrics/licenseMetric.js";
-import { MaintainersMetric } from "../../models/metrics/maintainersMetric.js";
-import { RampUpMetric } from "../../models/metrics/rampupMetric.js";
+import { createScorecard } from "../../src/models/evaluators/createScorecard.js";
+import { BusFactorMetric } from "../../src/models/metrics/busfactorMetric.js";
+import { CorrectnessMetric } from "../../src/models/metrics/correctnessMetric.js";
+import { LicenseMetric } from "../../src/models/metrics/licenseMetric.js";
+import { MaintainersMetric } from "../../src/models/metrics/maintainersMetric.js";
+import { RampUpMetric } from "../../src/models/metrics/rampupMetric.js";
 
 describe("evaluateModule", () => {
   const mockEvaluate = vi.fn();

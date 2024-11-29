@@ -1,6 +1,6 @@
 import { expect, describe, it } from "vitest";
 import request from "supertest";
-import app from "../../server/server.js";
+import app from "../../src/server/server.js";
 
 describe("Root endpoint", () => {
   it("GET / should return Express + TypeScript Server", async () => {

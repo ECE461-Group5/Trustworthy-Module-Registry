@@ -5,7 +5,7 @@
 
 import { Scorecard } from "../scores/scorecard.js";
 import { URL } from "url";
-import logger from "../../logger.js";
+import logger from "../../../logger.js";
 
 /**
  * @function createScorecard
