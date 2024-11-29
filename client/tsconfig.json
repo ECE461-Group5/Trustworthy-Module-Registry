@@ -10,7 +10,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "composite": true,
-    "noEmit": true
+    "noEmit": false,
   },
   "ts-node": {
     "esm": true
@@ -19,5 +19,6 @@
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
   ],
+  "include": ["src/**/*.ts"],
   "exclude": ["node_modules", "/src/tests/"]
 }
