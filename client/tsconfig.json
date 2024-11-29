@@ -9,8 +9,6 @@
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "composite": true,
-    "noEmit": false,
   },
   "ts-node": {
     "esm": true
