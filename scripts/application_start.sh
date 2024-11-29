@@ -12,6 +12,8 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # Loads nvm bash_completion (node is in path now)
 
 # Install node modules
-npm install
+# NOTES: scripts in root package.json  --  "wininstall" works for windows, "ec2install" works for linux
+npm run ec2install
 
-./run sample-file.txt >app.out.log 2>app.err.log </dev/null &
+# Runs start script which will build, move client for Nginx, and start the server
+./run start >app.out.log 2>app.err.log </dev/null &
