@@ -1,6 +1,5 @@
 {
     "scripts": {
-        "wininstall": "(cd ./backend && npm install) && (cd ../client && npm install)",
-        "ec2install": "(cd ./backend && npm install); (cd ../client && npm install)"
+        "postinstall": "(cd ./backend && npm install) && (cd ./client && npm install)"
     }
 }
