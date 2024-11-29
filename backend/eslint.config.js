@@ -10,13 +10,13 @@ export default [
   ...ts.configs.recommendedTypeChecked,
   {
     ignores: [
-      "dist/",
+      "./src/dist/",
       "eslint.config.js",
-      "tests/metrics/",
-      "tests/evaluators/",
       "vitest.config.ts",
-      "models/",
-      "utils",
+      "./src/tests/metrics/",
+      "./srctests/evaluators/",
+      "./src/models/",
+      "./src/utils",
     ],
   },
   {

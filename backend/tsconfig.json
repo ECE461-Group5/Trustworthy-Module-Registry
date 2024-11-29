@@ -15,6 +15,6 @@
     "skipLibCheck": true,
     "types": ["node", "vitest/globals"]
   },
-  "include": ["./src/**/*.ts", "./src/tests/server/**/*.test.ts"],
-  "exclude": ["node_modules", "./src/tests/evaluators/*", "./src/tests/metrics/*"]
+  "include": ["./src/**/*.ts", "isomorphic.d.ts", "./src/tests/server/**/*.test.ts"],
+  "exclude": ["node_modules", "./src/tests/**/*.ts"]
 }
