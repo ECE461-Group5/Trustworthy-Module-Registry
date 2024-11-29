@@ -5,7 +5,7 @@ import { createScorecard } from "../../models/evaluators/createScorecard.js";
 import { Scorecard } from "../../models/scores/scorecard.js";
 
 // Mock the logger
-vi.mock("../../logger.js", () => ({
+vi.mock("../../../logger.js", () => ({
   default: {
     info: vi.fn(),
     debug: vi.fn(),
