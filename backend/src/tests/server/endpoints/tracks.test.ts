@@ -1,6 +1,10 @@
+/*
+ * Author(s): Joe Dahms
+ * Purpose: Test the package endpoint.
+ */
 import { expect, describe, it } from "vitest";
 import request from "supertest";
-import app from "../../../src/server/server.js";
+import app from "../../../server/server.js";
 
 describe("tracks endpoint", () => {
   it("GET /tracks should say we aren't pursing any tracks", async () => {
