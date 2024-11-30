@@ -52,7 +52,7 @@ import cors from 'cors';
 
 
 const app: Express = express();
-const port = 443; // port for https
+const port = 80; // port for https
 
 // Enable CORS for all origins for typesript
 app.use(cors({
