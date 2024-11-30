@@ -55,14 +55,14 @@ const app: Express = express();
 const port = 443; // port for https
 
 // Enable CORS for all origins
-// app.use(cors({
-//   origin: '*', // This allows all origins
-// }));
+app.use(cors({
+  origin: '*', // This allows all origins
+}));
 
 // The code bellow is the example for allowing only a specifc origin
-app.use(cors({
-  origin: ['https://ec2-34-238-244-18.compute-1.amazonaws.com', 'http://localhost:5173/'],
-})); 
+// app.use(cors({
+//   origin: ['https://ec2-34-238-244-18.compute-1.amazonaws.com', 'http://localhost:5173/'],
+// })); 
 
 app.use(express.json());
 app.use(express.urlencoded());
