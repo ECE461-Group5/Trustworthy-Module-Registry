@@ -57,6 +57,24 @@ app.use(express.urlencoded());
 app.get("/", (req: Request, res: Response) =>
   res.json({ message: "Express + TypeScript Server" }),
 );
+app.get("/test", (req: Request, res: Response) =>
+  res.json({
+    "URL": "https://www.npmjs.com/package/axios",
+    "NetScore": 0.85,
+    "NetScore_Latency": 7.341,
+    "RampUp": 0.9,
+    "RampUp_Latency": 0.217,
+    "Correctness": 0.95,
+    "Correctness_Latency": 0.5164,
+    "BusFactor": 0.8,
+    "BusFactor_Latency": 6.155,
+    "ResponsiveMaintainer": 0.92,
+    "ResponsiveMaintainer_Latency": 0.1026,
+    "License": 0.88,
+    "License_Latency": 0.1461
+  }),
+);
+
 app.use("/packages", packagesRouter);
 app.use("/reset", resetRouter);
 app.use("/package", packageRouter);
@@ -150,9 +168,6 @@ app.get('/tracks', (req: Request, res: Response) => {
   res.send("No tracks implemented in this version");
 });
 */
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello, TypeScript with Express!');
-}); 
 if (process.env.NODE_ENV !== "test") {
   app.listen(port, '0.0.0.0', () => {
     console.log(`Server is running at http://localhost:${port}`);

@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "start": "node dist/server/server.js",
     "preview": "vite preview",
     "test": "npx vitest",
     "lint": "npx eslint --fix -c eslint.config.js -f stylish",
