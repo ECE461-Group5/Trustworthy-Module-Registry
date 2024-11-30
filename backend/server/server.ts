@@ -47,9 +47,18 @@ import express, { Express, Request, Response } from "express";
 import packagesRouter from "./routes/packagesRoutes.js";
 import resetRouter from "./routes/resetRoutes.js";
 import packageRouter from "./routes/packageRoutes.js";
+import cors from 'cors';
+
+
 
 const app: Express = express();
-const port = 443;
+const port = 443; // port for https
+app.use(cors()); // enables CORS on all origins
+
+// The code bellow is the example for allowing only a specifc origin
+/*app.use(cors({
+  origin: ['http://example.com', 'http://another-domain.com'],
+})); */
 
 app.use(express.json());
 app.use(express.urlencoded());
