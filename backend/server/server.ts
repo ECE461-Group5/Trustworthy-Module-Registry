@@ -61,7 +61,7 @@ const port = 443; // port for https
 
 // The code bellow is the example for allowing only a specifc origin
 app.use(cors({
-  origin: ['https://ec2-34-238-244-18.compute-1.amazonaws.com', '*'],
+  origin: ['https://ec2-34-238-244-18.compute-1.amazonaws.com', 'http://localhost:5173/'],
 })); 
 
 app.use(express.json());
