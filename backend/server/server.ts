@@ -55,9 +55,8 @@ const app: Express = express();
 const port = 443; // port for https
 
 // Enable CORS for all origins
-app.use(cors({
-  origin: '*', // This allows all origins
-}));
+app.use(cors());
+  
 
 // The code bellow is the example for allowing only a specifc origin
 // app.use(cors({
