@@ -55,15 +55,20 @@ const app: Express = express();
 const port = 443; // port for https
 
 // Enable CORS for all origins for typesript
-app.use((req: Request, res: Response, next: NextFunction) => {
-  next();
-}, cors({ maxAge: 84600 }));
+app.use(cors({
+  origin: "*",
+}));
+
+
+// app.use((req: Request, res: Response, next: NextFunction) => {
+//   next();
+// }, cors({ maxAge: 84600 }));
   
 
 // The code bellow is the example for allowing only a specifc origin
-app.use(cors({
-  origin: ["http://192.168.0.11:5173", "192.168.109.1:3000", "192.168.109.1:3000"],
-})); 
+// app.use(cors({
+//   origin: ["http://192.168.0.11:5173", "192.168.109.1:3000", "192.168.109.1:3000"],
+// })); 
 
 app.use(express.json());
 app.use(express.urlencoded());
