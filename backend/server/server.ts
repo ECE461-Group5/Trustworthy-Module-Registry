@@ -43,7 +43,7 @@ if (file) {
 }
 */
 
-import express, { Express, Request, Response } from "express";
+import express, { Express, Request, Response, NextFunction } from "express";
 import packagesRouter from "./routes/packagesRoutes.js";
 import resetRouter from "./routes/resetRoutes.js";
 import packageRouter from "./routes/packageRoutes.js";
@@ -55,7 +55,9 @@ const app: Express = express();
 const port = 443; // port for https
 
 // Enable CORS for all origins for typesript
-app.use(cors<Request>());
+app.use((req: Request, res: Response, next: NextFunction) => {
+  next();
+}, cors({ maxAge: 84600 }));
   
 
 // The code bellow is the example for allowing only a specifc origin
