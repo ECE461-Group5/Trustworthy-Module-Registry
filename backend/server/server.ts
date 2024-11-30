@@ -49,7 +49,7 @@ import resetRouter from "./routes/resetRoutes.js";
 import packageRouter from "./routes/packageRoutes.js";
 
 const app: Express = express();
-const port = 3000;
+const port = 443;
 
 app.use(express.json());
 app.use(express.urlencoded());
@@ -150,9 +150,14 @@ app.get('/tracks', (req: Request, res: Response) => {
   res.send("No tracks implemented in this version");
 });
 */
-
+app.get('/', (req: Request, res: Response) => {
+  res.send('Hello, TypeScript with Express!');
+}); 
 if (process.env.NODE_ENV !== "test") {
-  app.listen({ port, address: "0.0.0.0" });
+  app.listen(port, '0.0.0.0', () => {
+    console.log(`Server is running at http://localhost:${port}`);
+});
+  // app.listen({ port, address: "0.0.0.0" });
 }
 
 export default app;
