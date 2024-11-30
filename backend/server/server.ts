@@ -62,7 +62,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 // The code bellow is the example for allowing only a specifc origin
 app.use(cors({
-  origin: ['73.102.82.168:5173', '73.102.152.120:3000'],
+  origin: ['http://73.102.82.168:5173', 'http://73.102.152.120:3000'],
 })); 
 
 app.use(express.json());
