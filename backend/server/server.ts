@@ -54,8 +54,8 @@ import cors from 'cors';
 const app: Express = express();
 const port = 443; // port for https
 
-// Enable CORS for all origins
-app.use(cors());
+// Enable CORS for all origins for typesript
+app.use(cors<Request>());
   
 
 // The code bellow is the example for allowing only a specifc origin
