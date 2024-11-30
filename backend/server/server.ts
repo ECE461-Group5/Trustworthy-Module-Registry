@@ -55,6 +55,7 @@ const app: Express = express();
 const port = 80; // port for https
 
 // Enable CORS for all origins for typesript
+
 app.use(cors({
   origin: "*",
 }));
@@ -63,7 +64,7 @@ app.use(cors({
 // app.use((req: Request, res: Response, next: NextFunction) => {
 //   next();
 // }, cors({ maxAge: 84600 }));
-  
+ 
 
 // The code bellow is the example for allowing only a specifc origin
 // app.use(cors({
@@ -76,7 +77,8 @@ app.use(express.urlencoded());
 app.get("/", (req: Request, res: Response) =>
   res.json({ message: "Express + TypeScript Server" }),
 );
-app.get("/test", (req: Request, res: Response) =>
+app.get("/test", (req: Request, res: Response) => {
+  res.set('Access-Control-Allow-Origin', '*');
   res.json({
     "URL": "https://www.npmjs.com/package/axios",
     "NetScore": 0.85,
@@ -91,8 +93,8 @@ app.get("/test", (req: Request, res: Response) =>
     "ResponsiveMaintainer_Latency": 0.1026,
     "License": 0.88,
     "License_Latency": 0.1461
-  }),
-);
+  });
+});
 
 app.use("/packages", packagesRouter);
 app.use("/reset", resetRouter);
