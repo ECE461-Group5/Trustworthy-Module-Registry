@@ -52,7 +52,7 @@ import cors from 'cors';
 
 
 const app: Express = express();
-const port = 80; // port for https/http[443/80]
+const port = 80; // https/http[443/80]
 
 // Enable CORS for all origins for typesript
 
@@ -193,7 +193,7 @@ if (process.env.NODE_ENV !== "test") {
   app.listen(port, '0.0.0.0', () => {
     console.log(`Server is running at http://localhost:${port}`);
 });
-  app.listen({ port, address: "0.0.0.0" });
+  //app.listen({ port, address: "0.0.0.0" });
 }
 
 export default app;
