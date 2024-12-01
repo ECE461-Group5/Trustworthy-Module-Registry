@@ -9,7 +9,7 @@ export function Example() {
     const apiCall = useQuery({  
         queryKey: ['todos'], 
         queryFn: async () => {
-          return await axios.get(config.appRoute + "/test")// be careful this may get changed every time your start/stop the AWS instance
+          return await axios.get(config.appRoute + "/test")
         }
     })
     axios.get('https://www.npmjs.com/package/axios')
