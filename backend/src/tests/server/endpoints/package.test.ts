@@ -594,7 +594,6 @@ describe("/package/byRegEx endpoint", () => {
     expect(response.statusCode).toEqual(expectedStatus);
     expect(response.body).toEqual(expectedBody);
   });
-<<<<<<< HEAD:backend/tests/server/endpoints/package.test.ts
 });
 
 describe("prisma test", () => {
@@ -659,6 +658,3 @@ describe("prisma test", () => {
     });
   });
 });
-=======
-});
->>>>>>> main:backend/src/tests/server/endpoints/package.test.ts
