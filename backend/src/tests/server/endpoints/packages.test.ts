@@ -1,3 +1,7 @@
+/*
+ * Author(s): Joe Dahms
+ * Purpose: Test the package endpoint.
+ */
 import { expect, describe, test } from "vitest";
 import request from "supertest";
 import app from "../../../server/server.js";

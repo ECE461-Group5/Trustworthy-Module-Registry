@@ -5,7 +5,7 @@
  *
  */
 
-import logger from "../../logger.js";
+import logger from "../../../logger.js";
 
 import { Scorecard } from "../scores/scorecard.js";
 import { createScorecard } from "./createScorecard.js";

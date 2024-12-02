@@ -6,7 +6,7 @@ import { Scorecard } from "../../models/scores/scorecard.js";
 //import { Metric } from "../../src/models/metrics/metric"; // Linter flagged as ununsed
 
 // Mock the logger
-vi.mock("../../logger.js", () => ({
+vi.mock("../../../logger.js", () => ({
   default: {
     info: vi.fn(),
     debug: vi.fn(),

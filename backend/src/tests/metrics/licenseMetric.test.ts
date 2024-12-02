@@ -5,11 +5,11 @@ import fs from "fs";
 //import path from "path"; Linter flagged unused
 import git from "isomorphic-git";
 //import http from "isomorphic-git/http/node/index.cjs";  Linter flagged unused
-import logger from "../../logger";
+import logger from "../../../logger";
 
 vi.mock("fs");
 vi.mock("isomorphic-git");
-vi.mock("../../logger");
+vi.mock("../../../logger");
 
 describe("LicenseMetric", () => {
   let licenseMetric: LicenseMetric;
