@@ -4,7 +4,7 @@
  * controllers are currently contained in this file.
  */
 
-import logger from "../../logger.js";
+import logger from "../../../logger.js";
 
 import { Request, Response } from "express";
 import { isValidRegex } from "./isValidRegex.js";

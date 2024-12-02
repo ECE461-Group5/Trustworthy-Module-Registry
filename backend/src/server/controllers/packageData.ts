@@ -4,7 +4,7 @@
  * type contains all the fields
  */
 
-import logger from "../../logger.js";
+import logger from "../../../logger.js";
 
 export interface PackageData {
   Content: Buffer;
