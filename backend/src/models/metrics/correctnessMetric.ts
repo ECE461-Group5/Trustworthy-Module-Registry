@@ -4,7 +4,7 @@
 
 import { Scorecard } from "../scores/scorecard.js";
 import { Metric } from "./metric.js";
-import logger from "../../logger.js";
+import logger from "../../../logger.js";
 import { Octokit } from "@octokit/rest";
 
 import dotenv from "dotenv";

@@ -6,7 +6,7 @@
  * @param {string} filePath : Path to the file containing URLs
  */
 
-import logger from "../../logger.js";
+import logger from "../../../logger.js";
 
 import * as fs from "fs";
 import { evaluateModule } from "./evaluateModule.js";
