@@ -1,1 +1,0 @@
-{"version":3,"file":"resetRoutes.js","sourceRoot":"","sources":["../../../../src/server/routes/resetRoutes.ts"],"names":[],"mappings":"AAAA;;;;GAIG;AAEH,OAAO,OAAO,MAAM,SAAS,CAAC;AAC9B,OAAO,EAAE,aAAa,EAAE,MAAM,mCAAmC,CAAC;AAElE,MAAM,MAAM,GAAG,OAAO,CAAC,MAAM,EAAE,CAAC;AAChC,MAAM,CAAC,MAAM,CAAC,GAAG,EAAE,aAAa,CAAC,CAAC;AAElC,eAAe,MAAM,CAAC"}
