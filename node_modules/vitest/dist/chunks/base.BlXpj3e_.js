@@ -1,0 +1,98 @@
+import '@vitest/utils';
+
+function groupBy(collection, iteratee) {
+  return collection.reduce((acc, item) => {
+    const key = iteratee(item);
+    acc[key] ||= [];
+    acc[key].push(item);
+    return acc;
+  }, {});
+}
+function isPrimitive(value) {
+  return value === null || typeof value !== "function" && typeof value !== "object";
+}
+function slash(str) {
+  return str.replace(/\\/g, "/");
+}
+function noop() {
+}
+function toArray(array) {
+  if (array === null || array === void 0) {
+    array = [];
+  }
+  if (Array.isArray(array)) {
+    return array;
+  }
+  return [array];
+}
+function toString(v) {
+  return Object.prototype.toString.call(v);
+}
+function isPlainObject(val) {
+  return toString(val) === "[object Object]" && (!val.constructor || val.constructor.name === "Object");
+}
+function deepMerge(target, ...sources) {
+  if (!sources.length) {
+    return target;
+  }
+  const source = sources.shift();
+  if (source === void 0) {
+    return target;
+  }
+  if (isMergeableObject(target) && isMergeableObject(source)) {
+    Object.keys(source).forEach((key) => {
+      const _source = source;
+      if (isMergeableObject(_source[key])) {
+        if (!target[key]) {
+          target[key] = {};
+        }
+        deepMerge(target[key], _source[key]);
+      } else {
+        target[key] = _source[key];
+      }
+    });
+  }
+  return deepMerge(target, ...sources);
+}
+function isMergeableObject(item) {
+  return isPlainObject(item) && !Array.isArray(item);
+}
+function stdout() {
+  return console._stdout || process.stdout;
+}
+class AggregateErrorPonyfill extends Error {
+  errors;
+  constructor(errors, message = "") {
+    super(message);
+    this.errors = [...errors];
+  }
+}
+function isChildProcess() {
+  return typeof process !== "undefined" && !!process.send;
+}
+function setProcessTitle(title) {
+  try {
+    process.title = `node (${title})`;
+  } catch {
+  }
+}
+function escapeRegExp(s) {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+function wildcardPatternToRegExp(pattern) {
+  return new RegExp(
+    `^${pattern.split("*").map(escapeRegExp).join(".*")}$`,
+    "i"
+  );
+}
+const urlAlphabet = "useandom-26T198340PX75pxJACKVERYMINDBUSHWOLF_GQZbfghjklqvwyzrict";
+function nanoid(size = 21) {
+  let id = "";
+  let i = size;
+  while (i--) {
+    id += urlAlphabet[Math.random() * 64 | 0];
+  }
+  return id;
+}
+
+export { AggregateErrorPonyfill as A, slash as a, isPrimitive as b, nanoid as c, deepMerge as d, stdout as e, groupBy as g, isChildProcess as i, noop as n, setProcessTitle as s, toArray as t, wildcardPatternToRegExp as w };

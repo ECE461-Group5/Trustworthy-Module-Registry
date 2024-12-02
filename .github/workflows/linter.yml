@@ -1,11 +1,15 @@
-# This workflow executes several linters on changed files based on languages
-# used in your code base whenever you push a code or open a pull request.
+#  Author(s): Geromy Cunningham, Joe Dahms
+#  Purpose: This workflow executes estlint and prettier on changed files in the backend and client directories.
+#  Used in your code base whenever you push a code update or open a pull request on main.
 ---
 name: Linter
 
 on:
   push:
     branches-ignore: ["main"]
+    paths:
+      - "backend/**"
+      - "client/**"
   pull_request:
     branches: ["main"]
 
@@ -23,11 +27,36 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: install dependencies
+      - name: Determine Changed Files
+        id: changed-files
+        uses: tj-actions/changed-files@v41
+
+      - name: Install Dependencies BE
+        if: contains(steps.changed-files.outputs.all_modified_files, 'backend/')
         run: npm install
+        working-directory: ./backend
 
-      - name: eslint
+      - name: eslint-be
+        if: contains(steps.changed-files.outputs.all_modified_files, 'backend/')
         run: npm run lint
+        working-directory: ./backend
 
-      - name: prettier
+      - name: prettier-be
+        if: contains(steps.changed-files.outputs.all_modified_files, 'backend/')
         run: npm run format
+        working-directory: ./backend
+
+      - name: Install Dependencies FE
+        if: contains(steps.changed-files.outputs.all_modified_files, 'client/')
+        run: npm install
+        working-directory: ./client
+
+      - name: eslint-fe
+        if: contains(steps.changed-files.outputs.all_modified_files, 'client/')
+        run: npm run lint
+        working-directory: ./client
+
+      - name: prettier-fe
+        if: contains(steps.changed-files.outputs.all_modified_files, 'client/')
+        run: npm run format
+        working-directory: ./client
