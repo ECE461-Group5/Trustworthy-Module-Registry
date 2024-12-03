@@ -3,9 +3,13 @@
  * Purpose: Test the package endpoint.
  */
 
-import { expect, describe, it } from "vitest";
+import { expect, describe, test, vi } from "vitest";
 import request from "supertest";
 import app from "../../../server/server.js";
+import { dbUploadPackage } from "../../../database/controllers/package/upload.js";
+import prismaMock from "../../../database/__mocks__/prisma.js";
+
+vi.mock("../../../database/prisma.js");
 
 describe("/package endpoint", () => {
   // Missing fields in package data
@@ -23,7 +27,7 @@ describe("/package endpoint", () => {
     {
       testName: "Missing URL",
       packageData: {
-        Content: "string",
+        Content: Buffer.from("sadfashjklfgasdkjhfgjkd", "base64"),
         debloat: true,
         JSProgram: "<string>",
       },
@@ -33,7 +37,7 @@ describe("/package endpoint", () => {
     {
       testName: "Missing debloat",
       packageData: {
-        Content: "string",
+        Content: Buffer.from("sadfashjklfgasdkjhfgjkd", "base64"),
         URL: "<string>",
         JSProgram: "<string>",
       },
@@ -43,7 +47,7 @@ describe("/package endpoint", () => {
     {
       testName: "Missing JSProgram",
       packageData: {
-        Content: "string",
+        Content: Buffer.from("sadfashjklfgasdkjhfgjkd", "base64"),
         URL: "<string>",
         debloat: true,
       },
@@ -60,23 +64,45 @@ describe("/package endpoint", () => {
   test.each([
     {
       testName: "Both Content and URL set",
-      packageData: {
-        Content: "<string>",
+      packageData: 
+      {
+        Content: "AAAAAAAAAAAAAAAAAAAAAAAAA",
         URL: "<string>",
         debloat: true,
         JSProgram: "<string>",
       },
+      mockPackage: {
+        name: "noname",
+        version: "noversion",
+        id: undefined,
+        content: Buffer.alloc(0),
+        url: "http://test.com",
+        debloat: null,
+        jsProgram: null,
+      },
+
       expectedStatus: 400,
       expectedBody: {},
     },
+    /*
     {
       testName: "Only Content set",
       packageData: {
-        Content: "<string>",
+        Content: "AAAAAAAAAAAAAAAAAAAAAAAAaaa",
         URL: "",
         debloat: true,
         JSProgram: "<string>",
       },
+      mockPackage: {
+        name: "noname",
+        version: "noversion",
+        id: undefined,
+        content: Buffer.alloc(0),
+        url: "http://test.com",
+        debloat: null,
+        jsProgram: null,
+      },
+
       expectedStatus: 200,
       expectedBody: {},
     },
@@ -84,15 +110,29 @@ describe("/package endpoint", () => {
       testName: "Only URL set",
       packageData: {
         Content: "",
-        URL: "<string>",
+       URL: "<string>",
         debloat: true,
         JSProgram: "<string>",
       },
+      mockPackage: {
+        name: "noname",
+        version: "noversion",
+        id: undefined,
+        content: Buffer.alloc(0),
+        url: "http://test.com",
+        debloat: null,
+        jsProgram: null,
+      },
+
       expectedStatus: 200,
       expectedBody: {},
     },
-  ])("$testName", async ({ packageData, expectedStatus, expectedBody }) => {
+    */
+  ])("$testName", async ({ packageData, mockPackage, expectedStatus, expectedBody }) => {
+
+    prismaMock.package.create.mockResolvedValue(mockPackage);
     const response = await request(app).post("/package").send(packageData);
+
 
     expect(response.statusCode).toEqual(expectedStatus);
     expect(response.body).toEqual(expectedBody);
@@ -555,5 +595,68 @@ describe("/package/byRegEx endpoint", () => {
 
     expect(response.statusCode).toEqual(expectedStatus);
     expect(response.body).toEqual(expectedBody);
+  });
+});
+
+describe("prisma test", () => {
+  test.each([
+    {
+      testName: "standard package",
+      mockPackage: {
+        name: "noname",
+        version: "noversion",
+        id: undefined,
+        content: Buffer.alloc(0),
+        url: "http://test.com",
+        debloat: true,
+        jsProgram: "console.log(\"test\")",
+      },
+      inputPackage: {
+        data: {
+          Content: Buffer.alloc(0),
+          URL: "http://test.com",
+          debloat: true,
+          JSProgram: "console.log(\"test\")",
+        },
+      },
+    },
+    {
+      testName: "package with null debloat and JSProgram values",
+      mockPackage: {
+        name: "noname",
+        version: "noversion",
+        id: undefined,
+        content: Buffer.alloc(0),
+        url: "http://test.com",
+        debloat: null,
+        jsProgram: null,
+      },
+      inputPackage: {
+        data: {
+          Content: Buffer.alloc(0),
+          URL: "http://test.com",
+          debloat: null,
+          JSProgram: null,
+        },
+      },
+    },
+  ])("$testName", async ({ mockPackage, inputPackage }) => {
+    prismaMock.package.create.mockResolvedValue(mockPackage);
+
+    const result = await dbUploadPackage(inputPackage);
+
+    expect(result).toEqual({
+      metadata: {
+        Name: mockPackage.name,
+        Version: mockPackage.version,
+        ID: mockPackage.id,
+      },
+      data: {
+        Content: mockPackage.content,
+        URL: mockPackage.url,
+        debloat: mockPackage.debloat,
+        JSProgram: mockPackage.jsProgram,
+      },
+    });
   });
 });

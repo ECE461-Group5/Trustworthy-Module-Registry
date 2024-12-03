@@ -1,32 +1,59 @@
 /*
- * Author(s): Joe Dahms
+ * Author(s): Joe Dahms, Jonah Salyers
  * Purpose: Handle requests to the package endpoint. All package endpoint
  * controllers are currently contained in this file.
  */
 
+import logger from "../../../logger.js";
+
 import { Request, Response } from "express";
 import { isValidRegex } from "./isValidRegex.js";
-import { PackageData, checkPackageData } from "./packageData.js";
+
+import prisma from "../../database/prisma.js";
+import { dbUploadPackage } from "../../database/controllers/package/upload.js";
+
+import { evaluateModule } from "../../models/evaluators/evaluateModule.js";
+
 import { PackageMetadata } from "./packageMetadata.js";
+import { PackageData, checkPackageData } from "./packageData.js";
+import { Package } from "./package.js";
+
 import { RegexData } from "./regexData.js";
 
-// /package
-export const uploadPackage = (
+export const uploadPackage = async (
   request: Request<unknown, unknown, PackageData, unknown>,
   response: Response,
-): Response => {
+): Promise<void | Response> => {
+  try {
   const { body } = request;
+  const _package: Package = {
+    metadata: {
+      Name: null,
+      Version: null,
+      ID: null,
+    },
+    data: {
+      Content: body.Content,
+      URL: body.URL,
+      debloat: body.debloat,
+      JSProgram: body.JSProgram,
+    },
+  };
+
   if (checkPackageData(body) === false) {
     return response.status(400).send();
   }
-  // DATABASE FUNCTION HERE
-  // Take in PackageData
-  // Return PackageMetadata
-  // function dbfunction(param1: PackageData): PackageMetadata
-  //
-  //
-  // Handle exists already and not uploaded
-  return response.status(200).send();
+
+  console.log("here");
+  const returnPackage: Package = await dbUploadPackage(_package);
+  console.log("here2");
+
+  return response.send({ returnPackage });
+  }
+  catch (error) {
+    logger.error("Error uploading package:", error);
+    return response.status(500).send();
+  }
 };
 
 // /package/:id
