@@ -15,7 +15,7 @@ export NVM_DIR="$HOME/.nvm"
 (cd ./backend && npm install) && (cd ./client && npm install) >app.out.log 2>app.err.log </dev/null
 
 # Generate Prisma schema
-(cd backend/prisma && npx prisma generate && cd ../..) >app.out.log 2>app.err.log </dev/null
+(cd backend/prisma && npx prisma generate) >app.out.log 2>app.err.log </dev/null
 
 # Build FE & BE, start server
 (cd ./client && npm run build) && (cd ./backend && npm run build && npm run start) >app.out.log 2>app.err.log </dev/null
