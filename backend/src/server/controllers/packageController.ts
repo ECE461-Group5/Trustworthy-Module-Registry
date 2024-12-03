@@ -19,6 +19,7 @@ import { PackageData, checkPackageData } from "./packageData.js";
 import { Package } from "./package.js";
 
 import { RegexData } from "./regexData.js";
+import { dbDeletePackage } from "../../database/controllers/package/delete.js";
 
 export const uploadPackage = async (
   request: Request<unknown, unknown, PackageData, unknown>,
@@ -105,21 +106,20 @@ export const updatePackage = (req: Request, res: Response): Response => {
 };
 
 // /package/:id
-export const deletePackage = (req: Request, res: Response): Response => {
-  const packageID = req.params.id;
+export const deletePackage = async (req: Request, res: Response): Promise<Response> => {
+  const packageID = parseInt(req.params.id, 10);
 
-  if (packageID === "00000000") {
-    return res.status(200).send();
+  if (isNaN(packageID)) {
+    return res.status(400).json({ error: 'Invalid package ID' });
   }
-  // Incorrect packageID format
-  else if (packageID === "123456789" || packageID === "1234567") {
-    return res.status(400).send();
+
+  const success = await dbDeletePackage(packageID);
+
+  if (!success) {
+    return res.status(404).json({ error: 'Package not found' });
   }
-  // Package does not exist
-  else if (packageID === "99999999") {
-    return res.status(404).send();
-  }
-  return res.status(200).send();
+
+  return res.status(200).json({ message: 'Package deleted successfully' });
 };
 
 // /package/:id/rate
