@@ -4,7 +4,7 @@
  * for request handling logic.
  */
 
-import express from "express";
+import express, { Request, Response, NextFunction, RequestHandler } from "express";
 const router = express.Router();
 
 import {
@@ -17,7 +17,27 @@ import {
   getPackageByRegEx,
 } from "../controllers/packageController.js";
 
-router.post("/", uploadPackage);
+// Define a type for async request handlers
+type AsyncRequestHandler = (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => Promise<void | Response>;
+
+const asyncHandler =
+  (fn: AsyncRequestHandler): RequestHandler =>
+  (req: Request, res: Response, next: NextFunction): void => {
+    void (async (): Promise<void> => {
+      try {
+        await fn(req, res, next);
+      }
+ catch (error) {
+        next(error);
+      }
+    })();
+  };
+
+router.post("/", asyncHandler(uploadPackage));
 router.get("/:id", getPackage);
 router.put("/:id", updatePackage);
 router.delete("/:id", deletePackage);
