@@ -22,21 +22,30 @@ type AsyncRequestHandler = (
   req: Request,
   res: Response,
   next: NextFunction,
-) => Promise<void>;
+) => Promise<void | Response>;
 
-// Updated asyncHandler
-const asyncHandler = (fn: AsyncRequestHandler): RequestHandler => {
-  return (req: Request, res: Response, next: NextFunction): void => {
-    Promise.resolve(fn(req, res, next)).catch(next);
+const asyncHandler =
+  (fn: AsyncRequestHandler): RequestHandler =>
+  (req: Request, res: Response, next: NextFunction): void => {
+    void (async (): Promise<void> => {
+      try {
+        await fn(req, res, next);
+      }
+ catch (error) {
+        next(error);
+      }
+    })();
   };
-};
 
 router.post("/", asyncHandler(uploadPackage));
-router.get("/:id", asyncHandler(getPackage));
-router.put("/:id", asyncHandler(updatePackage));
-router.delete("/:id", asyncHandler(deletePackage));
-router.get("/:id/rate", asyncHandler(getPackageRating));
-router.get("/:id/cost", asyncHandler(getPackageCost));
-router.post("/byRegEx", asyncHandler(getPackageByRegEx));
+router.get("/:id", getPackage);
+router.put("/:id", updatePackage);
+router.delete("/:id", deletePackage);
+
+router.get("/:id/rate", getPackageRating);
+
+router.get("/:id/cost", getPackageCost);
+
+router.post("/byRegEx", getPackageByRegEx);
 
 export default router;
