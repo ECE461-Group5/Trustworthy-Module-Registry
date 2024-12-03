@@ -107,19 +107,32 @@ export const updatePackage = (req: Request, res: Response): Response => {
 
 // /package/:id
 export const deletePackage = async (req: Request, res: Response): Promise<Response> => {
-  const packageID = parseInt(req.params.id, 10);
+  const packageIDString = req.params.id;
 
-  if (isNaN(packageID)) {
-    return res.status(400).json({ error: 'Invalid package ID' });
+  // Validate that package ID is exactly 8 digits
+  const packageIDRegex = /^\d{8}$/;
+  if (!packageIDRegex.test(packageIDString)) {
+    // Return 400 Bad Request with no response body
+    return res.status(400).send();
   }
 
-  const success = await dbDeletePackage(packageID);
+  const packageID = parseInt(packageIDString, 10);
 
-  if (!success) {
-    return res.status(404).json({ error: 'Package not found' });
+  try {
+    const success = await dbDeletePackage(packageID);
+
+    if (!success) {
+      // Return 404 Not Found with no response body
+      return res.status(404).send();
+    }
+
+    // Return 200 OK with no response body on successful deletion
+    return res.status(200).send();
+  } catch (error) {
+    // Log the error and return 500 Internal Server Error
+    console.error("Error in deletePackage:", error);
+    return res.status(500).send();
   }
-
-  return res.status(200).json({ message: 'Package deleted successfully' });
 };
 
 // /package/:id/rate
