@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "build": "npx tsc -p ./tsconfig.compile.json",
-    "start": "node dist/server/server.js",
-    "dev": "npx nodemon src/index.ts",
+    "start": "node dist/src/server/server.js",
+    "dev": "npx prisma studio && npm run start",
     "test": "npx vitest",
     "auto-grader-test": "vitest run --silent --coverage --reporter=json --outputFile=./src/utils/reports/vitest-results.json",
     "lint": "npx eslint --fix -c eslint.config.js -f stylish",
