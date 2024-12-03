@@ -18,7 +18,7 @@ export const dbUploadPackage = async (_package: Package): Promise<Package> => {
     data: {
       name: "noname",
       version: "noversion",
-      content: Buffer.from(_package.data.Content),
+      content: _package.data.Content ? Buffer.from(_package.data.Content) : Buffer.alloc(0),
       url: _package.data.URL,
       debloat: _package.data.debloat,
       jsProgram: _package.data.JSProgram,
