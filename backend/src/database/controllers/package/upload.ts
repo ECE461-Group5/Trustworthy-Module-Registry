@@ -13,13 +13,14 @@ import { Buffer } from "buffer";
  * - The package to upload
  * Output: The uploaded package
  */
+
 export const dbUploadPackage = async (_package: Package): Promise<Package> => {
   // Add package to database
   const newPackage = await prisma.package.create({
     data: {
       name: "noname",
       version: "noversion",
-      content: _package.data.Content ? Buffer.from(_package.data.Content) : Buffer.alloc(0),
+      content: _package.data.Content,
       url: _package.data.URL,
       debloat: _package.data.debloat,
       jsProgram: _package.data.JSProgram,
