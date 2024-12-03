@@ -17,9 +17,9 @@ datasource db {
 
 model Package {
   id          Int             @id @default(autoincrement())
-  name        String
-  version     String
-  content     Bytes?
+  name        String  
+  version     String  
+  content    Bytes?
   url         String?
   debloat     Boolean?        @default(false)
   jsProgram   String?
