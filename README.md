@@ -14,6 +14,17 @@
 This project is a monorepo. It consists of two subcomponents, a frontend and a backend. The frontend is located in the client directory. The
 backend is located in the backend directory. Both components are standalone and combine to make the complete app.
 
+## AWS
+Our app is currently being hosted on AWS.
+
+### Roles
+AWS IAM is utilized to ensure that all group members can work with our AWS setup without having too permissive of privilidges.
+
+### EC2
+The app is currently running on an AWS EC2 instance. The instance is running Ubuntu 24.01.1 LTS. Deployments are handled through AWS CodePipeline. 
+The main way we are connecting to our EC2 instance is through the use of the AWS EC2 instance connect feature in the AWS management console. The EC2 is not currently using an elastic (static) IP address.
+Since the instance is running 24/7, we decided it not necessary to pay for an elastic IP.
+
 ## CI/CD (Continuous Integration / Continuous Deployment)
 
 ### Continuous Integration
@@ -21,26 +32,22 @@ Our CI is implemented with GitHub actions. We have two workflows that trigger on
 
 #### ci Workflow
 The ci workflow is to ensure that there will be no errors in the code deployment process. This workflow performs 3 major steps.
-1. Setup Node.js
+1. Setup Node.js  
 FILL OUT
 
-2. Install and Build Backend
+2. Install and Build Backend  
 This step installs dependencies for and builds the client. It also runs the test suite for the backend.
 
-3. Install and Build Client
+3. Install and Build Client  
 This step installs dependencies for and builds the client.
 
-#### Workflow
+#### Workflow linter
+The linter workflow runs the linters for both the frontend and the backend. See component specific readmes for more information.
 
+## Continuous Deployment
+Our CD is implemented with AWS CodePipeline
 
-### Roles
-AWS IAM is utilized to ensure that all group members have adequate privilidges without having too many.
-
-### EC2 and CodePipeline
-The app is currently running on an AWS EC2 instance. Deployments are handled through AWS CodePipeline. The pipeline is automated to run whenever a pull request is approved
-and merged into main. Essentially whenever the main branch gets updated, the pipeline runs.
-
-## GitHub Actions
-
-### CI
+#### AWS CodePipeline
+Our pipeline The pipeline is automated to run whenever a pull request is approved and merged into main. Essentially whenever the main branch gets 
+updated, the pipeline runs.
 
