@@ -129,12 +129,10 @@ export const deletePackage = async (req: Request, res: Response): Promise<Respon
     // Return 200 OK with no response body on successful deletion
     return res.status(200).send();
   } catch (error) {
-    // Log the error and return 500 Internal Server Error
-    console.error("Error in deletePackage:", error);
+    // Return 500 Internal Server Error with no response body
     return res.status(500).send();
   }
 };
-
 // /package/:id/rate
 export const getPackageRating = (req: Request, res: Response): Response => {
   // IMPLEMENT DATABASE FUNCTION HERE
