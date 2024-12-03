@@ -18,6 +18,6 @@
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
   ],
-  "include": ["src/**/*.ts"],
+  "include": ["src/components/*.ts"],
   "exclude": ["node_modules", "/src/tests/"]
 }
