@@ -24,18 +24,12 @@ type AsyncRequestHandler = (
   next: NextFunction,
 ) => Promise<void>;
 
-const asyncHandler =
-  (fn: AsyncRequestHandler): RequestHandler =>
-  (req: Request, res: Response, next: NextFunction): void => {
-    void (async (): Promise<void> => {
-      try {
-        await fn(req, res, next);
-      }
- catch (error) {
-        next(error);
-      }
-    })();
+const asyncHandler = (fn: AsyncRequestHandler): RequestHandler => {
+  return (req: Request, res: Response, next: NextFunction): void => {
+    Promise.resolve(fn(req, res, next)).catch(next);
   };
+};
+
 
 router.post("/", asyncHandler(uploadPackage));
 router.get("/:id", getPackage);
