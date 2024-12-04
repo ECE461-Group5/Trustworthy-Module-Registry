@@ -9,12 +9,8 @@ import logger from "../../../logger.js";
 import { Request, Response } from "express";
 import { isValidRegex } from "./isValidRegex.js";
 
-import prisma from "../../database/prisma.js";
 import { dbUploadPackage } from "../../database/controllers/package/upload.js";
 
-import { evaluateModule } from "../../models/evaluators/evaluateModule.js";
-
-import { PackageMetadata } from "./packageMetadata.js";
 import { PackageData, checkPackageData } from "./packageData.js";
 import { Package } from "./package.js";
 
