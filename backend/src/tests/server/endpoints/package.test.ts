@@ -1,5 +1,5 @@
 /*
- * Author(s): Joe Dahms
+ * Author(s): Joe Dahms, Jonah Salyers
  * Purpose: Test the package endpoint.
  */
 
@@ -288,6 +288,9 @@ describe("DELETE /package/:id endpoint", () => {
       expectedBody: {},
     },
   ])("$testName", async ({ packageID, expectedStatus, expectedBody }) => {
+    // Mock dbDeletePackage to return true
+    prismaMock.package.delete.mockResolvedValue({}); // Simulate successful deletion
+
     const response = await request(app).delete(`/package/${packageID}`);
 
     expect(response.statusCode).toEqual(expectedStatus);
@@ -326,6 +329,9 @@ describe("DELETE /package/:id endpoint", () => {
       expectedBody: {},
     },
   ])("$testName", async ({ packageID, expectedStatus, expectedBody }) => {
+    prismaMock.package.delete.mockRejectedValue({
+      code: "P2025", // Prisma error code for record not found
+    });
     const response = await request(app).delete(`/package/${packageID}`);
 
     expect(response.statusCode).toEqual(expectedStatus);
