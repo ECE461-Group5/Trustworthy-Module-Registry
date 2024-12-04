@@ -1,7 +1,7 @@
 
 
 const App = () => {
-  return <div>Group 5 - Trustworthy Module Registry Front End Holder</div>;
+  return <div>Testing application start for mounting website.</div>;
 };
 
 export default App;

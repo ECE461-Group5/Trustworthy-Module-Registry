@@ -18,7 +18,7 @@ export NVM_DIR="$HOME/.nvm"
 (cd ./client && npm run build) && (cd ./backend && npm run build && cd ./prisma && npx prisma generate) >app.out.log 2>app.err.log </dev/null
 
 # Copy the "build" folder to "/var/www/html" for Nginx, reload Nginx
-(cd ./client && sudo cp -R build/ /var/www/html/front-end/) && (sudo systemctl reload nginx) >app.out.log 2>app.err.log </dev/null &
+(sudo cp -R ./client/build /var/www/html/front-end/) && (sudo systemctl reload nginx) >app.out.log 2>app.err.log </dev/null &
 
 # Start the server
 (cd ./backend && npm run start) >app.out.log 2>app.err.log </dev/null &
