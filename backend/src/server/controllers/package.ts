@@ -2,7 +2,7 @@ export interface Package {
   metadata: {
     Name: string | null;
     Version: string | null;
-    ID: number | null;
+    ID: number | string | null;
   };
   data: {
     Content: Buffer | null;

@@ -1,5 +1,5 @@
 /*
- * Author(s): Joe Dahms
+ * Author(s): Joe Dahms, Jonah Salyers
  * Purpose: Handle uploading a package to the database. Currently using prisma.
  */
 
@@ -25,13 +25,16 @@ export const dbUploadPackage = async (_package: Package): Promise<Package> => {
       jsProgram: _package.data.JSProgram,
     },
   });
-
+  // Create 8 digit ID
+  const formattedId = newPackage.id
+  ? newPackage.id.toString().padStart(8, "0")
+  : null; // Handle undefined ID gracefully
   // Return new package
   const test: Package = {
     metadata: {
       Name: newPackage.name,
       Version: newPackage.version,
-      ID: newPackage.id,
+      ID: formattedId,
     },
     data: {
       Content: newPackage.content,

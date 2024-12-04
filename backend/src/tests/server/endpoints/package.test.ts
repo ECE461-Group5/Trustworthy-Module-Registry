@@ -1,5 +1,5 @@
 /*
- * Author(s): Joe Dahms
+ * Author(s): Joe Dahms, Jonah Salyers
  * Purpose: Test the package endpoint.
  */
 
@@ -59,7 +59,7 @@ describe("prisma test", () => {
       metadata: {
         Name: mockPackage.name,
         Version: mockPackage.version,
-        ID: mockPackage.id,
+        ID: null,
       },
       data: {
         Content: mockPackage.content,
