@@ -1,11 +1,14 @@
 /*
  * Author(s): Joe Dahms
- * Purpose: Delete test packages from database after running a test.
+ * Purpose: Test deleting a package from the package registry.
  */
 
 import { expect, describe, test, vi } from "vitest";
 import request from "supertest";
 import app from "../../../../server/server.js";
+
+import uploadTestPackage from "../../../../database/testing/uploadTestPackage.ts";
+import deleteTestPackage from "../../../../database/testing/deleteTestPackage.ts";
 
 describe("DELETE /package/:id endpoint", () => {
   // Delete package

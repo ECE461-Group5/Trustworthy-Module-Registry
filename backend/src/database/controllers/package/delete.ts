@@ -1,6 +1,6 @@
 /*
  * Author(s): Jonah Salyers
- * Purpose: Handles deleting a package within Database
+ * Purpose: Handles deleting a package within Database.
  */
 
 import prisma from "../../prisma.js";

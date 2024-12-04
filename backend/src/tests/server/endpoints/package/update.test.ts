@@ -1,6 +1,6 @@
 /*
  * Author(s): Joe Dahms
- * Purpose: Delete test packages from database after running a test.
+ * Purpose: Test updating a package.
  */
 
 import { expect, describe, test, vi } from "vitest";
