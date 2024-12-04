@@ -12,6 +12,7 @@ import prisma from "../../prisma.js";
  * - The package to upload
  * Output: The uploaded package
  */
+
 export const dbUploadPackage = async (_package: Package): Promise<Package> => {
   // Add package to database
   const newPackage = await prisma.package.create({
