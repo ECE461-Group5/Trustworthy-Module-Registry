@@ -5,7 +5,7 @@
 
 import { Package } from "../../server/controllers/package.js";
 
-export const uploadContentPackage = async (): Promise<Package> => {
+export const uploadContentPackage = async (): Promise<string> => {
  const contentPackage: Package = {
     metadata: {
       Name: null,
@@ -30,8 +30,9 @@ export const uploadContentPackage = async (): Promise<Package> => {
       jsProgram: contentPackage.JSProgram,
     },
   });
-
-  return contentPackage;
+  // Assuming that the id will be a string.
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  return newPackage.id;
 };
 
 
