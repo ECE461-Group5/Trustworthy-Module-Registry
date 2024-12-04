@@ -32,14 +32,10 @@ const asyncHandler = (fn: AsyncRequestHandler): RequestHandler => {
 
 
 router.post("/", asyncHandler(uploadPackage));
-router.get("/:id", getPackage);
-router.put("/:id", updatePackage);
-router.delete("/:id", deletePackage);
-
-router.get("/:id/rate", getPackageRating);
-
-router.get("/:id/cost", getPackageCost);
-
-router.post("/byRegEx", getPackageByRegEx);
-
+router.get("/:id", asyncHandler(getPackage));
+router.put("/:id", asyncHandler(updatePackage));
+router.delete("/:id", asyncHandler(deletePackage));
+router.get("/:id/rate", asyncHandler(getPackageRating));
+router.get("/:id/cost", asyncHandler(getPackageCost));
+router.post("/byRegEx", asyncHandler(getPackageByRegEx));
 export default router;
