@@ -22,7 +22,7 @@ type AsyncRequestHandler = (
   req: Request,
   res: Response,
   next: NextFunction,
-) => Promise<void | Response>;
+) => Promise<void | Response<any, Record<string, any>>>;
 
 const asyncHandler =
   (fn: AsyncRequestHandler): RequestHandler =>
