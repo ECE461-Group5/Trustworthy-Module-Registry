@@ -106,14 +106,15 @@ export const updatePackage = (req: Request, res: Response): Response => {
 };
 
 // /package/:id
-export const deletePackage = async (req: Request, res: Response): Promise<Response> => {
+export const deletePackage = async (req: Request, res: Response): Promise<void> => {
   const packageIDString = req.params.id;
 
   // Validate that package ID is exactly 8 digits
   const packageIDRegex = /^\d{8}$/;
   if (!packageIDRegex.test(packageIDString)) {
     // Return 400 Bad Request with no response body
-    return res.status(400).send();
+    res.status(400).send();
+    return;
   }
 
   const packageID = parseInt(packageIDString, 10);
@@ -123,16 +124,18 @@ export const deletePackage = async (req: Request, res: Response): Promise<Respon
 
     if (!success) {
       // Return 404 Not Found with no response body
-      return res.status(404).send();
+      res.status(404).send();
+      return;
     }
 
     // Return 200 OK with no response body on successful deletion
-    return res.status(200).send();
+    res.status(200).send();
   } catch (error) {
     // Return 500 Internal Server Error with no response body
-    return res.status(500).send();
+    res.status(500).send();
   }
 };
+
 // /package/:id/rate
 export const getPackageRating = (req: Request, res: Response): Response => {
   // IMPLEMENT DATABASE FUNCTION HERE
