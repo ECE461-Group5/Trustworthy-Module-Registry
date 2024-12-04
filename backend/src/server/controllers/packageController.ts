@@ -3,7 +3,7 @@
  * Purpose: Handle requests to the package endpoint. All package endpoint
  * controllers are currently contained in this file.
  */
-
+/* eslint-disable @typescript-eslint/require-await */
 import logger from "../../../logger.js";
 
 import { Request, Response } from "express";
