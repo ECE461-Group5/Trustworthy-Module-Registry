@@ -1,35 +1,31 @@
-/* eslint-disable react/react-in-jsx-scope */
 
-import {QueryClientProvider, QueryClient} from "@tanstack/react-query";
-import {Example} from "./example-api";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Navbar from '../components/Navbar';
+import LoadPackagesPage from '../components/LoadPackagePage';
+import ResetDatabasePage from '../components/ResetDatabasePage';
+import SearchPackagePage from '../components/SearchPackagePage';
+import UploadPackagePage from '../components/UploadPackagePage';
+import UpdatePackagePage from '../components/UpdatePackagePage';
+import ViewPackageHistoryPage from '../components/ViewPackageHistory';
+import FeaturesPage from '../components/FeaturesPage';
 import './App.css';
-import MainNavbar from './MainNavbar';
-import Buttons from './Buttons';
-import PackageDownloader from './PackageDownloader';
-import PackageUploader from './PackageUploader';
-import Search from './Search';
-
-
-const queryClient = new QueryClient()
-
-function App() {
+const App = () => {
   return (
-    
-    // Provide the client to your App
-
-    <QueryClientProvider client={queryClient}>
-      <div className="App">
-        <MainNavbar />
-        <Example />
-        <Buttons />
-        <PackageUploader />
-        <Search />
-        <PackageDownloader />
+    <Router>
+      <Navbar />
+      <div className="content">
+      <Routes>
+        <Route path="/load-packages" element={<LoadPackagesPage />} />
+        <Route path="/reset-database" element={<ResetDatabasePage />} />
+        <Route path="/search-package" element={<SearchPackagePage />} />
+        <Route path="/upload-package" element={<UploadPackagePage />} />
+        <Route path="/update-package" element={<UpdatePackagePage />} />
+        <Route path="/view-history" element={<ViewPackageHistoryPage />} />
+        <Route path="/features" element={<FeaturesPage />} />
+      </Routes>
       </div>
-      <div>Group 5 - Trustworthy Module Registry Front End Holder</div>
-    </QueryClientProvider>
-  )
-}
-
+    </Router>
+  );
+};
 
 export default App;

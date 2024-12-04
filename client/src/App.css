@@ -1,231 +1,422 @@
-.App {
-    text-align: center;
-  }
-  
-  .navbar {
-    background-color: #c26161; /* Dark background for the navbar */
-    padding: 5px;
-    display: flex;
-    align-items: center;
-  }
-  
-  .logo img {
-    height: 50px; /* Set a fixed height for the image */
-    width: auto; /* Maintain aspect ratio */
-  }
-  
-  .buttons {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-  }
-  
-  button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .primary-button {
-    background-color: #007bff; /* Blue */
-    color: white;
-  }
-  
-  .primary-button:hover {
-    background-color: #0056b3; /* Darker Blue */
-  }
-  
-  .secondary-button {
-    background-color: #6c757d; /* Gray */
-    color: white;
-  }
-  
-  .secondary-button:hover {
-    background-color: #5a6268; /* Darker Gray */
-  }
-  
-  .App-header {
-    background-color: #282c34;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
-  }
-  
-  .App-link {
-    color: #61dafb;
-  }
-  
-  @keyframes App-logo-spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  
-  .upload-package-page {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
-  
-  .form-group input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .downloaded-data {
-    margin-top: 20px;
-    padding: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-  }
-  
-  .downloaded-data h3 {
-    margin-bottom: 15px;
-  }
-  
-  .data-item {
-    margin-bottom: 20px;
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .data-item h4 {
-    margin: 0;
-    color: #007bff;
-  }
-  
-  .data-item p {
-    margin: 5px 0;
-    line-height: 1.5;
-  }
-  
-  .error-message {
-    color: red;
-  }
-  
-  button {
-    padding: 10px 20px;
-    margin: 5px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
-  
-  .search-component {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-  }
-  
-  .search-component .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .search-component label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
-  
-  .search-component input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .search-component button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .search-component button:hover {
-    background-color: #195b9d;
-  }
-  
-  .search-result {
-    margin-top: 15px;
-    color: #333;
-    font-size: 16px;
-    font-weight: bold;
-  }
-  
+Navbar styles
+.navbar {
+  background-color: #c26161; /* Red navbar background */
+  padding: 10px;
+  text-align: center;
+}
 
-  /* .App {
-    text-align: center;
-  }
-  
-  .App-logo {
-    height: 40vmin;
-    pointer-events: none;
-  }
-  
-  @media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-      animation: App-logo-spin infinite 20s linear;
-    }
-  }
-  
-  .App-header {
-    background-color: #282c34;
-    min-height: 100vh;
-    display: flex;
+.navbar h1 {
+  color: white;
+  margin: 0;
+  padding-bottom: 10px;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.primary-button,
+.secondary-button,
+.reset-button,
+.put-button {
+  padding: 10px 15px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+.primary-button {
+  background-color: #007bff;
+}
+
+.secondary-button {
+  background-color: #6c757d;
+}
+
+.reset-button {
+  background-color: #ffc107;
+}
+
+.put-button {
+  background-color: #28a745;
+}
+
+.primary-button:hover {
+  background-color: #0056b3; /* Darker blue */
+}
+
+.secondary-button:hover {
+  background-color: #5a6268; /* Darker gray */
+}
+
+.reset-button:hover {
+  background-color: #e0a800; /* Darker yellow */
+}
+
+.put-button:hover {
+  background-color: #218838; /* Darker green */
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+/* Content and Section styles */
+.content {
+  padding: 20px;
+}
+
+.section {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.section h2 {
+  margin: 15px 0;
+  color: #333; /* Darker text for better contrast */
+  font-weight: bold; /* Make text stand out */
+}
+
+.section p {
+  margin: 10px 0;
+  color: #333;
+  line-height: 1.5; /* Add better line spacing */
+  font-size: 14px;
+}
+
+.section input {
+  width: 100%;
+  padding: 8px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.section input::placeholder {
+  color: #666; /* Medium gray for placeholders */
+  font-style: italic;
+}
+
+.section button {
+  margin-top: 10px;
+  padding: 10px 15px;
+  font-size: 16px;
+}
+
+.package-item {
+  border: 1px solid #ddd;
+  margin: 10px 0;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Light shadow */
+}
+
+.package-item h3 {
+  color: #007bff;
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.package-item p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.loading {
+  font-size: 16px;
+  font-weight: bold;
+  color: #007bff;
+  text-align: center;
+  margin-top: 15px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .navbar .button-group {
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
   }
-  
-  .App-link {
-    color: #61dafb;
+
+  .navbar .button-group button {
+    margin-bottom: 10px;
+    width: 100%;
   }
-  
-  @keyframes App-logo-spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  } */
+
+  .section {
+    padding: 15px;
+  }
+
+  .package-item {
+    padding: 10px;
+    margin: 10px 0;
+  }
+}
+
+/* General table styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 16px;
+  text-align: left;
+  background-color: white; /* Ensure table background is white */
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  color: #333; /* Dark text for better visibility */
+}
+
+/* Header row */
+thead tr {
+  background-color: #c26161; /* Red header background */
+  color: white; /* White text for header */
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* Table headers and cells */
+th, td {
+  padding: 15px 20px; /* Add padding for spacing */
+  border: 1px solid #ddd; /* Light border for separation */
+  color: #333; /* Ensure text is visible (dark gray) */
+}
+
+/* Alternate row colors for readability */
+tbody tr:nth-child(even) {
+  background-color: #f9f9f9; /* Light gray */
+}
+
+tbody tr:hover {
+  background-color: #e9ecef; /* Slightly darker gray on hover */
+}
+
+/* Links inside the table */
+.table-link {
+  color: #007bff; /* Blue for links */
+  text-decoration: none;
+}
+
+.table-link:hover {
+  text-decoration: underline; /* Underline on hover */
+}
+
+/* Table header alignment */
+thead th {
+  text-align: center; /* Center the headers */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  table {
+    font-size: 14px; /* Adjust font size for smaller screens */
+  }
+
+  .section {
+    padding: 15px;
+  }
+}
+
+/* Style for Update Package button */
+.update-button {
+  background-color: #17a2b8; /* Light blue */
+  color: white;
+  padding: 10px 15px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.update-button:hover {
+  background-color: #117a8b; /* Darker blue on hover */
+}
+
+/* Style for View History button */
+.history-button {
+  background-color: #6f42c1; /* Purple */
+  color: white;
+  padding: 10px 15px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.history-button:hover {
+  background-color: #563d7c; /* Darker purple on hover */
+}
+
+/* Style for Features button */
+.features-button {
+  background-color: #fd7e14; /* Orange */
+  color: white;
+  padding: 10px 15px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.features-button:hover {
+  background-color: #e06900; /* Darker orange on hover */
+}
+
+
+
+/* Navbar styles */
+.navbar {
+  background-color: #c26161; /* Red navbar background */
+  padding: 10px;
+  text-align: center;
+}
+
+.navbar h1 {
+  color: white;
+  margin: 0;
+  padding-bottom: 10px;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* General button styles */
+.primary-button,
+.secondary-button,
+.reset-button,
+.put-button,
+.update-button,
+.history-button,
+.features-button {
+  padding: 10px 15px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Button-specific colors */
+.primary-button {
+  background-color: #007bff;
+}
+
+.secondary-button {
+  background-color: #6c757d;
+}
+
+.reset-button {
+  background-color: #ffc107;
+}
+
+.put-button {
+  background-color: #28a745;
+}
+
+.update-button {
+  background-color: #17a2b8; /* Light blue */
+}
+
+.history-button {
+  background-color: #6f42c1; /* Purple */
+}
+
+.features-button {
+  background-color: #fd7e14; /* Orange */
+}
+
+/* Hover effects for buttons */
+.primary-button:hover {
+  background-color: #0056b3;
+}
+
+.secondary-button:hover {
+  background-color: #5a6268;
+}
+
+.reset-button:hover {
+  background-color: #e0a800;
+}
+
+.put-button:hover {
+  background-color: #218838;
+}
+
+.update-button:hover {
+  background-color: #117a8b; /* Darker blue */
+}
+
+.history-button:hover {
+  background-color: #563d7c; /* Darker purple */
+}
+
+.features-button:hover {
+  background-color: #e06900; /* Darker orange */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .navbar .button-group {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .navbar .button-group button {
+    margin-bottom: 10px;
+    width: 100%;
+  }
+
+  .section {
+    padding: 15px;
+  }
+
+  .package-item {
+    padding: 10px;
+    margin: 10px 0;
+  }
+}
+/* Update Package Button */
+.update-button {
+  background-color: #17a2b8; /* Light blue */
+  color: white;
+  padding: 10px 15px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.update-button:hover {
+  background-color: #117a8b; /* Darker blue on hover */
+}
+
+/* View History Button */
+.history-button {
+  background-color: #6f42c1; /* Purple */
+  color: white;
+  padding: 10px 15px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.history-button:hover {
+  background-color: #563d7c; /* Darker purple on hover */
+}
