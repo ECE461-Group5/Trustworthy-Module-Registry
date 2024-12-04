@@ -3,12 +3,13 @@
  * Purpose: Delete test packages from database after running a test.
  */
 
-export const deleteContentPackage = async (packageId: string): Promise<void> => {
-  await prisma.user.delete({
-  where: {
-    id: packageId,
-  },
-});
+import prisma from "../prisma.js";
+
+export const deleteContentPackage = async (packageId: number): Promise<void> => {
+  await prisma.package.delete({
+    where: {
+      id: packageId,
+    },
+  });
   return;
 };
-

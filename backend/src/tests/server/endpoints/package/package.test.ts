@@ -5,7 +5,7 @@
 
 import { expect, describe, test, vi } from "vitest";
 import request from "supertest";
-import app from "../../../../server/server.js";
+import app from "../../../server/server.js";
 import { dbUploadPackage } from "../../../database/controllers/package/upload.js";
 
 describe("prisma test", () => {

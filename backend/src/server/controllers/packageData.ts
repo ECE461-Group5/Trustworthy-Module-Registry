@@ -22,8 +22,8 @@ export interface PackageData {
  * @returns Whether or not the package data is formatted properly
  */
 export function checkPackageData (packageData: PackageData): boolean {
-  logger.info(`Checking package data object: ${ packageData }`);
- 
+  logger.info(`Checking package data object: ${packageData}`);
+
   // All fields need to be present
   if (!("Content" in packageData)) {
     logger.info("PackageData invalid due to missing or malformed Content key");
@@ -66,7 +66,6 @@ export function checkPackageData (packageData: PackageData): boolean {
     logger.info("Both Content and URL set, package data in invalid");
     return false;
   }
-
 
   logger.info("Package data is valid");
   return true;

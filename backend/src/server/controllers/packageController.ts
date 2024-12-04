@@ -21,32 +21,32 @@ export const uploadPackage = async (
   response: Response,
 ): Promise<void | Response> => {
   try {
-  const { body } = request;
-  const _package: Package = {
-    metadata: {
-      Name: null,
-      Version: null,
-      ID: null,
-    },
-    data: {
-      Content: body.Content,
-      URL: body.URL,
-      debloat: body.debloat,
-      JSProgram: body.JSProgram,
-    },
-  };
+    const { body } = request;
+    const _package: Package = {
+      metadata: {
+        Name: null,
+        Version: null,
+        ID: null,
+      },
+      data: {
+        Content: body.Content,
+        URL: body.URL,
+        debloat: body.debloat,
+        JSProgram: body.JSProgram,
+      },
+    };
 
-  if (checkPackageData(body) === false) {
-    return response.status(400).send();
+    if (checkPackageData(body) === false) {
+      return response.status(400).send();
+    }
+
+    console.log("here");
+    const returnPackage: Package = await dbUploadPackage(_package);
+    console.log("here2");
+
+    return response.send({ returnPackage });
   }
-
-  console.log("here");
-  const returnPackage: Package = await dbUploadPackage(_package);
-  console.log("here2");
-
-  return response.send({ returnPackage });
-  }
-  catch (error) {
+ catch (error) {
     logger.error("Error uploading package:", error);
     return response.status(500).send();
   }
