@@ -1,36 +1,65 @@
 /*
- * Author(s): Joe Dahms
+ * Author(s): Joe Dahms, Jonah Salyers
  * Purpose: Handle requests to the package endpoint. All package endpoint
  * controllers are currently contained in this file.
  */
+/* eslint-disable @typescript-eslint/require-await */
+import logger from "../../../logger.js";
 
 import { Request, Response } from "express";
 import { isValidRegex } from "./isValidRegex.js";
-import { PackageData, checkPackageData } from "./packageData.js";
-import { PackageMetadata } from "./packageMetadata.js";
-import { RegexData } from "./regexData.js";
 
-// /package
-export const uploadPackage = (
+// Removed unused imports:
+// import prisma from "../../database/prisma.js";
+// import { evaluateModule } from "../../models/evaluators/evaluateModule.js";
+// import { PackageMetadata } from "./packageMetadata.js";
+
+import { dbUploadPackage } from "../../database/controllers/package/upload.js";
+import { PackageData, checkPackageData } from "./packageData.js";
+import { Package } from "./package.js";
+import { RegexData } from "./regexData.js";
+import { dbDeletePackage } from "../../database/controllers/package/delete.js";
+
+export const uploadPackage = async (
   request: Request<unknown, unknown, PackageData, unknown>,
   response: Response,
-): Response => {
-  const { body } = request;
-  if (checkPackageData(body) === false) {
-    return response.status(400).send();
+): Promise<void> => {
+  try {
+    const { body } = request;
+    const _package: Package = {
+      metadata: {
+        Name: null,
+        Version: null,
+        ID: null,
+      },
+      data: {
+        Content: body.Content,
+        URL: body.URL,
+        debloat: body.debloat,
+        JSProgram: body.JSProgram,
+      },
+    };
+
+    if (!checkPackageData(body)) {
+      response.status(400).send();
+      return;
+    }
+
+    console.log("here");
+    const returnPackage: Package = await dbUploadPackage(_package);
+    console.log("here2");
+
+    response.send({ returnPackage });
+    return;
+  } catch (error) {
+    logger.error("Error uploading package:", error);
+    response.status(500).send();
+    return;
   }
-  // DATABASE FUNCTION HERE
-  // Take in PackageData
-  // Return PackageMetadata
-  // function dbfunction(param1: PackageData): PackageMetadata
-  //
-  //
-  // Handle exists already and not uploaded
-  return response.status(200).send();
 };
 
 // /package/:id
-export const getPackage = (req: Request, res: Response): Response => {
+export const getPackage = async (req: Request, res: Response): Promise<void> => {
   const packageID = req.params.id;
 
   if (packageID === "00000000") {
@@ -47,63 +76,86 @@ export const getPackage = (req: Request, res: Response): Response => {
         JSProgram: "<string>",
       },
     });
+    return;
   }
   // Incorrect packageID format
   else if (packageID === "123456789" || packageID === "1234567") {
-    return res.status(400).send();
+    res.status(400).send();
+    return;
   }
   // Package does not exist
   else if (packageID === "99999999") {
-    return res.status(404).send();
+    res.status(404).send();
+    return;
   }
-  return res.status(200).send();
+  res.status(200).send();
+  return;
 };
 
 // /package/:id
-export const updatePackage = (req: Request, res: Response): Response => {
+export const updatePackage = async (req: Request, res: Response): Promise<void> => {
   const packageID = req.params.id;
 
   if (packageID === "00000000") {
-    return res.status(200).send();
+    res.status(200).send();
+    return;
   }
   // Incorrect packageID format
   else if (packageID === "123456789" || packageID === "1234567") {
-    return res.status(400).send();
+    res.status(400).send();
+    return;
   }
   // Package does not exist
   else if (packageID === "99999999") {
-    return res.status(404).send();
+    res.status(404).send();
+    return;
   }
-  return res.status(200).send();
+  res.status(200).send();
+  return;
 };
 
 // /package/:id
-export const deletePackage = (req: Request, res: Response): Response => {
-  const packageID = req.params.id;
+export const deletePackage = async (req: Request, res: Response): Promise<void> => {
+  const packageIDString = req.params.id;
 
-  if (packageID === "00000000") {
-    return res.status(200).send();
+  // Validate that package ID is exactly 8 digits
+  const packageIDRegex = /^\d{8}$/;
+  if (!packageIDRegex.test(packageIDString)) {
+    // Return 400 Bad Request with no response body
+    res.status(400).send();
+    return;
   }
-  // Incorrect packageID format
-  else if (packageID === "123456789" || packageID === "1234567") {
-    return res.status(400).send();
+
+  const packageID = parseInt(packageIDString, 10);
+
+  try {
+    const success = await dbDeletePackage(packageID);
+
+    if (!success) {
+      // Return 404 Not Found with no response body
+      res.status(404).send();
+      return;
+    }
+
+    // Return 200 OK with no response body on successful deletion
+    res.status(200).send();
+    return;
+  } catch (error) {
+    // Return 500 Internal Server Error with no response body
+    res.status(500).send();
+    return;
   }
-  // Package does not exist
-  else if (packageID === "99999999") {
-    return res.status(404).send();
-  }
-  return res.status(200).send();
 };
 
 // /package/:id/rate
-export const getPackageRating = (req: Request, res: Response): Response => {
+export const getPackageRating = async (req: Request, res: Response): Promise<void> => {
   // IMPLEMENT DATABASE FUNCTION HERE
 
   // Temporary to check formatting
   // Can remove when database function is implemented
   const packageID = req.params.id;
   if (packageID === "00000000") {
-    return res.json({
+    res.json({
       RampUp: "<double>",
       Correctness: "<double>",
       BusFactor: "<double>",
@@ -121,27 +173,26 @@ export const getPackageRating = (req: Request, res: Response): Response => {
       PullRequestLatency: "<double>",
       NetScoreLatency: "<double>",
     });
+    return;
+  } else if (packageID === "1234567" || packageID === "123456789") {
+    res.status(400).send();
+    return;
+  } else if (packageID === "99999999") {
+    res.status(404).send();
+    return;
   }
- else if (packageID === "1234567") {
-    return res.status(400).send();
-  }
- else if (packageID === "123456789") {
-    return res.status(400).send();
-  }
- else if (packageID === "99999999") {
-    return res.status(404).send();
-  }
-  return res.status(200).send();
+  res.status(200).send();
+  return;
 };
 
 // /package/:id/cost
-export const getPackageCost = (req: Request, res: Response): Response => {
+export const getPackageCost = async (req: Request, res: Response): Promise<void> => {
   const dependency = req.query.dependency;
   const packageID = req.params.id;
 
   if (packageID === "00000000") {
     if (dependency === "true") {
-      return res.send({
+      res.send({
         "00000000": {
           standaloneCost: 1.0,
           totalCost: 1.0,
@@ -151,47 +202,45 @@ export const getPackageCost = (req: Request, res: Response): Response => {
           totalCost: 1.0,
         },
       });
-    }
- else if (dependency === "false") {
-      return res.send({
+      return;
+    } else if (dependency === "false") {
+      res.send({
         "00000000": {
           totalCost: 1.0,
         },
       });
+      return;
     }
   }
   // Incorrect packageID format
   else if (packageID === "123456789" || packageID === "1234567") {
-    return res.status(400).send();
+    res.status(400).send();
+    return;
   }
   // Package does not exist
   else if (packageID === "99999999") {
-    return res.status(404).send();
+    res.status(404).send();
+    return;
   }
-  return res.status(200).send();
+  res.status(200).send();
+  return;
 };
 
 // /package/byRegEx
-export const getPackageByRegEx = (
+export const getPackageByRegEx = async (
   request: Request<unknown, unknown, RegexData, unknown>,
   res: Response,
-): Response => {
+): Promise<void> => {
   const { body } = request;
   // Check if key is formatted properly
   if (body.RegEx === undefined) {
-    return res.status(400).send();
-  }
- else if (isValidRegex(body.RegEx) === false) {
-    return res.status(400).send();
-
-    // DB FUNCTION HERE
-    // Take in an object of type RegexData and return an array of package metadata objects
-    // function dbfunction(param1: RegexData): PackageMetadata[] {
-    //
-    // }
-  }
- else if (body.RegEx === "/hello/") {
-    return res.send([
+    res.status(400).send();
+    return;
+  } else if (!isValidRegex(body.RegEx)) {
+    res.status(400).send();
+    return;
+  } else if (body.RegEx === "/hello/") {
+    res.send([
       {
         Name: "<string>",
         Version: "<string>",
@@ -203,8 +252,9 @@ export const getPackageByRegEx = (
         ID: "7Dkbwno5XdR",
       },
     ]);
-  }
- else {
-    return res.status(200).send();
+    return;
+  } else {
+    res.status(200).send();
+    return;
   }
 };
