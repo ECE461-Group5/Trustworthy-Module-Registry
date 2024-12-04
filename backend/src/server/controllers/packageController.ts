@@ -24,7 +24,7 @@ import { dbDeletePackage } from "../../database/controllers/package/delete.js";
 export const uploadPackage = async (
   request: Request<unknown, unknown, PackageData, unknown>,
   response: Response,
-): Promise<void | Response> => {
+): Promise<void> => {
   try {
   const { body } = request;
   const _package: Package = {
