@@ -1,11 +1,11 @@
 /*
- * Author(s): Joe Dahms
+ * Author(s): Joe Dahms, Jonah Salyers
  * Purpose: Test the package endpoint.
  */
 
 import { expect, describe, test, vi } from "vitest";
 import request from "supertest";
-import app from "../../../server/server.js";
+import app from "../../../../server/server.js";
 import { dbUploadPackage } from "../../../database/controllers/package/upload.js";
 
 describe("prisma test", () => {
@@ -59,7 +59,7 @@ describe("prisma test", () => {
       metadata: {
         Name: mockPackage.name,
         Version: mockPackage.version,
-        ID: mockPackage.id,
+        ID: null,
       },
       data: {
         Content: mockPackage.content,
