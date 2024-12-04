@@ -655,7 +655,7 @@ describe("prisma test", () => {
       metadata: {
         Name: mockPackage.name,
         Version: mockPackage.version,
-        ID: mockPackage.id,
+        ID: null,
       },
       data: {
         Content: mockPackage.content,
