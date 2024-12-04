@@ -106,7 +106,7 @@ export const updatePackage = (req: Request, res: Response): Response => {
 };
 
 // /package/:id
-export const deletePackage = async (req: Request, res: Response): Promise<Response> => {
+export const deletePackage = async (req: Request, res: Response): Promise<void> => {
   const packageIDString = req.params.id;
 
   // Validate that package ID is exactly 8 digits
