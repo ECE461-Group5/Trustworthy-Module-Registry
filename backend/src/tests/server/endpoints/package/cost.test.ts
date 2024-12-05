@@ -3,7 +3,7 @@
  * Purpose: Test getting the cost of a package.
  */
 
-import { expect, describe, test, vi } from "vitest";
+import { expect, describe, test } from "vitest";
 import request from "supertest";
 import app from "../../../../server/server.js";
 

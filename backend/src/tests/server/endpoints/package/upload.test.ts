@@ -124,7 +124,6 @@ describe("/package endpoint", () => {
     },
     */
   ])("$testName", async ({ packageData, mockPackage, expectedStatus, expectedBody }) => {
-    prismaMock.package.create.mockResolvedValue(mockPackage);
     const response = await request(app).post("/package").send(packageData);
 
     expect(response.statusCode).toEqual(expectedStatus);

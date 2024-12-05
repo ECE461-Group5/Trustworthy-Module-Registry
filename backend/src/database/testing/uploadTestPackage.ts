@@ -6,7 +6,7 @@
 import prisma from "../prisma.js";
 import { Package } from "../../server/controllers/package.js";
 
-export const uploadContentPackage = async (): Promise<number> => {
+export async function uploadContentPackage (): Promise<string> {
   const contentPackage: Package = {
     metadata: {
       Name: null,
@@ -23,7 +23,7 @@ export const uploadContentPackage = async (): Promise<number> => {
 
   const newPackage = await prisma.package.create({
     data: {
-      name: "noname",
+      name: "testContent",
       version: "noversion",
       content: contentPackage.data.Content,
       url: contentPackage.data.URL,
@@ -31,5 +31,10 @@ export const uploadContentPackage = async (): Promise<number> => {
       jsProgram: contentPackage.data.JSProgram,
     },
   });
-  return newPackage.id;
-};
+
+  // Return id with proper number of digits
+  let newPackageId = String(newPackage.id);
+  newPackageId = newPackageId.padStart(8, "0");
+  console.log(newPackageId);
+  return newPackageId;
+}

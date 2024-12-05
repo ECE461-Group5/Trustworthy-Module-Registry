@@ -15,6 +15,7 @@ import { PackageData, checkPackageData } from "./packageData.js";
 import { Package } from "./package.js";
 import { RegexData } from "./regexData.js";
 import { dbDeletePackage } from "../../database/controllers/package/delete.js";
+import { checkValidId } from "./checkValidId.js";
 
 export const uploadPackage = async (
   request: Request<unknown, unknown, PackageData, unknown>,
@@ -113,20 +114,17 @@ export const updatePackage = async (req: Request, res: Response): Promise<void> 
 
 // /package/:id
 export const deletePackage = async (req: Request, res: Response): Promise<void> => {
-  const packageIDString = req.params.id;
+  const packageIdString = req.params.id;
 
-  // Validate that package ID is exactly 8 digits
-  const packageIDRegex = /^\d{8}$/;
-  if (!packageIDRegex.test(packageIDString)) {
-    // Return 400 Bad Request with no response body
+  const validId: boolean = checkValidId(packageIdString);
+  if (!validId) {
     res.status(400).send();
     return;
   }
 
-  const packageID = parseInt(packageIDString, 10);
-
+  const packageId = parseInt(packageIdString, 10);
   try {
-    const success = await dbDeletePackage(packageID);
+    const success = await dbDeletePackage(packageId);
 
     if (!success) {
       // Return 404 Not Found with no response body
@@ -140,6 +138,7 @@ export const deletePackage = async (req: Request, res: Response): Promise<void> 
   }
  catch (error) {
     // Return 500 Internal Server Error with no response body
+    logger.error("Error deleting package:", error);
     res.status(500).send();
     return;
   }

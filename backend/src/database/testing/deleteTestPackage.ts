@@ -5,11 +5,11 @@
 
 import prisma from "../prisma.js";
 
-export const deleteContentPackage = async (packageId: number): Promise<void> => {
+export async function deleteContentPackage (packageId: number): Promise<void> {
   await prisma.package.delete({
     where: {
       id: packageId,
     },
   });
   return;
-};
+}

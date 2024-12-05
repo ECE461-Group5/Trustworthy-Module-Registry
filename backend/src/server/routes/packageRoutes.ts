@@ -30,7 +30,6 @@ const asyncHandler = (fn: AsyncRequestHandler): RequestHandler => {
   };
 };
 
-
 router.post("/", asyncHandler(uploadPackage));
 router.get("/:id", asyncHandler(getPackage));
 router.put("/:id", asyncHandler(updatePackage));
