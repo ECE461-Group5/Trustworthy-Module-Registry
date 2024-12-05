@@ -1,7 +1,7 @@
 
 
 const App = () => {
-  return <div>Testing application start for mounting website.</div>;
+  return <div>Module Registry - Group 105</div>;
 };
 
 export default App;
