@@ -22,6 +22,10 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
+      - name: Set Environmental Variables
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      
       - name: Checkout Repository
         uses: actions/checkout@v4
 
