@@ -15,6 +15,7 @@ import { PackageData, checkPackageData } from "./packageData.js";
 import { Package } from "./package.js";
 import { RegexData } from "./regexData.js";
 import { dbDeletePackage } from "../../database/controllers/package/delete.js";
+import { dbUpdatePackage } from "../../database/controllers/package/update.js";
 import { checkValidId } from "./checkValidId.js";
 
 export const uploadPackage = async (
@@ -92,24 +93,33 @@ export const getPackage = async (req: Request, res: Response): Promise<void> => 
 
 // /package/:id
 export const updatePackage = async (req: Request, res: Response): Promise<void> => {
-  const packageID = req.params.id;
+  const packageIdString = req.params.id;
 
-  if (packageID === "00000000") {
-    res.status(200).send();
-    return;
-  }
-  // Incorrect packageID format
-  else if (packageID === "123456789" || packageID === "1234567") {
+  // Validate that package ID is exactly 8 digits
+  const packageIDRegex = /^\d{8}$/;
+  if (!packageIDRegex.test(packageIdString)) {
     res.status(400).send();
     return;
   }
-  // Package does not exist
-  else if (packageID === "99999999") {
-    res.status(404).send();
+
+  const packageId = parseInt(packageIdString, 10);
+  const packageData = req.body as PackageData;
+
+  try {
+    const updatedPackage = await dbUpdatePackage(packageId, packageData);
+
+    if (!updatedPackage) {
+      res.status(404).send();
+      return;
+    }
+
+    res.status(200).json(updatedPackage);
+    return;
+  } catch (error) {
+    logger.error("Error updating package:", error);
+    res.status(500).send();
     return;
   }
-  res.status(200).send();
-  return;
 };
 
 // /package/:id
