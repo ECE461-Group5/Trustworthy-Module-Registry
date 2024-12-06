@@ -2,8 +2,9 @@
 
 ENV_PATH=/home/ubuntu/trustworthy-module-registry/backend/.env
 
-# Create .env file
+# Ensure .env file exists and is empty
 touch $ENV_PATH
+> $ENV_PATH
 
 # Create log file
 touch /home/ubuntu/trustworthy-module-registry/backend/logs/app.log
