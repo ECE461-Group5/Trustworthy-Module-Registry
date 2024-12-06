@@ -1,6 +1,7 @@
-/*
- * Author(s): Joe Dahms
- * Purpose: Test retrieving a package.
+/**
+ * @filename - retrieveById.test.ts
+ * @author(s) - Joe Dahms
+ * @purpose - Test retrieving a package.
  */
 
 import { expect, describe, test, vi } from "vitest";

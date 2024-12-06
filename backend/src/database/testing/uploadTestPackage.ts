@@ -1,11 +1,21 @@
-/*
- * Author(s): Joe Dahms
- * Purpose: Upload packages to database for testing. Mocking was attempted for this purpose but abandoned due to no progress being made.
+/**
+ * @filename - uploadTestPackage.ts
+ * @author(s) - Joe Dahms
+ * @purpose - Upload packages to database for testing. Mocking was attempted for this purpose but abandoned due to no progress being made.
+ * Packages are just uploaded to the database temporarily with the expectation that they will be deleted after the test runs.
  */
 
 import prisma from "../prisma.js";
 import { Package } from "../../server/controllers/package.js";
 
+/**
+ * @function uploadContentPackage
+ *
+ * Upload a temporary package to the database for testing. Package is a content package meaning its content field is set as opposed to its url field.
+ *
+ * @param none
+ * @returns - Promise resolved with a Package. The package object contains info about the package that was uploaded to the database.
+ */
 export async function uploadContentPackage (): Promise<Package> {
   const contentPackage: Package = {
     metadata: {

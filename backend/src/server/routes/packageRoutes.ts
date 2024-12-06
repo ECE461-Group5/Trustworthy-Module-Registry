@@ -1,6 +1,7 @@
-/*
- * Author(s): Joe Dahms
- * Purpose: Set up the routes for the package endpoint. See controllers
+/**
+ * @filename - packageRoutes.ts
+ * @author(s) - Joe Dahms
+ * @purpose - Set up the routes for the package endpoint. See controllers
  * for request handling logic.
  */
 

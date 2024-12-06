@@ -1,6 +1,7 @@
-/*
- * Author(s): Joe Dahms
- * Purpose: Test that isValidRegex can indentify harmful or incorrect regexes.
+/**
+ * @filename - isValidRegex.test.ts
+ * @author(s) - Joe Dahms
+ * @purpose - Test that isValidRegex can indentify harmful or incorrect regexes.
  */
 
 import logger from "../../../../../logger.js";

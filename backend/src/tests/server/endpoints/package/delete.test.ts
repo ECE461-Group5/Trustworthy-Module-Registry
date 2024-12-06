@@ -1,6 +1,7 @@
-/*
- * Author(s): Joe Dahms
- * Purpose: Test deleting a package from the package registry.
+/**
+ * @filename - delete.test.ts
+ * @author(s) - Joe Dahms
+ * @purpose - Test deleting a package from the package registry.
  */
 
 import logger from "../../../../../logger.js";

@@ -1,6 +1,7 @@
-/*
- * Author(s): Joe Dahms, Jonah Salyers
- * Purpose: Define the PackageData data type and a function to ensure that an object of said
+/**
+ * @filename - packageData.ts
+ * @author(s) - Joe Dahms, Jonah Salyers
+ * @purpose - Define the PackageData data type and a function to ensure that an object of said
  * type contains all the fields
  */
 

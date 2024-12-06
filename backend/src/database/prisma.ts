@@ -1,5 +1,8 @@
-// src/database.ts
-// Allows Prisma to work within the application
+/**
+ * @filename - database.ts
+ * @author(s) - Juan, Jonah Salyers
+ * @purpose - Set up a prisma object so that prisma can be used to operate on the database.
+ */
 
 import { PrismaClient } from "@prisma/client";
 

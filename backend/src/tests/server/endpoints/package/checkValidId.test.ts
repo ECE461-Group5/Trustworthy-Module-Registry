@@ -1,6 +1,7 @@
-/*
- * Author(s): Joe Dahms
- * Purpose: Test that checkValidId can actually check that an ID is valid.
+/**
+ * @filename - checkValidId.test.ts
+ * @author(s) - Joe Dahms
+ * @purpose - Test that checkValidId can actually check that an ID is valid.
  */
 
 import logger from "../../../../../logger.js";
