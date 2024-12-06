@@ -14,18 +14,10 @@ import { deleteContentPackage } from "../../../../database/testing/deleteTestPac
 describe("DELETE /package/:id endpoint", () => {
   // Package exists
   test("Delete the package", async () => {
-    const packageID = await uploadContentPackage();
-    const response = await request(app).delete(`/package/${packageID}`);
+    const uploadedPackage = await uploadContentPackage();
+    const response = await request(app).delete(`/package/${uploadedPackage.metadata.ID}`);
     expect(response.statusCode).toEqual(200);
     expect(response.body).toEqual({});
-  });
-
-  // Package ID format
-  test.each([])("$testName", async ({ packageID, expectedStatus, expectedBody }) => {
-    const response = await request(app).get(`/package/${packageID}`);
-
-    expect(response.statusCode).toEqual(expectedStatus);
-    expect(response.body).toEqual(expectedBody);
   });
 
   // ID format
@@ -75,7 +67,8 @@ describe("DELETE /package/:id endpoint", () => {
     // Ensure that the package does not exist and just log the error to "ignore" it
     try {
       await deleteContentPackage(99999999);
-    } catch (error) {
+    }
+ catch (error) {
       logger.error(error);
     }
     const response = await request(app).delete(`/package/${packageID}`);

@@ -6,33 +6,41 @@
 import { expect, describe, test, vi } from "vitest";
 import request from "supertest";
 import app from "../../../../server/server.js";
+import logger from "../../../../../logger.js";
+
+import { uploadContentPackage } from "../../../../database/testing/uploadTestPackage.ts";
+import { deleteContentPackage } from "../../../../database/testing/deleteTestPackage.ts";
 
 describe("GET /package/:id endpoint", () => {
-  // Return package
-  test.each([
-    {
-      testName: "Return the package",
-      packageID: "00000000",
-      expectedStatus: 200,
-      expectedBody: {
-        metadata: {
-          Name: "<string>",
-          Version: "<string>",
-          ID: "00000000",
-        },
-        data: {
-          Content: "<string>",
-          URL: "<string>",
-          debloat: "<boolean>",
-          JSProgram: "<string>",
-        },
-      },
-    },
-  ])("$testName", async ({ packageID, expectedStatus, expectedBody }) => {
-    const response = await request(app).get(`/package/${packageID}`);
+  // Success
+  test("Package exists", async () => {
+    const uploadedPackage = await uploadContentPackage();
+    const response = await request(app).get(`/package/${uploadedPackage.metadata.ID}`);
 
-    expect(response.statusCode).toEqual(expectedStatus);
-    expect(response.body).toEqual(expectedBody);
+    if (
+      typeof response.body.data.Content === "object" &&
+      response.body.data.Content.type === "Buffer"
+    ) {
+      response.body.data.Content = Buffer.from(response.body.data.Content.data);
+    }
+
+    expect(response.statusCode).toEqual(200);
+    expect(response.body).toEqual({
+      metadata: {
+        Name: uploadedPackage.metadata.Name,
+        Version: uploadedPackage.metadata.Version,
+        ID: uploadedPackage.metadata.ID,
+      },
+      data: {
+        Content: uploadedPackage.data.Content,
+        URL: uploadedPackage.data.URL,
+        debloat: uploadedPackage.data.debloat,
+        JSProgram: uploadedPackage.data.JSProgram,
+      },
+    });
+
+    const uploadedPackageId = Number(uploadedPackage.metadata.ID);
+    await deleteContentPackage(uploadedPackageId);
   });
 
   // Package ID format
@@ -67,7 +75,14 @@ describe("GET /package/:id endpoint", () => {
       expectedBody: {},
     },
   ])("$testName", async ({ packageID, expectedStatus, expectedBody }) => {
-    const response = await request(app).get(`/package/${packageID}`);
+    // Ensure that the package does not exist and just log the error to "ignore" it
+    try {
+      await deleteContentPackage(99999999);
+    }
+ catch (error) {
+      logger.error(error);
+    }
+    const response = await request(app).delete(`/package/${packageID}`);
 
     expect(response.statusCode).toEqual(expectedStatus);
     expect(response.body).toEqual(expectedBody);

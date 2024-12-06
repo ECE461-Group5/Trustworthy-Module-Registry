@@ -43,13 +43,12 @@ export const uploadPackage = async (
       return;
     }
 
-    console.log("here");
     const returnPackage: Package = await dbUploadPackage(_package);
-    console.log("here2");
 
     response.send({ returnPackage });
     return;
-  } catch (error) {
+  }
+ catch (error) {
     logger.error("Error uploading package:", error);
     response.status(500).send();
     return;
@@ -60,9 +59,8 @@ export const uploadPackage = async (
 export const getPackage = async (req: Request, res: Response): Promise<void> => {
   const packageIdString = req.params.id;
 
-  // Validate that package ID is exactly 8 digits
-  const packageIDRegex = /^\d{8}$/;
-  if (!packageIDRegex.test(packageIdString)) {
+  const validId: boolean = checkValidId(packageIdString);
+  if (!validId) {
     res.status(400).send();
     return;
   }
@@ -79,7 +77,8 @@ export const getPackage = async (req: Request, res: Response): Promise<void> => 
 
     res.status(200).json(packageData);
     return;
-  } catch (error) {
+  }
+ catch (error) {
     logger.error("Error retrieving package:", error);
     res.status(500).send();
     return;
@@ -131,7 +130,8 @@ export const deletePackage = async (req: Request, res: Response): Promise<void> 
     // Return 200 OK with no response body on successful deletion
     res.status(200).send();
     return;
-  } catch (error) {
+  }
+ catch (error) {
     // Return 500 Internal Server Error with no response body
     logger.error("Error deleting package:", error);
     res.status(500).send();
@@ -166,10 +166,12 @@ export const getPackageRating = async (req: Request, res: Response): Promise<voi
       NetScoreLatency: "<double>",
     });
     return;
-  } else if (packageID === "1234567" || packageID === "123456789") {
+  }
+ else if (packageID === "1234567" || packageID === "123456789") {
     res.status(400).send();
     return;
-  } else if (packageID === "99999999") {
+  }
+ else if (packageID === "99999999") {
     res.status(404).send();
     return;
   }
@@ -195,7 +197,8 @@ export const getPackageCost = async (req: Request, res: Response): Promise<void>
         },
       });
       return;
-    } else if (dependency === "false") {
+    }
+ else if (dependency === "false") {
       res.send({
         "00000000": {
           totalCost: 1.0,
@@ -228,10 +231,12 @@ export const getPackageByRegEx = async (
   if (body.RegEx === undefined) {
     res.status(400).send();
     return;
-  } else if (!isValidRegex(body.RegEx)) {
+  }
+ else if (!isValidRegex(body.RegEx)) {
     res.status(400).send();
     return;
-  } else if (body.RegEx === "/hello/") {
+  }
+ else if (body.RegEx === "/hello/") {
     res.send([
       {
         Name: "<string>",
@@ -245,7 +250,8 @@ export const getPackageByRegEx = async (
       },
     ]);
     return;
-  } else {
+  }
+ else {
     res.status(200).send();
     return;
   }

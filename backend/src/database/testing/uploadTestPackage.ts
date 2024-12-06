@@ -6,7 +6,7 @@
 import prisma from "../prisma.js";
 import { Package } from "../../server/controllers/package.js";
 
-export async function uploadContentPackage(): Promise<string> {
+export async function uploadContentPackage (): Promise<Package> {
   const contentPackage: Package = {
     metadata: {
       Name: null,
@@ -32,9 +32,13 @@ export async function uploadContentPackage(): Promise<string> {
     },
   });
 
+  contentPackage.metadata.Name = newPackage.name;
+  contentPackage.metadata.Version = newPackage.version;
+
   // Return id with proper number of digits
   let newPackageId = String(newPackage.id);
   newPackageId = newPackageId.padStart(8, "0");
-  console.log(newPackageId);
-  return newPackageId;
+  contentPackage.metadata.ID = newPackageId;
+
+  return contentPackage;
 }
