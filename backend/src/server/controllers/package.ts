@@ -1,3 +1,9 @@
+/**
+ * @filename - package.ts
+ * @author(s) - Joe Dahms
+ * @purpose - Interface for a package. Helps ensure that each field of a package is of an expected type.
+ */
+
 export interface Package {
   metadata: {
     Name: string | null;

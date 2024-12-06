@@ -1,6 +1,7 @@
-/*
- * Author(s): Joe Dahms
- * Purpose: Test deleting a package from the package registry.
+/**
+ * @filename - delete.test.ts
+ * @author(s) - Joe Dahms
+ * @purpose - Test deleting a package from the package registry.
  */
 
 import logger from "../../../../../logger.js";
@@ -14,18 +15,10 @@ import { deleteContentPackage } from "../../../../database/testing/deleteTestPac
 describe("DELETE /package/:id endpoint", () => {
   // Package exists
   test("Delete the package", async () => {
-    const packageID = await uploadContentPackage();
-    const response = await request(app).delete(`/package/${packageID}`);
+    const uploadedPackage = await uploadContentPackage();
+    const response = await request(app).delete(`/package/${uploadedPackage.metadata.ID}`);
     expect(response.statusCode).toEqual(200);
     expect(response.body).toEqual({});
-  });
-
-  // Package ID format
-  test.each([])("$testName", async ({ packageID, expectedStatus, expectedBody }) => {
-    const response = await request(app).get(`/package/${packageID}`);
-
-    expect(response.statusCode).toEqual(expectedStatus);
-    expect(response.body).toEqual(expectedBody);
   });
 
   // ID format
