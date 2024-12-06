@@ -58,6 +58,18 @@ describe("GET /package/:id endpoint", () => {
       expectedStatus: 400,
       expectedBody: {},
     },
+    {
+      testName: "Package ID not a number",
+      packageID: "376dalsk",
+      expectedStatus: 400,
+      expectedBody: {},
+    },
+    {
+      testName: "Package ID negative",
+      packageID: "-12343121",
+      expectedStatus: 400,
+      expectedBody: {},
+    },
   ])("$testName", async ({ packageID, expectedStatus, expectedBody }) => {
     const response = await request(app).get(`/package/${packageID}`);
 
