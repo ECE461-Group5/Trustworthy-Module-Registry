@@ -38,6 +38,7 @@ export default [
     rules: {
       semi: "error",
       quotes: ["error", "double"],
+      "prefer-const": "off",
       "@typescript-eslint/no-explicit-any": "off",
       "no-array-constructor": "off",
       "@typescript-eslint/no-array-constructor": "error",

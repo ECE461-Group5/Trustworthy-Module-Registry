@@ -9,16 +9,13 @@ import logger from "../../../logger.js";
 import { Request, Response } from "express";
 import { isValidRegex } from "./isValidRegex.js";
 
-// Removed unused imports:
-// import prisma from "../../database/prisma.js";
-// import { evaluateModule } from "../../models/evaluators/evaluateModule.js";
-// import { PackageMetadata } from "./packageMetadata.js";
-
 import { dbUploadPackage } from "../../database/controllers/package/upload.js";
+
 import { PackageData, checkPackageData } from "./packageData.js";
 import { Package } from "./package.js";
 import { RegexData } from "./regexData.js";
 import { dbDeletePackage } from "../../database/controllers/package/delete.js";
+import { checkValidId } from "./checkValidId.js";
 
 export const uploadPackage = async (
   request: Request<unknown, unknown, PackageData, unknown>,
@@ -51,7 +48,8 @@ export const uploadPackage = async (
 
     response.send({ returnPackage });
     return;
-  } catch (error) {
+  }
+ catch (error) {
     logger.error("Error uploading package:", error);
     response.status(500).send();
     return;
@@ -116,20 +114,17 @@ export const updatePackage = async (req: Request, res: Response): Promise<void> 
 
 // /package/:id
 export const deletePackage = async (req: Request, res: Response): Promise<void> => {
-  const packageIDString = req.params.id;
+  const packageIdString = req.params.id;
 
-  // Validate that package ID is exactly 8 digits
-  const packageIDRegex = /^\d{8}$/;
-  if (!packageIDRegex.test(packageIDString)) {
-    // Return 400 Bad Request with no response body
+  const validId: boolean = checkValidId(packageIdString);
+  if (!validId) {
     res.status(400).send();
     return;
   }
 
-  const packageID = parseInt(packageIDString, 10);
-
+  const packageId = parseInt(packageIdString, 10);
   try {
-    const success = await dbDeletePackage(packageID);
+    const success = await dbDeletePackage(packageId);
 
     if (!success) {
       // Return 404 Not Found with no response body
@@ -140,8 +135,10 @@ export const deletePackage = async (req: Request, res: Response): Promise<void> 
     // Return 200 OK with no response body on successful deletion
     res.status(200).send();
     return;
-  } catch (error) {
+  }
+ catch (error) {
     // Return 500 Internal Server Error with no response body
+    logger.error("Error deleting package:", error);
     res.status(500).send();
     return;
   }
@@ -174,10 +171,12 @@ export const getPackageRating = async (req: Request, res: Response): Promise<voi
       NetScoreLatency: "<double>",
     });
     return;
-  } else if (packageID === "1234567" || packageID === "123456789") {
+  }
+ else if (packageID === "1234567" || packageID === "123456789") {
     res.status(400).send();
     return;
-  } else if (packageID === "99999999") {
+  }
+ else if (packageID === "99999999") {
     res.status(404).send();
     return;
   }
@@ -203,7 +202,8 @@ export const getPackageCost = async (req: Request, res: Response): Promise<void>
         },
       });
       return;
-    } else if (dependency === "false") {
+    }
+ else if (dependency === "false") {
       res.send({
         "00000000": {
           totalCost: 1.0,
@@ -236,10 +236,12 @@ export const getPackageByRegEx = async (
   if (body.RegEx === undefined) {
     res.status(400).send();
     return;
-  } else if (!isValidRegex(body.RegEx)) {
+  }
+ else if (!isValidRegex(body.RegEx)) {
     res.status(400).send();
     return;
-  } else if (body.RegEx === "/hello/") {
+  }
+ else if (body.RegEx === "/hello/") {
     res.send([
       {
         Name: "<string>",
@@ -253,7 +255,8 @@ export const getPackageByRegEx = async (
       },
     ]);
     return;
-  } else {
+  }
+ else {
     res.status(200).send();
     return;
   }

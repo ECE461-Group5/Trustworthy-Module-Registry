@@ -1,6 +1,6 @@
 /*
  * Author(s): Jonah Salyers
- * Purpose: Handles deleting a package within Database
+ * Purpose: Handles deleting a package within Database.
  */
 
 import prisma from "../../prisma.js";
@@ -11,7 +11,8 @@ export const dbDeletePackage = async (id: number): Promise<boolean> => {
       where: { id },
     });
     return true;
-  } catch (error) {
+  }
+ catch (error) {
     // If the package does not exist, Prisma throws an error
     return false;
   }
