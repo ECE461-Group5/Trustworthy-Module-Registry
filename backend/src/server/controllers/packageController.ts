@@ -15,6 +15,8 @@ import { PackageData, checkPackageData } from "./packageData.js";
 import { Package } from "./package.js";
 import { RegexData } from "./regexData.js";
 import { dbDeletePackage } from "../../database/controllers/package/delete.js";
+import { dbRatePackage } from "../../database/controllers/package/rating.js";
+
 import { checkValidId } from "./checkValidId.js";
 
 export const uploadPackage = async (
@@ -144,44 +146,27 @@ export const deletePackage = async (req: Request, res: Response): Promise<void> 
   }
 };
 
-// /package/:id/rate
+// Rate package: uses evaluators and metrics to autofill database
 export const getPackageRating = async (req: Request, res: Response): Promise<void> => {
-  // IMPLEMENT DATABASE FUNCTION HERE
-
-  // Temporary to check formatting
-  // Can remove when database function is implemented
-  const packageID = req.params.id;
-  if (packageID === "00000000") {
-    res.json({
-      RampUp: "<double>",
-      Correctness: "<double>",
-      BusFactor: "<double>",
-      ResponsiveMaintainer: "<double>",
-      LicenseScore: "<double>",
-      GoodPinningPractice: "<double>",
-      PullRequest: "<double>",
-      NetScore: "<double>",
-      RampUpLatency: "<double>",
-      CorrectnessLatency: "<double>",
-      BusFactorLatency: "<double>",
-      ResponsiveMaintainerLatency: "<double>",
-      LicenseScoreLatency: "<double>",
-      GoodPinningPracticeLatency: "<double>",
-      PullRequestLatency: "<double>",
-      NetScoreLatency: "<double>",
-    });
-    return;
-  }
- else if (packageID === "1234567" || packageID === "123456789") {
+  const packageIDString = req.params.id;
+  // Validate package ID
+  if (!/^\d{8}$/.test(packageIDString)) {
     res.status(400).send();
     return;
   }
- else if (packageID === "99999999") {
+
+  const packageID = parseInt(packageIDString, 10);
+
+  const success = await dbRatePackage(packageID);
+
+  if (!success) {
+    // Package does not exist or no URL
     res.status(404).send();
     return;
   }
+
+  // On success no body
   res.status(200).send();
-  return;
 };
 
 // /package/:id/cost
