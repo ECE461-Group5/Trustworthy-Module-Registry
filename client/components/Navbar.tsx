@@ -7,7 +7,7 @@ const Navbar = () => {
       <h1>Welcome to ECE 461 Group 5 Project</h1>
       <div className="button-group">
         <Link to="/load-packages">
-          <button className="primary-button">Load Packages</button>
+          <button className="primary-button">List Packages</button>
         </Link>
         <Link to="/upload-package">
           <button className="secondary-button">Upload Package</button>
