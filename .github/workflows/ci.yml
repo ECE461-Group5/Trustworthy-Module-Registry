@@ -6,8 +6,6 @@ name: CI/CD Pipeline
 on:
   push:
     branches-ignore: ["main"]
-  pull_request:
-    branches: ["main"]
 
 permissions:
   contents: read
