@@ -1,4 +1,7 @@
-
+/*
+Author: Djamel Almabouada
+This is the component that displays the navbar
+*/
 
 import React from 'react';
 import { Link } from 'react-router-dom';
