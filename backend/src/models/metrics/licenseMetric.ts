@@ -11,7 +11,7 @@ import logger from "../../../logger.js";
 import fs from "fs";
 import path from "path";
 import git from "isomorphic-git";
-import http from "isomorphic-git/http/node";
+import http from "isomorphic-git/http/node/index.cjs";
 import dotenv from "dotenv";
 dotenv.config();
 

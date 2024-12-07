@@ -1,8 +1,7 @@
-/**
- * @file evaluateModule.ts
- *
- * This is the main driving file for evaluating a module.
- *
+/*
+ * @file - evaluateModule.ts
+ * @author(s) - Logan Pelkey
+ * @purpose - Define the map of metrics and asynchronously evaluate all of them.
  */
 
 import logger from "../../../logger.js";
@@ -16,7 +15,8 @@ import { CorrectnessMetric } from "../metrics/correctnessMetric.js";
 import { LicenseMetric } from "../metrics/licenseMetric.js";
 import { MaintainersMetric } from "../metrics/maintainersMetric.js";
 import { RampUpMetric } from "../metrics/rampupMetric.js";
-
+import { GoodPinningPracticeMetric } from "../metrics/goodPinningPracticeMetric.js";
+import { PullRequestReviewMetric } from "../metrics/pullRequestReviewMetric.js";
 /**
  * @constant {Metric[]} metrics : Array of metrics to be evaluated
  *
@@ -32,6 +32,8 @@ metrics.push(new CorrectnessMetric());
 metrics.push(new LicenseMetric());
 metrics.push(new MaintainersMetric());
 metrics.push(new RampUpMetric());
+metrics.push(new GoodPinningPracticeMetric());
+metrics.push(new PullRequestReviewMetric());
 
 /**
  * @function evaluateModule

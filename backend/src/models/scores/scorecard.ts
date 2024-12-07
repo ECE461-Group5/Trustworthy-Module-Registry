@@ -1,6 +1,7 @@
-/**
- * @file scorecard.ts
- *
+/*
+ * @file - scorecard.ts
+ * @author(s) - Logan Pelkey
+ * @purpose - This class holds all of the metric calculations carried out on the module.
  */
 
 /**
@@ -27,6 +28,10 @@ export class Scorecard {
   responsiveMaintainer_Latency: number;
   license: number;
   license_Latency: number;
+  goodPinningPractice: number;
+  goodPinningPractice_Latency: number;
+  pullRequest: number;
+  pullRequest_Latency: number;
 
   /**
    * @constructor
@@ -51,24 +56,31 @@ export class Scorecard {
     this.responsiveMaintainer_Latency = 0;
     this.license = 0;
     this.license_Latency = 0;
+    this.goodPinningPractice = 0;
+    this.goodPinningPractice_Latency = 0;
+    this.pullRequest = 0;
+    this.pullRequest_Latency = 0;
   }
 
-  // [TODO] Add weights
   public calculateNetScore(): void {
     // Calculate net score based on Sarah's priorities
-    // Responsive maintainers are her highest priority, she also wants low ramp up time
-    const rampUpWeight = 0.2;
-    const correctnessWeight = 0.3;
-    const busFactorWeight = 0.1;
-    const responsiveMaintainerWeight = 0.3;
-    const licenseWeight = 0.1;
+    const rampUpWeight = 0.13;
+    const correctnessWeight = 0.22;
+    const busFactorWeight = 0.09;
+    const responsiveMaintainerWeight = 0.22;
+    const licenseWeight = 0.09;
+    const pinningPracticeWeight = 0.13;
+    const pullRequestReviewWeight = 0.12;
+
     this.netScore = parseFloat(
       (
         this.rampUp * rampUpWeight +
         this.correctness * correctnessWeight +
         this.busFactor * busFactorWeight +
         this.responsiveMaintainer * responsiveMaintainerWeight +
-        this.license * licenseWeight
+        this.license * licenseWeight +
+        this.goodPinningPractice * pinningPracticeWeight +
+        this.pullRequest * pullRequestReviewWeight
       ).toFixed(3),
     );
     this.netScore_Latency = parseFloat(
@@ -77,10 +89,13 @@ export class Scorecard {
         this.correctness_Latency * correctnessWeight +
         this.busFactor_Latency * busFactorWeight +
         this.responsiveMaintainer_Latency * responsiveMaintainerWeight +
-        this.license_Latency * licenseWeight
+        this.license_Latency * licenseWeight +
+        this.goodPinningPractice_Latency * pinningPracticeWeight +
+        this.pullRequest_Latency * pullRequestReviewWeight
       ).toFixed(3),
     );
-  }
+}
+
 
   // Convert all member variables to NJSON
   public getResults(): string {
@@ -99,6 +114,10 @@ export class Scorecard {
         ResponsiveMaintainer_Latency: this.responsiveMaintainer_Latency,
         License: this.license,
         License_Latency: this.license_Latency,
+        GoodPinningPractice: this.goodPinningPractice,
+        GoodPinningPractice_Latency: this.goodPinningPractice_Latency,
+        PullRequest: this.pullRequest,
+        PullRequest_Latency: this.pullRequest_Latency
       },
     ];
     // Convert the array to a JSON string
