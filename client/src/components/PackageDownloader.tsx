@@ -5,7 +5,7 @@ Purpose: Class for Downloading Packages from API
 
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import axios from "axios";
-import "./App.css"; // Styles are in this file.
+import "../App.css"; // Styles are in this file.
 import { wait } from "@testing-library/user-event/dist/utils";
 
 
