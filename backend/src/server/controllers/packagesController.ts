@@ -1,6 +1,7 @@
-/*
- * Author(s): Joe Dahms
- * Purpose: Handle incoming requests to the /packages endpoint.
+/**
+ * @filename - packagesController.ts
+ * @author(s) - Joe Dahms
+ * @purpose - Handle incoming requests to the /packages endpoint.
  */
 
 import { Request, Response } from "express";
@@ -15,6 +16,15 @@ interface Query {
   offset?: string;
 }
 
+/**
+ * @function getPackages
+ *
+ * Get multiple packages from the database.
+ *
+ * @param req- The request object coming in. Expected to only contain an array of packages.
+ * @param res- The response to send back.
+ * @returns - void
+ */
 export const getPackages = (
   req: Request<unknown, unknown, Array<Package>, Query>,
   res: Response,

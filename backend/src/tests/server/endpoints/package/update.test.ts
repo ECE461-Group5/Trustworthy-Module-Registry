@@ -1,6 +1,7 @@
-/*
- * Author(s): Joe Dahms
- * Purpose: Test updating a package.
+/**
+ * @filename - update.test.ts
+ * @author(s) - Joe Dahms
+ * @purpose - Test updating a package.
  */
 
 import { expect, describe, test, vi } from "vitest";
