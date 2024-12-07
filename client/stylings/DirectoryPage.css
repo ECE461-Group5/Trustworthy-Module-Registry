@@ -1,0 +1,155 @@
+/* Directory Page */
+.directory-page {
+    text-align: center;
+    margin: 20px;
+    padding: 20px;
+    background-color: #111; /* Dark background */
+    color: #fff; /* White text */
+  }
+  
+  /* Page Title */
+  .directory-page h1 {
+    font-size: 2.5rem;
+    color: #ff0000; /* Red title */
+    margin-bottom: 20px;
+  }
+  
+  /* Search Section */
+  .search-section {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .search-input {
+    padding: 10px;
+    font-size: 1rem;
+    width: 250px;
+    border: 2px solid #333;
+    border-radius: 5px;
+    background-color: #222; /* Dark input background */
+    color: #fff; /* White text */
+  }
+  
+  .search-input::placeholder {
+    color: #888; /* Placeholder text color */
+  }
+  
+  .search-button, .regex-button, .name-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: 2px solid #333;
+    border-radius: 5px;
+    background-color: #222;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .search-button:hover, .regex-button:hover, .name-button:hover {
+    background-color: #444; /* Darker background on hover */
+  }
+  
+  /* Packages Table */
+  .packages-table {
+    width: 80%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    background-color: #222;
+    color: #fff;
+  }
+  
+  .packages-table th, .packages-table td {
+    border: 1px solid #333;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .packages-table th {
+    background-color: #333;
+    color: #ff0000; /* Red table headers */
+    font-size: 1.1rem;
+  }
+  
+  .packages-table td {
+    background-color: #222;
+    color: #fff;
+    font-size: 1rem;
+  }
+  
+  /* Buttons in the Table */
+  .ratings-button, .update-button, .delete-button, .cost-button {
+    padding: 5px 10px;
+    font-size: 0.9rem;
+    border: 2px solid #333;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0 5px;
+  }
+  
+  .ratings-button {
+    border-color: #4caf50; /* Green border */
+    background-color: transparent;
+    color: #4caf50; /* Green text */
+  }
+  
+  .ratings-button:hover {
+    background-color: #4caf50; /* Green background */
+    color: #fff; /* White text */
+  }
+  
+  .update-button {
+    border-color: #8a4d07; /* Yellow border */
+    background-color: transparent;
+    color: #8a4d07; /* Yellow text */
+  }
+  
+  .update-button:hover {
+    background-color: #8a4d07; /* Yellow background */
+    color: #fff; /* White text */
+  }
+  
+  .delete-button {
+    border-color: #f44336; /* Red border */
+    background-color: transparent;
+    color: #f44336; /* Red text */
+  }
+  
+  .delete-button:hover {
+    background-color: #f44336; /* Red background */
+    color: #fff; /* White text */
+  }
+
+  .cost-button {
+    border-color: #ffc107; /* Yellow border */
+    background-color: transparent;
+    color: #ffc107; /* Yellow text */
+  }
+  
+  .cost-button:hover {
+    background-color: #ffc107; /* Yellow background */
+    color: #fff; /* White text */
+  }
+  
+/*This fro the Model overlay*/
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal-content {
+    background-color: #a42d2d;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  

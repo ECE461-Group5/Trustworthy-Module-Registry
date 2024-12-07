@@ -1,0 +1,13 @@
+{
+    "packages": [
+      { "ID": "1", "Version": "1.0", "Name": "Package A", "Cost": "$10" },
+      { "ID": "2", "Version": "1.1", "Name": "Package B", "Cost": "$15" },
+      { "ID": "3", "Version": "2.0", "Name": "Package C", "Cost": "$20" }
+    ],
+    "ratings": {
+      "1": [{ "comment": "Great!", "stars": 5 }],
+      "2": [{ "comment": "Good", "stars": 4 }],
+      "3": [{ "comment": "Average", "stars": 3 }]
+    }
+  }
+  

@@ -1,0 +1,110 @@
+/* General page styling */
+.home-page {
+    text-align: center;
+    background-color: #111; /* Dark background */
+    color: #fff; /* White text */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+  }
+  
+  /* Title */
+  .home-title {
+    font-size: 3rem;
+    color: #b4a0a0; /* Red title */
+    margin-top: 20px;
+  }
+  
+  /* Main buttons */
+  .main-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
+  }
+  
+  .home-button, .upload-button, .directory-button {
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 5px;
+    border: 2px solid #ff0000; /* Red border */
+    background-color: transparent;
+    color: #ff0000; /* Red text */
+    cursor: pointer;
+  }
+  
+  .home-button:hover, .upload-button:hover, .directory-button:hover {
+    background-color: #ff0000; /* Red background on hover */
+    color: #fff; /* White text on hover */
+  }
+  
+  .directory-button:hover 
+  Logo placeholder
+  .logo-placeholder {
+    font-style: italic;
+    color: #00ff00; /* Green text */
+    margin: 0px auto;
+    font-size: 1.5rem;
+  }
+  
+  /* Logo container */
+  .logo-container {
+    margin: 30px auto;
+    text-align: center;
+  }
+  
+  /* Logo image styling */
+  .logo-image {
+    max-width: 600px; /* Resize the logo width */
+    max-height: 600px; /* Resize the logo height */
+    object-fit: contain; /* Maintain the aspect ratio */
+    margin: 0 auto;
+  }
+  
+  
+  
+  /* Footer Buttons - Positioned at bottom right */
+  .footer-buttons {
+    position: fixed; /* Fixed positioning to stick to the viewport */
+    bottom: 20px;    /* Distance from the bottom edge */
+    right: 20px;     /* Distance from the right edge */
+    display: flex;   /* Align buttons horizontally */
+    gap: 10px;       /* Space between buttons */
+  }
+  
+  /* Individual button styling */
+  .tracks-button, .delete-button {
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 2px solid; /* Add border color */
+  }
+  
+  /* Tracks button styles */
+  .tracks-button {
+    border-color: #00ff00; /* Green border */
+    background-color: transparent;
+    color: #00ff00; /* Green text */
+  }
+  
+  .tracks-button:hover {
+    background-color: #00ff00; /* Green background */
+    color: #111; /* Dark text on hover */
+  }
+  
+  /* Delete button styles */
+  .delete-button {
+    border-color: #ff0000; /* Red border */
+    background-color: transparent;
+    color: #ff0000; /* Red text */
+  }
+  
+  .delete-button:hover {
+    background-color: #ff0000; /* Red background */
+    color: #fff; /* White text on hover */
+  }
