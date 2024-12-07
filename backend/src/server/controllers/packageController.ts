@@ -9,6 +9,7 @@
 import logger from "../../../logger.js";
 
 import { Request, Response } from "express";
+import { ParamsDictionary } from "express-serve-static-core";
 import { isValidRegex } from "./isValidRegex.js";
 
 import { dbUploadPackage } from "../../database/controllers/package/upload.js";
@@ -105,6 +106,10 @@ export const getPackage = async (req: Request, res: Response): Promise<void> => 
   }
 };
 
+interface Params {
+  id: string;
+}
+
 /**
  * @function updatePackage
  *
@@ -114,20 +119,22 @@ export const getPackage = async (req: Request, res: Response): Promise<void> => 
  * @param response - The response to send back.
  * @returns - Void promise. Indicates that the controller is done and a response has been sent.
  */
-export const updatePackage = async (req: Request, res: Response): Promise<void> => {
-  const packageIdString = req.params.id;
+export const updatePackage = async (
+  req: Request<ParamsDictionary, unknown, Package, unknown>,
+  res: Response,
+): Promise<void> => {
+  logger.info("Received a request to update a package");
 
-  const validId: boolean = checkValidId(packageIdString);
+  const { body } = req;
+
+  const validId: boolean = checkValidId(req.params.id);
   if (!validId) {
     res.status(400).send();
     return;
   }
 
-  const packageId = parseInt(packageIdString, 10);
-  const packageData = req.body as PackageData;
-
   try {
-    await dbUpdatePackage(packageId, packageData);
+    await dbUpdatePackage(body);
 
     res.status(200).send();
     return;

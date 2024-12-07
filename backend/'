@@ -17,7 +17,7 @@ describe("PUT /package/:id endpoint", () => {
     const uploadedPackage = await uploadContentPackage();
 
     const updatedContent = "ASAAAAAAAAAAAAAAAAAAdDDDDDDDDDDDDDDDVVVVVVVVVVVVVVV";
-    uploadedPackage.data.Content = updatedContent;
+    uploadedPackage.data.content = updatedContent;
 
     const updateResponse = await request(app)
       .put(`/package/${uploadedPackage.metadata.ID}`)
@@ -29,7 +29,7 @@ describe("PUT /package/:id endpoint", () => {
     const getResponse = await request(app).get(`/package/${uploadedPackage.metadata.ID}`);
     expect(getResponse.statusCode).toEqual(200);
 
-    console.log(Buffer.from(getResponse.body.data.Content.data).toString());
+    console.log(getResponse.data.Content);
 
     if (
       typeof getResponse.body.data.Content === "object" &&

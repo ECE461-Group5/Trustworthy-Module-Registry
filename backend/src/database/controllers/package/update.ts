@@ -4,9 +4,9 @@
  * @purpose - Update a package in the database. Updates content, url, debloat, and jsprogram.
  */
 
+import logger from "../../../../logger.js";
 import prisma from "../../prisma.js";
-import { PackageData } from "../../../server/controllers/packageData.js";
-import { Package } from "../../../server/controllers/package.js";
+import { Package, nullPackageData } from "../../../server/controllers/package.js";
 
 /**
  * @function dbUpdatePackage
@@ -17,21 +17,30 @@ import { Package } from "../../../server/controllers/package.js";
  * @param packageData - The data to be updated in the package
  * @returns - Void promise
  */
-export const dbUpdatePackage = async (
-  packageId: number,
-  packageData: PackageData,
-): Promise<void> => {
+export const dbUpdatePackage = async (updatedPackage: Package): Promise<void | null> => {
   try {
-    const updatedPackage = await prisma.package.update({
-      where: { id: packageId },
-      data: {
-        content: packageData.Content,
-        url: packageData.URL,
-        debloat: packageData.debloat,
-        jsProgram: packageData.JSProgram,
-      },
-    });
-    return;
+    if (updatedPackage.metadata.ID != null && nullPackageData(updatedPackage) === false) {
+      logger.info("Prisma update...");
+      const updatedPackageId = Number(updatedPackage.metadata.ID);
+      console.log(updatedPackage);
+
+      const test = await prisma.package.update({
+        where: { id: updatedPackageId },
+        data: {
+          content: updatedPackage.data.Content,
+          url: updatedPackage.data.URL,
+          debloat: updatedPackage.data.debloat,
+          jsProgram: updatedPackage.data.JSProgram,
+        },
+      });
+      console.log(test);
+      logger.info("Prisma update successful");
+
+      return;
+    }
+ else {
+      return null;
+    }
   }
  catch (error: any) {
     if (error?.code === "P2025") {

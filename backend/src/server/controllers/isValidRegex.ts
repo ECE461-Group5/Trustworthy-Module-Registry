@@ -17,7 +17,6 @@ export function isValidRegex (pattern: string): boolean {
     return false;
   }
 
-  console.log(pattern.length);
   if (pattern.length > 100) {
     return false;
   }
