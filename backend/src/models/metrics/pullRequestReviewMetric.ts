@@ -50,29 +50,38 @@ export class PullRequestReviewMetric extends Metric {
         per_page: 100, // Adjust pagination if needed
       });
 
-      for (const pull of pulls.data) {
-        if (!pull.merged_at) continue; // Skip PRs that weren't merged
+      const pullRequests = pulls.data.filter((pull) => pull.merged_at); // Only process merged PRs
 
-        // Get the lines of code added/changed in this PR
-        const diff = await this.octokit.pulls.get({
-          owner,
-          repo,
-          pull_number: pull.number,
-        });
+      // Process all pull requests in parallel
+      await Promise.all(
+        pullRequests.map(async (pull) => {
+          try {
+            // Get the lines of code added/changed in this PR
+            const diff = await this.octokit.pulls.get({
+              owner,
+              repo,
+              pull_number: pull.number,
+            });
 
-        const linesChanged = diff.data.additions + diff.data.deletions;
-        totalLinesOfCode += linesChanged;
-        // Check if the pull request has reviews
-        const reviews = await this.octokit.pulls.listReviews({
-          owner,
-          repo,
-          pull_number: pull.number,
-        });
+            const linesChanged = (diff.data.additions || 0) + (diff.data.deletions || 0);
+            totalLinesOfCode += linesChanged;
 
-        if (reviews.data.length > 0) {
-          reviewedLinesOfCode += linesChanged; // Count lines if the PR had reviews
-        }
-      }
+            // Check if the pull request has reviews
+            const reviews = await this.octokit.pulls.listReviews({
+              owner,
+              repo,
+              pull_number: pull.number,
+              per_page: 1, // Fetch only one review
+            });
+
+            if (reviews.data.length > 0) {
+              reviewedLinesOfCode += linesChanged; // Count lines if the PR had reviews
+            }
+          } catch (error) {
+            console.error(`Error processing PR #${pull.number}:`, error);
+          }
+        })
+      );
       
       // Measure end time
       const fetchEndTime = Date.now();
@@ -80,7 +89,6 @@ export class PullRequestReviewMetric extends Metric {
 
       // Calculate the fraction of reviewed code
       const score = totalLinesOfCode > 0 ? reviewedLinesOfCode / totalLinesOfCode : 1.0;
-      console.log(score)
       card.pullRequest = Math.round(score * 10) / 10; //round to the tenths place
 
       // Calculate latency
