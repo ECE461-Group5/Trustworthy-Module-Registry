@@ -191,9 +191,7 @@ export const getPackageRating = async (req: Request, res: Response): Promise<voi
     return;
   }
 
-  const packageID = parseInt(packageIDString, 10);
-
-  const packageRating = await dbRatePackage(packageID);
+  const packageRating = await dbRatePackage(packageIDString);
 
   if (!packageRating) {
     // Package does not exist or no URL
