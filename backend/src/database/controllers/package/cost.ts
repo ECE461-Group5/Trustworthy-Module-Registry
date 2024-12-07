@@ -1,6 +1,6 @@
 /**
  * @filename - cost.ts
- * @author(s) - Jonah Salyers
+ * @author(s) - Jonah Salyers, Logan Pelkey
  * @purpose - Calculates and Returns various package costs
  */
 
