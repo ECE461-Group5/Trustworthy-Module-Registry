@@ -15,7 +15,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model Package {
   id          Int             @id @default(autoincrement())
   name        String  
