@@ -1,3 +1,8 @@
+/*
+Author: Djamel Almabouada
+This is the components that displasys the features and their pages
+*/
+
 import React from 'react';
 
 const FeaturesPage = () => {
