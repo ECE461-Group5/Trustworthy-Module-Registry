@@ -1,3 +1,7 @@
+/*
+Author: Djamel Almabouada
+This is the component that displays the upload package page
+*/
 
 import { useState } from "react";
 
