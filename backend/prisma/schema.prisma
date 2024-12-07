@@ -49,3 +49,13 @@ model PackageRating {
 
   package                    Package  @relation(fields: [packageId], references: [id])
 }
+
+model User {
+  id                  String      @id @default(cuid())
+  username            String      @unique
+  fullName            String
+  password            String
+  authProvider        String
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+}
