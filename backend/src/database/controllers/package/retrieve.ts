@@ -1,6 +1,7 @@
-/*
- * Author(s): Jonah Salyers
- * Purpose: Handles retreival of package from database
+/**
+ * @filename - retreive.ts
+ * @author(s) - Jonah Salyers
+ * @purpose - Handles retrieval of packages from within the database
  */
 
 import prisma from "../../prisma.js";
