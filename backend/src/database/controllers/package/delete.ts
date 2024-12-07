@@ -1,6 +1,7 @@
-/*
- * Author(s): Jonah Salyers
- * Purpose: Handles deleting a package within Database.
+/**
+ * @filename - deleteTestPackage.ts
+ * @author(s) - Jonah Salyers
+ * @purpose - Handles deleting packages stored within the Database (non-baseline)
  */
 
 import prisma from "../../prisma.js";
@@ -17,3 +18,4 @@ export const dbDeletePackage = async (id: number): Promise<boolean> => {
     return false;
   }
 };
+
