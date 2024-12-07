@@ -1,6 +1,7 @@
 /**
- * @file createScorecard.ts
- *
+ * @filename - createScorecard.ts
+ * @author(s) - Logan Pelkey
+ * @purpose - Create and return scorecard for given url
  */
 
 import { Scorecard } from "../scores/scorecard.js";
@@ -42,7 +43,7 @@ export async function createScorecard(url: string): Promise<Scorecard> {
  * @param url
  * @returns GitHub repository URL for an npm module
  */
-async function getNpmRepoURL(url: string): Promise<string> {
+export async function getNpmRepoURL(url: string): Promise<string> {
   const npmApiUrl = url.replace(/(?<=\/)www(?=\.)/, "replicate").replace("/package", "");
   logger.info(`Fetching repository URL from npm API: ${npmApiUrl}`);
   const npmApiResponse = await fetch(npmApiUrl);
