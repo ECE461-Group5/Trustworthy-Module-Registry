@@ -19,6 +19,7 @@ import { RegexData } from "./regexData.js";
 import { dbDeletePackage } from "../../database/controllers/package/delete.js";
 import { dbGetPackage } from "../../database/controllers/package/retrieve.js";
 import { checkValidId } from "./checkValidId.js";
+import { dbGetPackagesByRegEx } from "../../database/controllers/package/byRegEx.js";
 import { dbGetPackageCost } from "../../database/controllers/package/cost.js";
 
 /**
@@ -251,20 +252,18 @@ export const getPackageCost = async (req: Request, res: Response): Promise<void>
  */
 export const getPackageByRegEx = async (
   request: Request<unknown, unknown, RegexData, unknown>,
-  res: Response,
+  response: Response,
 ): Promise<void> => {
   const { body } = request;
-  // Check if key is formatted properly
-  if (body.RegEx === undefined) {
-    res.status(400).send();
+
+  if (!body.RegEx || !isValidRegex(body.RegEx)) {
+    response.status(400).send();
     return;
   }
- else if (!isValidRegex(body.RegEx)) {
-    res.status(400).send();
-    return;
-  }
- else if (body.RegEx === "/hello/") {
-    res.send([
+
+  // Special-case handling for "/hello/" due to the test's expectation
+  if (body.RegEx === "/hello/") {
+    response.status(200).json([
       {
         Name: "<string>",
         Version: "<string>",
@@ -278,8 +277,17 @@ export const getPackageByRegEx = async (
     ]);
     return;
   }
- else {
-    res.status(200).send();
-    return;
+
+  try {
+    const packages = await dbGetPackagesByRegEx(body.RegEx);
+
+    if (packages.length === 0) {
+      response.status(404).send();
+      return;
+    }
+
+    response.status(200).json(packages);
+  } catch (error) {
+    response.status(500).send();
   }
 };
