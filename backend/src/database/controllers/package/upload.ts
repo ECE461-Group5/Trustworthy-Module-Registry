@@ -1,4 +1,3 @@
-
 /*
  * @filename - upload.ts
  * @author(s) - Joe Dahms, Jonah Salyers, Logan Pelkey
@@ -15,18 +14,41 @@ import prisma from "../../prisma.js";
  * Output: The uploaded package
  */
 
-
-
+/**
+ * Fetch content from a URL and return it as a Buffer.
+ * @param url The URL to fetch content from.
+ * @returns The content as a Buffer, or null if fetching fails.
+ */
+async function fetchPackageContent(url: string): Promise<Buffer | null> {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      console.warn(`Failed to fetch content from URL: ${url}, Status: ${response.status}`);
+      return null;
+    }
+    const contentBuffer = Buffer.from(await response.arrayBuffer());
+    return contentBuffer;
+  } catch (error) {
+    console.error("Error fetching package content:", error);
+    return null;
+  }
+}
 
 export const dbUploadPackage = async (_package: Package): Promise<Package> => {
-  //calculate name and version of package
+  // Calculate name and version of the package
   let name = "noname";
   let version = "noversion";
+  let content = _package.data.Content;
 
   if (_package.data.URL) {
     const result = await getNameAndVersion(_package.data.URL);
     name = result.name;
     version = result.version;
+
+    // Fetch and populate content if not provided
+    if (!content) {
+      content = await fetchPackageContent(_package.data.URL);
+    }
   }
 
   // Add package to database
@@ -34,14 +56,16 @@ export const dbUploadPackage = async (_package: Package): Promise<Package> => {
     data: {
       name: name,
       version: version,
-      content: _package.data.Content,
+      content: content, // Include fetched or provided content
       url: _package.data.URL,
       debloat: _package.data.debloat,
       jsProgram: _package.data.JSProgram,
     },
   });
-  // Create 8 digit ID
-  const formattedId = newPackage.id ? newPackage.id.toString().padStart(8, "0") : null; // Handle undefined ID gracefully
+
+  // Create 8-digit ID
+  const formattedId = newPackage.id?.toString().padStart(8, "0") || null; // Handle undefined ID gracefully
+
   // Return new package
   const test: Package = {
     metadata: {
@@ -116,4 +140,3 @@ export const getNameAndVersion = async (url: string): Promise<{ name: string; ve
     return { name: "noname", version: "noversion" };
   }
 };
-
