@@ -1,6 +1,7 @@
-/*
- * Author(s): Joe Dahms
- * Purpose: Test getting the ratings of a package.
+/**
+ * @filename - rate.test.ts
+ * @author(s) - Joe Dahms
+ * @purpose - Test getting the ratings of a package.
  */
 
 import { expect, describe, test, vi } from "vitest";

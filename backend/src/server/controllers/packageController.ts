@@ -1,8 +1,10 @@
-/*
- * Author(s): Joe Dahms, Jonah Salyers
- * Purpose: Handle requests to the package endpoint. All package endpoint
+/**
+ * @filename - packageController.ts
+ * @author(s): Joe Dahms, Jonah Salyers
+ * @purpose: Handle requests to the package endpoint. All package endpoint
  * controllers are currently contained in this file.
  */
+
 /* eslint-disable @typescript-eslint/require-await */
 import logger from "../../../logger.js";
 
@@ -15,10 +17,18 @@ import { PackageData, checkPackageData } from "./packageData.js";
 import { Package } from "./package.js";
 import { RegexData } from "./regexData.js";
 import { dbDeletePackage } from "../../database/controllers/package/delete.js";
-import { dbRatePackage } from "../../database/controllers/package/rating.js";
-
+import { dbGetPackage } from "../../database/controllers/package/retrieve.js";
 import { checkValidId } from "./checkValidId.js";
 
+/**
+ * @function uploadPackage
+ *
+ * Upload a package to the database.
+ *
+ * @param request - The request object coming in. Expected to only contain Package data.
+ * @param response - The response to send back.
+ * @returns - Void promise. Indicates that the controller is done and a response has been sent.
+ */
 export const uploadPackage = async (
   request: Request<unknown, unknown, PackageData, unknown>,
   response: Response,
@@ -44,9 +54,7 @@ export const uploadPackage = async (
       return;
     }
 
-    console.log("here");
     const returnPackage: Package = await dbUploadPackage(_package);
-    console.log("here2");
 
     response.send({ returnPackage });
     return;
@@ -58,41 +66,53 @@ export const uploadPackage = async (
   }
 };
 
-// /package/:id
+/**
+ * @function getPackage
+ *
+ * Get a package from the database. Based on ID.
+ *
+ * @param request - The request object coming in. Only really care about the ID parameter.
+ * @param response - The response to send back.
+ * @returns - Void promise. Indicates that the controller is done and a response has been sent.
+ */
 export const getPackage = async (req: Request, res: Response): Promise<void> => {
-  const packageID = req.params.id;
+  const packageIdString = req.params.id;
 
-  if (packageID === "00000000") {
-    res.json({
-      metadata: {
-        Name: "<string>",
-        Version: "<string>",
-        ID: "00000000",
-      },
-      data: {
-        Content: "<string>",
-        URL: "<string>",
-        debloat: "<boolean>",
-        JSProgram: "<string>",
-      },
-    });
-    return;
-  }
-  // Incorrect packageID format
-  else if (packageID === "123456789" || packageID === "1234567") {
+  const validId: boolean = checkValidId(packageIdString);
+  if (!validId) {
     res.status(400).send();
     return;
   }
-  // Package does not exist
-  else if (packageID === "99999999") {
-    res.status(404).send();
+
+  const packageId = parseInt(packageIdString, 10);
+
+  try {
+    const packageData = await dbGetPackage(packageId);
+
+    if (!packageData) {
+      res.status(404).send();
+      return;
+    }
+
+    res.status(200).json(packageData);
     return;
   }
-  res.status(200).send();
-  return;
+ catch (error) {
+    logger.error("Error retrieving package:", error);
+    res.status(500).send();
+    return;
+  }
 };
 
-// /package/:id
+/**
+ * @function updatePackage
+ *
+ * Update the contents of a package within the database.
+ *
+ * @param request - The request object coming in. Only really care about the ID parameter.
+ * @param response - The response to send back.
+ * @returns - Void promise. Indicates that the controller is done and a response has been sent.
+ */
 export const updatePackage = async (req: Request, res: Response): Promise<void> => {
   const packageID = req.params.id;
 
@@ -114,7 +134,15 @@ export const updatePackage = async (req: Request, res: Response): Promise<void> 
   return;
 };
 
-// /package/:id
+/**
+ * @function updatePackage
+ *
+ * Delete a package from the database based on ID.
+ *
+ * @param request - The request object coming in. Only really care about the ID parameter.
+ * @param response - The response to send back.
+ * @returns - Void promise. Indicates that the controller is done and a response has been sent.
+ */
 export const deletePackage = async (req: Request, res: Response): Promise<void> => {
   const packageIdString = req.params.id;
 
@@ -146,7 +174,15 @@ export const deletePackage = async (req: Request, res: Response): Promise<void> 
   }
 };
 
-// Rate package: uses evaluators and metrics to autofill database
+/**
+ * @function getPackageRating
+ *
+ * Get the ratings of a package.
+ *
+ * @param request - The request object coming in. Only really care about the ID parameter.
+ * @param response - The response to send back.
+ * @returns - Void promise. Indicates that the controller is done and a response has been sent.
+ */
 export const getPackageRating = async (req: Request, res: Response): Promise<void> => {
   const packageIDString = req.params.id;
   // Validate package ID
@@ -169,7 +205,15 @@ export const getPackageRating = async (req: Request, res: Response): Promise<voi
   res.status(200).send();
 };
 
-// /package/:id/cost
+/**
+ * @function getPackageCost
+ *
+ * Get the cost of a package.
+ *
+ * @param request - The request object coming in. Only care about ID parameter and query parameter indicating dependency or not.
+ * @param response - The response to send back.
+ * @returns - Void promise. Indicates that the controller is done and a response has been sent.
+ */
 export const getPackageCost = async (req: Request, res: Response): Promise<void> => {
   const dependency = req.query.dependency;
   const packageID = req.params.id;
@@ -211,7 +255,15 @@ export const getPackageCost = async (req: Request, res: Response): Promise<void>
   return;
 };
 
-// /package/byRegEx
+/**
+ * @function getPackageByRegEx
+ *
+ * Get a package or packages based on a regular expression.
+ *
+ * @param request - The request object coming in. Only care about the regular expression contained in the body.
+ * @param response - The response to send back.
+ * @returns - Void promise. Indicates that the controller is done and a response has been sent.
+ */
 export const getPackageByRegEx = async (
   request: Request<unknown, unknown, RegexData, unknown>,
   res: Response,

@@ -1,6 +1,7 @@
-/*
- * Author(s): Joe Dahms
- * Purpose: Test retrieving a package by using a regular expression.
+/**
+ * @filename - retrieveByRegex.test.ts
+ * @author(s) - Joe Dahms
+ * @purpose - Test retrieving a package by using a regular expression.
  */
 
 import { expect, describe, test, vi } from "vitest";
