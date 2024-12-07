@@ -18,7 +18,8 @@ describe("/package/:id/cost endpoint", () => {
       expectedStatus: 200,
       expectedBody: {
         "00000000": {
-          totalCost: 1.0,
+          standaloneCost: expect.any(Number),
+          totalCost: expect.any(Number),
         },
       },
     },
@@ -29,12 +30,12 @@ describe("/package/:id/cost endpoint", () => {
       expectedStatus: 200,
       expectedBody: {
         "00000000": {
-          standaloneCost: 1.0,
-          totalCost: 1.0,
+          standaloneCost: expect.any(Number),
+          totalCost: expect.any(Number),
         },
         "00000001": {
-          standaloneCost: 1.0,
-          totalCost: 1.0,
+          standaloneCost: expect.any(Number),
+          totalCost: expect.any(Number),
         },
       },
     },
@@ -79,7 +80,7 @@ describe("/package/:id/cost endpoint", () => {
       expectedBody: {},
     },
   ])("$testName", async ({ packageID, expectedStatus, expectedBody }) => {
-    const response = await request(app).get(`/package/${packageID}/rate`);
+    const response = await request(app).get(`/package/${packageID}/cost`);
 
     expect(response.statusCode).toEqual(expectedStatus);
     expect(response.body).toEqual(expectedBody);

@@ -218,7 +218,7 @@ export const getPackageCost = async (req: Request, res: Response): Promise<void>
 
   const validId = checkValidId(packageIdString);
   if (!validId) {
-    res.status(400).send();
+    res.status(400).send(); // Bad Request
     return;
   }
 
@@ -228,13 +228,15 @@ export const getPackageCost = async (req: Request, res: Response): Promise<void>
     const cost = await dbGetPackageCost(packageId, includeDependencies);
 
     if (!cost) {
-      res.status(404).send();
+      res.status(404).send(); // Not Found
       return;
     }
 
-    res.status(200).json(cost);
+    res.status(200).json({
+      [packageIdString]: cost,
+    }); // Wrap cost in package ID as a key
   } catch (error) {
-    res.status(500).send();
+    res.status(500).send(); // Internal Server Error
   }
 };
 
