@@ -1,30 +1,31 @@
-/*
- * Author(s): Joe Dahms
- * Purpose: Check if a regular expression is a valid JavaScript regular expression. */
+/**
+ * @filename - isValidRegex.ts
+ * @author(s) - Joe Dahms
+ * @purpose - Check if a regular expression is a valid JavaScript regular expression.
+ */
 
+/**
+ * @function isValidRegex
+ *
+ * Check if a regex is valid or not
+ *
+ * @param pattern - The regex pattern to check the validity of.
+ * @returns - Whether or not the regex is valid.
+ */
 export function isValidRegex (pattern: string): boolean {
   if (!pattern) {
     return false;
   }
 
-  const MAX_REGEX_LENGTH = 100;
-  if (pattern.length > MAX_REGEX_LENGTH) {
+  console.log(pattern.length);
+  if (pattern.length > 100) {
     return false;
   }
 
   try {
-    const timeoutMs = 100; // 100ms timeout
-    const startTime = Date.now();
-
     const testRegex = new RegExp(pattern);
-
     const testString = "test";
     testRegex.test(testString);
-
-    const duration = Date.now() - startTime;
-    if (duration > timeoutMs) {
-      return false;
-    }
 
     return true;
   }

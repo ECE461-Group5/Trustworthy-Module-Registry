@@ -42,7 +42,7 @@ export class LicenseMetric extends Metric {
   private cloneDir: string = path.join(process.cwd(), "temp-repo");
 
   // Evaluate the license metric
-  public async evaluate (card: Scorecard): Promise<void> {
+  public async evaluate(card: Scorecard): Promise<void> {
     try {
       let totalLatency = 0;
       const repoUrl = `https://github.com/${card.owner}/${card.repo}.git`;
@@ -84,13 +84,11 @@ export class LicenseMetric extends Metric {
         ) {
           card.license = 1;
           logger.info(`Approved license found: ${licenseIdentifier}`);
-        }
- else {
+        } else {
           card.license = 0;
           logger.warn(`Unapproved license: ${licenseIdentifier}`);
         }
-      }
- else {
+      } else {
         card.license = 0;
         logger.warn("No LICENSE file found in the repository.");
       }
@@ -108,12 +106,10 @@ export class LicenseMetric extends Metric {
           if (this.checkLicenseInReadme(readmeContent)) {
             card.license = 1;
             logger.info("Approved license found in README.");
-          }
- else {
+          } else {
             logger.warn("No approved license found in README.");
           }
-        }
- else {
+        } else {
           logger.warn("No README file found in the repository.");
         }
 
@@ -130,8 +126,7 @@ export class LicenseMetric extends Metric {
 
       // Clean up by removing the cloned directory
       fs.rmSync(this.cloneDir, { recursive: true, force: true });
-    }
- catch (error) {
+    } catch (error) {
       card.license = 0;
       card.license_Latency = 0; // Set latency to 0 in case of error
       logger.error("Error fetching license information:", error);
@@ -139,7 +134,7 @@ export class LicenseMetric extends Metric {
   }
 
   // Extract the license identifier from the LICENSE file content
-  private extractLicenseIdentifier (content: string): string | null {
+  private extractLicenseIdentifier(content: string): string | null {
     for (const license of this.approvedLicensesNames) {
       if (content.includes(license)) {
         return this.approvedLicensesIdentifiers[
@@ -151,13 +146,12 @@ export class LicenseMetric extends Metric {
   }
 
   // Check if the approved license is in the README
-  private checkLicenseInReadme (content: string): boolean {
+  private checkLicenseInReadme(content: string): boolean {
     logger.debug("Checking for approved license in README content...");
     const found = this.approvedLicensesNames.some((keyword) => content.includes(keyword));
     if (found) {
       logger.debug("Approved license found in README content.");
-    }
- else {
+    } else {
       logger.debug("No approved license found in README content.");
     }
     return found;

@@ -17,6 +17,9 @@ export NVM_DIR="$HOME/.nvm"
 # Build FE & BE, generate Prisma schema
 (cd ./client && npm run build) && (cd ./backend && npm run build && cd ./prisma && npx prisma generate) >app.out.log 2>app.err.log </dev/null
 
+# Create log file for backend
+(cd backend && mkdir logs && touch app.log)
+
 # Copy the "build" folder to "/var/www/html" for Nginx, reload Nginx
 (sudo cp -R ./client/build /var/www/html/front-end/) && (sudo systemctl reload nginx) >app.out.log 2>app.err.log </dev/null &
 
@@ -25,4 +28,3 @@ export NVM_DIR="$HOME/.nvm"
 
 # Runs start script which will build, move client for Nginx, and start the server
 # ./run start >app.out.log 2>app.err.log </dev/null &
-

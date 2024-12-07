@@ -1,6 +1,7 @@
-/*
- * Author(s): Joe Dahms
- * Purpose: Test the package endpoint.
+/**
+ * @filename - express.test.ts
+ * @author(s) - Joe Dahms
+ * @purpose - Test the package endpoint.
  */
 import { expect, describe, it } from "vitest";
 import request from "supertest";

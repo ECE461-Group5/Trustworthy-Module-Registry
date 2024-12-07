@@ -1,10 +1,11 @@
-/*
- * Author(s): Joe Dahms
- * Purpose: Test the package endpoint.
+/**
+ * @filename - packages.test.ts
+ * @author(s) - Joe Dahms
+ * @purpose - Test the package endpoint.
  */
 import { expect, describe, test } from "vitest";
 import request from "supertest";
-import app from "../../../server/server.js";
+import app from "../../../../server/server.js";
 
 describe("packages endpoint", () => {
   // Correct key format
