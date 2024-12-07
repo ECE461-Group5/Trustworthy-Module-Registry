@@ -1,3 +1,8 @@
+/*
+Author: Djamel Almabouada
+This is the load package component which displays the packages and their details, and handles the deletion of a package
+*/
+
 import React, { useState } from 'react';
 
 const LoadPackagesPage = () => {
