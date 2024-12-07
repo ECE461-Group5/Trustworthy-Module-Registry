@@ -61,7 +61,7 @@ export async function dbRatePackage(packageIDString: string): Promise<PackageRat
       licenseScore: result.License,
       netScore: result.NetScore,
       goodPinningPractice: result.GoodPinningPractice,
-      pullRequest: 0,
+      pullRequest: result.PullRequest,
       rampUpLatency: result.RampUp_Latency,
       correctnessLatency: result.Correctness_Latency,
       busFactorLatency: result.BusFactor_Latency,
@@ -69,7 +69,7 @@ export async function dbRatePackage(packageIDString: string): Promise<PackageRat
       licenseScoreLatency: result.License_Latency,
       netScoreLatency: result.NetScore_Latency,
       goodPinningPracticeLatency: result.GoodPinningPractice_Latency,
-      pullRequestLatency: 0
+      pullRequestLatency: result.PullRequest_Latency
     },
     create: {
       packageId: packageID,
@@ -80,7 +80,7 @@ export async function dbRatePackage(packageIDString: string): Promise<PackageRat
       licenseScore: result.License,
       netScore: result.NetScore,
       goodPinningPractice: result.GoodPinningPractice,
-      pullRequest: 0,
+      pullRequest: result.PullRequest,
       rampUpLatency: result.RampUp_Latency,
       correctnessLatency: result.Correctness_Latency,
       busFactorLatency: result.BusFactor_Latency,
@@ -88,7 +88,7 @@ export async function dbRatePackage(packageIDString: string): Promise<PackageRat
       licenseScoreLatency: result.License_Latency,
       netScoreLatency: result.NetScore_Latency,
       goodPinningPracticeLatency: result.GoodPinningPractice_Latency,
-      pullRequestLatency:0
+      pullRequestLatency: result.PullRequest_Latency
     },
   });
   
