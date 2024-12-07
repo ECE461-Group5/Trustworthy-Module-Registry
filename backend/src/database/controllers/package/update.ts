@@ -9,7 +9,7 @@ import { PackageData } from "../../../server/controllers/packageData.js";
 import { Package } from "../../../server/controllers/package.js";
 
 /**
- * @function dbUpdatePackage 
+ * @function dbUpdatePackage
  *
  * Update a package in the database. Updates content, url, debloat, and jsprogram.
  *
@@ -32,7 +32,7 @@ export const dbUpdatePackage = async (
       },
     });
     return;
-}
+  }
  catch (error: any) {
     if (error?.code === "P2025") {
       // Record not found
@@ -40,4 +40,4 @@ export const dbUpdatePackage = async (
     }
     throw error; // Re-throw unexpected errors
   }
-  };
+};

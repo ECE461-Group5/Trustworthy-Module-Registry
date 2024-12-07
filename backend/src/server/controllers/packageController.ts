@@ -127,12 +127,7 @@ export const updatePackage = async (req: Request, res: Response): Promise<void> 
   const packageData = req.body as PackageData;
 
   try {
-    const updatedPackage = await dbUpdatePackage(packageId, packageData);
-
-    if (!updatedPackage) {
-      res.status(404).send();
-      return;
-    }
+    await dbUpdatePackage(packageId, packageData);
 
     res.status(200).send();
     return;
