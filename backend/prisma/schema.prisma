@@ -15,13 +15,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model PackageDependency {
-  id           Int      @id @default(autoincrement())
-  packageId    Int
-  dependencyId Int
-  package      Package  @relation("PackageToDependencies", fields: [packageId], references: [id])
-  dependency   Package  @relation("PackageToDependents", fields: [dependencyId], references: [id])
-}
 
 model Package {
   id          Int             @id @default(autoincrement())
@@ -32,8 +25,6 @@ model Package {
   debloat     Boolean?        @default(false)
   jsProgram   String?
   ratings     PackageRating[]
-  dependencies PackageDependency[] @relation("PackageToDependencies")
-  dependents   PackageDependency[] @relation("PackageToDependents")
 }
 
 model PackageRating {
