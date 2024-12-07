@@ -1,3 +1,9 @@
+/*
+Author: Djamel Almabouada
+This is just an example of how to use the react-query library to make API calls
+*/
+
+
 // this is needed for API calls. for example the usequery is for getting only data.
 // the useMutation is for posting data (after user clikced a buton for example)
 import {useQuery} from '@tanstack/react-query'
