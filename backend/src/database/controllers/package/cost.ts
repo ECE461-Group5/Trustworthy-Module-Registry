@@ -42,7 +42,6 @@ export const dbGetPackageCost = async (
 
     // Fetch dependencies
     let dependencies = null;
-    try {
       let url = packageData.url ?? "defaultURL"
       if(packageData.url !== null && packageData.url.includes("npmjs.com")){
         url = await getNpmRepoURL(url)
@@ -119,7 +118,4 @@ export const dbGetPackageCost = async (
     const totalCost = standaloneCost + dependencyCost;
 
     return { standaloneCost, totalCost };
-  } catch (error) {
-    throw error;
-  }
 };
