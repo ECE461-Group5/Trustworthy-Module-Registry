@@ -117,9 +117,8 @@ export const getPackage = async (req: Request, res: Response): Promise<void> => 
 export const updatePackage = async (req: Request, res: Response): Promise<void> => {
   const packageIdString = req.params.id;
 
-  // Validate that package ID is exactly 8 digits
-  const packageIDRegex = /^\d{8}$/;
-  if (!packageIDRegex.test(packageIdString)) {
+  const validId: boolean = checkValidId(packageIdString);
+  if (!validId) {
     res.status(400).send();
     return;
   }
@@ -135,7 +134,7 @@ export const updatePackage = async (req: Request, res: Response): Promise<void> 
       return;
     }
 
-    res.status(200).json(updatedPackage);
+    res.status(200).send();
     return;
   }
  catch (error) {
@@ -146,7 +145,7 @@ export const updatePackage = async (req: Request, res: Response): Promise<void> 
 };
 
 /**
- * @function updatePackage
+ * @function deletePackage
  *
  * Delete a package from the database based on ID.
  *
