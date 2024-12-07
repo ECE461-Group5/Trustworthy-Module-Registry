@@ -13,7 +13,8 @@ export interface Package {
     ID: number | string | null;
   };
   data: {
-    Content: Buffer | null;
+    Content: string | null;
+//    Content: Buffer | null;
     URL: string | null;
     debloat: boolean | null;
     JSProgram: string | null;
@@ -31,22 +32,23 @@ export interface Package {
 export function nullPackageData (packageToCheck: Package): boolean {
   logger.info("Checking if package data has any null fields...");
   let nullData = false;
-  if (packageToCheck.data.Content != null) {
+  if (packageToCheck.data.Content === null) {
     logger.info("Content null");
     nullData = true;
   }
-  else if (packageToCheck.data.URL != null) {
+ else if (packageToCheck.data.URL === null) {
     logger.info("URL null");
     nullData = true;
   }
-  else if (packageToCheck.data.debloat != null) {
+ else if (packageToCheck.data.debloat === null) {
     logger.info("debloat null");
     nullData = true;
   }
-  else if (packageToCheck.data.JSProgram != null) {
+ else if (packageToCheck.data.JSProgram === null) {
     logger.info("JSProgram null");
     nullData = true;
   }
 
+  logger.info("No null fields");
   return nullData;
 }

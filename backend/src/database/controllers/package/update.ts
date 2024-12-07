@@ -7,6 +7,7 @@
 import logger from "../../../../logger.js";
 import prisma from "../../prisma.js";
 import { Package, nullPackageData } from "../../../server/controllers/package.js";
+import { Prisma } from "@prisma/client";
 
 /**
  * @function dbUpdatePackage
@@ -17,23 +18,29 @@ import { Package, nullPackageData } from "../../../server/controllers/package.js
  * @param packageData - The data to be updated in the package
  * @returns - Void promise
  */
-export const dbUpdatePackage = async (updatedPackage: Package): Promise<void | null> => {
+export const dbUpdatePackage = async (
+  packageId: number,
+  updatedPackage: Package,
+): Promise<void | null> => {
   try {
     if (updatedPackage.metadata.ID != null && nullPackageData(updatedPackage) === false) {
       logger.info("Prisma update...");
-      const updatedPackageId = Number(updatedPackage.metadata.ID);
+      if (updatedPackage.data.Content != null) {
+        const packageContent = Buffer.from(updatedPackage.data.Content);
+      }
       console.log(updatedPackage);
 
       const test = await prisma.package.update({
-        where: { id: updatedPackageId },
+        where: {
+          id: packageId,
+        },
         data: {
-          content: updatedPackage.data.Content,
-          url: updatedPackage.data.URL,
-          debloat: updatedPackage.data.debloat,
-          jsProgram: updatedPackage.data.JSProgram,
+          content: packageContent,
+          //          url: updatedPackage.data.URL,
+                   debloat: updatedPackage.data.debloat,
+          //        jsProgram: updatedPackage.data.JSProgram,
         },
       });
-      console.log(test);
       logger.info("Prisma update successful");
 
       return;
@@ -42,11 +49,25 @@ export const dbUpdatePackage = async (updatedPackage: Package): Promise<void | n
       return null;
     }
   }
+ catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      console.log("here");
+      if (error.code === "P2025") {
+        return null;
+      }
+    }
+    logger.error("Prisma update error: ", error);
+    throw error;
+  }
+  /*
  catch (error: any) {
+ 
+    logger.error("Prisma update error: ", error);
     if (error?.code === "P2025") {
       // Record not found
       return null;
     }
     throw error; // Re-throw unexpected errors
   }
+*/
 };

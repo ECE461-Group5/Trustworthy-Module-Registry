@@ -126,15 +126,17 @@ export const updatePackage = async (
   logger.info("Received a request to update a package");
 
   const { body } = req;
+  const { params } = req;
 
   const validId: boolean = checkValidId(req.params.id);
   if (!validId) {
     res.status(400).send();
     return;
   }
+  const packageId = parseInt(req.params.id, 10);
 
   try {
-    await dbUpdatePackage(body);
+    await dbUpdatePackage(packageId, body);
 
     res.status(200).send();
     return;
