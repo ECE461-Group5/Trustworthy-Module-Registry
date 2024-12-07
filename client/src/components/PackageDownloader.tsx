@@ -25,7 +25,7 @@ const PackageDownloader: React.FC = () => {
   const [status, setStatus] = useState<string>("Ready");
   // Loading Aspect
   const [isDownloading, setIsDownloading] = useState<boolean>(false);
-  const [downloadedData, setDownloadedData] = useState<any>(null); // State for API data
+  
 
   const handleNpmUrlChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPackageData({
@@ -154,23 +154,6 @@ const PackageDownloader: React.FC = () => {
         </button>
       </form>
 
-        
-      {downloadedData && (
-        <div className="downloaded-data">
-          <h3>Downloaded Data:</h3>
-          <ul>
-            {Array.isArray(downloadedData) &&
-              downloadedData.map((item: any) => (
-                <li key={item.id} className="data-item">
-                  <h4>{item.title}</h4>
-                  <p><strong>User ID:</strong> {item.userId}</p>
-                  <p><strong>ID:</strong> {item.id}</p>
-                  <p><strong>Body:</strong> {item.body}</p>
-                </li>
-              ))}
-          </ul>
-        </div>
-      )}
     </div>
   );
 };
