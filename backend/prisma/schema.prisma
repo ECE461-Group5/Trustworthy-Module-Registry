@@ -28,7 +28,7 @@ model Package {
 
 model PackageRating {
   id                         Int      @id @default(autoincrement())
-  packageId                  Int
+  packageId                  Int      @unique
   rampUp                     Float
   correctness                Float
   busFactor                  Float
