@@ -1,6 +1,6 @@
 /**
  * @filename - packageController.ts
- * @author(s): Joe Dahms, Jonah Salyers
+ * @author(s): Joe Dahms, Jonah Salyers, Logan Pelkey
  * @purpose: Handle requests to the package endpoint. All package endpoint
  * controllers are currently contained in this file.
  */
@@ -12,7 +12,7 @@ import { Request, Response } from "express";
 import { isValidRegex } from "./isValidRegex.js";
 
 import { dbUploadPackage } from "../../database/controllers/package/upload.js";
-
+import { dbRatePackage } from "../../database/controllers/package/rating.js";
 import { PackageData, checkPackageData } from "./packageData.js";
 import { Package } from "./package.js";
 import { RegexData } from "./regexData.js";
@@ -193,16 +193,15 @@ export const getPackageRating = async (req: Request, res: Response): Promise<voi
 
   const packageID = parseInt(packageIDString, 10);
 
-  const success = await dbRatePackage(packageID);
+  const packageRating = await dbRatePackage(packageID);
 
-  if (!success) {
+  if (!packageRating) {
     // Package does not exist or no URL
     res.status(404).send();
     return;
   }
-
-  // On success no body
-  res.status(200).send();
+  // On success spit out ratings
+  res.status(200).send(packageRating);
 };
 
 /**
