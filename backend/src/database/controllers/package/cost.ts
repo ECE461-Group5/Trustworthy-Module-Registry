@@ -1,3 +1,9 @@
+/**
+ * @filename - cost.ts
+ * @author(s) - Jonah Salyers
+ * @purpose - Calculates and Returns various package costs
+ */
+
 import prisma from "../../prisma.js";
 
 export interface PackageCost {
