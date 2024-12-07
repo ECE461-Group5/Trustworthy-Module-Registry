@@ -1,3 +1,8 @@
+/*
+Author: Djamel Almabouada
+This is the component that displays the first section of the upload package page
+*/
+
 import React from "react";
 
 
