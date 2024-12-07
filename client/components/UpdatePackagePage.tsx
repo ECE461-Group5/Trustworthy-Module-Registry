@@ -1,3 +1,8 @@
+/*
+Author: Djamel Almabouada
+This is the component that displays the update package page
+*/
+
 import React, { useState } from 'react';
 
 const UpdatePackagePage = () => {
