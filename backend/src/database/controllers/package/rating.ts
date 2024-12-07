@@ -7,8 +7,8 @@ import prisma from "../../prisma.js";
 import { evaluateModule } from "../../../models/evaluators/evaluateModule.js";
 import { PackageRating } from "@prisma/client/wasm";
 
-export async function dbRatePackage(packageIDString: string): Promise<PackageRating | null> {
-  if(packageIDString === "00000000"){
+export async function dbRatePackage (packageIDString: string): Promise<PackageRating | null> {
+  if (packageIDString === "00000000") {
     //impossible value. Sent during testing
     const test: PackageRating = {
       id: 0,
@@ -30,7 +30,7 @@ export async function dbRatePackage(packageIDString: string): Promise<PackageRat
       pullRequestLatency: 789.01,
       netScoreLatency: 890.12,
     };
-    return test
+    return test;
   }
   const packageID = parseInt(packageIDString, 10);
   // Fetch the package to ensure it exists and has a URL
@@ -69,7 +69,7 @@ export async function dbRatePackage(packageIDString: string): Promise<PackageRat
       licenseScoreLatency: result.License_Latency,
       netScoreLatency: result.NetScore_Latency,
       goodPinningPracticeLatency: result.GoodPinningPractice_Latency,
-      pullRequestLatency: result.PullRequest_Latency
+      pullRequestLatency: result.PullRequest_Latency,
     },
     create: {
       packageId: packageID,
@@ -88,7 +88,7 @@ export async function dbRatePackage(packageIDString: string): Promise<PackageRat
       licenseScoreLatency: result.License_Latency,
       netScoreLatency: result.NetScore_Latency,
       goodPinningPracticeLatency: result.GoodPinningPractice_Latency,
-      pullRequestLatency: result.PullRequest_Latency
+      pullRequestLatency: result.PullRequest_Latency,
     },
   });
   

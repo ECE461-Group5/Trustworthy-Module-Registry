@@ -17,7 +17,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "types": ["react"]
+    "types": ["react", "react-dom"]
   },
   "ts-node": {
     "esm": true
@@ -26,6 +26,5 @@
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
   ],
-  "include": ["src"],
   "exclude": ["node_modules", "/src/tests/"]
 }
