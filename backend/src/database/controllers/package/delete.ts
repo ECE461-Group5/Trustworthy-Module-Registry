@@ -1,5 +1,5 @@
 /**
- * @filename - deleteTestPackage.ts
+ * @filename - delete.ts
  * @author(s) - Jonah Salyers
  * @purpose - Handles deleting packages stored within the Database (non-baseline)
  */
