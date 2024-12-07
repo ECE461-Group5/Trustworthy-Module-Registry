@@ -1,3 +1,8 @@
+/*
+Author: Djamel Almabouada
+This is the component that will be used to style for the Navbar component.
+*/
+
 .navbar {
     display: flex;
     justify-content: space-between;
