@@ -1,3 +1,8 @@
+#  Author(s): Geromy Cunningham, Joe Dahms
+#   Purpose: This script is used to start the Trustworthy Module Registry application.
+#   It navigates to the application directory, installs the necessary node modules, builds the frontend and backend,
+#   generates the Prisma schema, creates a log file for the backend, copies the frontend build to the Nginx directory, and starts the server.
+
 #!/bin/bash
 
 # Give permission for everything in the express-app directory
