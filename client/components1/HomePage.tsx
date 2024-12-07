@@ -1,3 +1,7 @@
+/*
+Author: Djamel Almabouada
+This is the component that displays the home page
+*/
 
 import { Link } from 'react-router-dom';
 import '../stylings/HomePage.css';
