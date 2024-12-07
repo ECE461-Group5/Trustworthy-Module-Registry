@@ -234,6 +234,7 @@ export const getPackageRating = async (req: Request, res: Response): Promise<voi
  */
 export const getPackageCost = async (req: Request, res: Response): Promise<void> => {
   const packageIdString = req.params.id;
+  const includeDependencies = req.query.dependency === "true";
 
   const validId = checkValidId(packageIdString);
   if (!validId) {
@@ -242,7 +243,6 @@ export const getPackageCost = async (req: Request, res: Response): Promise<void>
   }
 
   const packageId = parseInt(packageIdString, 10);
-  const includeDependencies = req.query.dependency === "true";
 
   try {
     const cost = await dbGetPackageCost(packageId, includeDependencies);
@@ -253,10 +253,8 @@ export const getPackageCost = async (req: Request, res: Response): Promise<void>
     }
 
     res.status(200).json(cost);
-    return;
   } catch (error) {
     res.status(500).send();
-    return;
   }
 };
 

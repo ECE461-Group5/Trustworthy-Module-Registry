@@ -1,59 +1,53 @@
 import prisma from "../../prisma.js";
 
 export interface PackageCost {
-  [packageId: string]: {
-    standaloneCost?: number;
-    totalCost: number;
-  };
+  standaloneCost: number; // Cost in MB
+  totalCost: number; // Cost in MB
 }
 
+/**
+ * Get package cost in MB, including dependencies if specified.
+ */
 export const dbGetPackageCost = async (
   packageId: number,
-  includeDependencies: boolean,
+  includeDependencies: boolean
 ): Promise<PackageCost | null> => {
   try {
-    // Find the main package by ID
-    const mainPackage = await prisma.package.findUnique({
+    // Fetch package details
+    const packageData = await prisma.package.findUnique({
       where: { id: packageId },
-      select: { id: true },
+      select: { content: true, id: true },
     });
 
-    if (!mainPackage) {
-      return null; // Package not found
+    if (!packageData || !packageData.content) {
+      return null;
     }
 
-    const formattedId = packageId.toString().padStart(8, "0");
+    // Calculate standalone cost (size of the package content in MB)
+    const standaloneCost = Buffer.byteLength(packageData.content) / (1024 * 1024); // Convert bytes to MB
 
-    if (includeDependencies) {
-      // Fetch dependencies (placeholder logic)
-      const dependencies = await prisma.packageDependency.findMany({
-        where: { packageId },
-        select: { dependencyId: true },
-      });
-
-      const dependencyCosts = dependencies.map((dep) => ({
-        [dep.dependencyId.toString().padStart(8, "0")]: {
-          standaloneCost: 0.5, // Placeholder cost
-          totalCost: 0.5, // Placeholder cost
-        },
-      }));
-
-      return {
-        [formattedId]: {
-          standaloneCost: 1.0, // Placeholder cost for the main package
-          totalCost: 1.0 + dependencyCosts.reduce((sum, dep) => sum + dep.totalCost, 0),
-        },
-        ...dependencyCosts,
-      };
-    } else {
-      // Only calculate standalone cost
-      return {
-        [formattedId]: {
-          totalCost: 1.0, // Placeholder cost for the main package
-        },
-      };
+    if (!includeDependencies) {
+      return { standaloneCost, totalCost: standaloneCost };
     }
+
+    // Fetch dependencies (assuming dependencies are stored in a `packageDependency` table)
+    const dependencies = await prisma.packageDependency.findMany({
+      where: { packageId },
+      include: { dependency: { select: { content: true } } },
+    });
+
+    // Calculate the total cost of dependencies
+    let dependencyCost = 0;
+    for (const dep of dependencies) {
+      if (dep.dependency?.content) {
+        dependencyCost += Buffer.byteLength(dep.dependency.content) / (1024 * 1024); // Convert to MB
+      }
+    }
+
+    const totalCost = standaloneCost + dependencyCost;
+
+    return { standaloneCost, totalCost };
   } catch (error) {
-    throw error; // Rethrow the error to be handled by the controller
+    throw error;
   }
 };
