@@ -21,7 +21,6 @@ export const dbGetPackageCost = async (
   packageId: number,
   includeDependencies: boolean
 ): Promise<PackageCost | null> => {
-  try {
     const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
 
     // Fetch package details
@@ -63,9 +62,6 @@ export const dbGetPackageCost = async (
       } else {
         dependencies = null;
       }
-    } catch (error) {
-      return null;
-    }
 
     if (!dependencies || typeof dependencies !== "object") {
       console.warn("No valid dependencies found.");
@@ -73,7 +69,7 @@ export const dbGetPackageCost = async (
     }    
 
     // Fetch dependency content and calculate the size using https
-    const fetchDependencySize = async (dependencyName: string, version: string) => {
+    const fetchDependencySize = async (dependencyName: string, version: string): Promise<number> => {
       const registryUrl = `https://registry.npmjs.org/${dependencyName}`;
 
       return new Promise<number>((resolve, reject) => {
