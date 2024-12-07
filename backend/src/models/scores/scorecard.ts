@@ -1,6 +1,7 @@
-/**
- * @file scorecard.ts
- *
+/*
+ * @file - scorecard.ts
+ * @author(s) - Logan Pelkey
+ * @purpose - This class holds all of the metric calculations carried out on the module.
  */
 
 /**
