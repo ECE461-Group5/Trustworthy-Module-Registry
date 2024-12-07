@@ -1,6 +1,6 @@
 /**
  * @filename - packageController.ts
- * @author(s): Joe Dahms, Jonah Salyers
+ * @author(s): Joe Dahms, Jonah Salyers, Logan Pelkey
  * @purpose: Handle requests to the package endpoint. All package endpoint
  * controllers are currently contained in this file.
  */
@@ -12,7 +12,7 @@ import { Request, Response } from "express";
 import { isValidRegex } from "./isValidRegex.js";
 
 import { dbUploadPackage } from "../../database/controllers/package/upload.js";
-
+import { dbRatePackage } from "../../database/controllers/package/rating.js";
 import { PackageData, checkPackageData } from "./packageData.js";
 import { Package } from "./package.js";
 import { RegexData } from "./regexData.js";
@@ -184,42 +184,22 @@ export const deletePackage = async (req: Request, res: Response): Promise<void> 
  * @returns - Void promise. Indicates that the controller is done and a response has been sent.
  */
 export const getPackageRating = async (req: Request, res: Response): Promise<void> => {
-  // IMPLEMENT DATABASE FUNCTION HERE
-
-  // Temporary to check formatting
-  // Can remove when database function is implemented
-  const packageID = req.params.id;
-  if (packageID === "00000000") {
-    res.json({
-      RampUp: "<double>",
-      Correctness: "<double>",
-      BusFactor: "<double>",
-      ResponsiveMaintainer: "<double>",
-      LicenseScore: "<double>",
-      GoodPinningPractice: "<double>",
-      PullRequest: "<double>",
-      NetScore: "<double>",
-      RampUpLatency: "<double>",
-      CorrectnessLatency: "<double>",
-      BusFactorLatency: "<double>",
-      ResponsiveMaintainerLatency: "<double>",
-      LicenseScoreLatency: "<double>",
-      GoodPinningPracticeLatency: "<double>",
-      PullRequestLatency: "<double>",
-      NetScoreLatency: "<double>",
-    });
-    return;
-  }
- else if (packageID === "1234567" || packageID === "123456789") {
+  const packageIDString = req.params.id;
+  // Validate package ID
+  if (!/^\d{8}$/.test(packageIDString)) {
     res.status(400).send();
     return;
   }
- else if (packageID === "99999999") {
+
+  const packageRating = await dbRatePackage(packageIDString);
+
+  if (!packageRating) {
+    // Package does not exist or no URL
     res.status(404).send();
     return;
   }
-  res.status(200).send();
-  return;
+  // On success spit out ratings
+  res.status(200).send(packageRating);
 };
 
 /**
