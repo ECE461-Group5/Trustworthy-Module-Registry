@@ -30,3 +30,4 @@ router.get("/:id/cost", getPackageCost);
 router.post("/byRegEx", getPackageByRegEx);
 
 export default router;
+

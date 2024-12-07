@@ -12,11 +12,11 @@ export default [
     ignores: [
       "dist/",
       "eslint.config.js",
-      "tests/metrics/",
-      "tests/evaluators/",
       "vitest.config.ts",
-      "models/",
-      "utils",
+      "src/tests/metrics",
+      "src/tests/evaluators",
+      "src/models",
+      "src/utils",
     ],
   },
   {
@@ -38,6 +38,7 @@ export default [
     rules: {
       semi: "error",
       quotes: ["error", "double"],
+      "prefer-const": "off",
       "@typescript-eslint/no-explicit-any": "off",
       "no-array-constructor": "off",
       "@typescript-eslint/no-array-constructor": "error",
@@ -50,11 +51,13 @@ export default [
         },
       ],
       "@typescript-eslint/explicit-function-return-type": "error",
+      "@typescript-eslint/no-base-to-string": "off",
       "@typescript-eslint/no-unused-vars": ["warn", { caughtErrors: "none" }],
       "@typescript-eslint/no-unsafe-member-access": "off",
       "@typescript-eslint/no-unsafe-argument": "off",
       "@typescript-eslint/no-unsafe-call": "off",
       "@typescript-eslint/no-unsafe-assignment": "off",
+      "@typescript-eslint/restrict-template-expressions": "off",
 
       // Stylistic Rules
       "@stylistic/ts/space-before-function-paren": ["error", "always"],

@@ -9,9 +9,9 @@ lerna-debug.log*
 
 # Dependency directories
 node_modules
+
 # Ignore built ts files
-dist
-dist-ssr
+build
 *.local
 
 # Editor directories and files
@@ -24,3 +24,4 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+.env

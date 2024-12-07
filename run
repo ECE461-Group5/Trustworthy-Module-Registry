@@ -25,11 +25,15 @@ if [ "$arg" == "test" ]; then
 fi
 
 # Check if the argument is a file path
-if [ -f "$arg" ]; then
-  # Compile TS files
-  npm run build
-  # Pass the file path index.js
-  node dist/server/server.js --file "$arg"
+if [ "$arg" == "start" ]; then
+  # Compile TS files && Vite build
+  cd client && npm run build
+  # Copy the "build" folder to "/var/www/html" for Nginx
+  sudo cp -R build/ /var/www/html/front-end/
+  # Reload Nginx
+  sudo systemctl reload nginx
+  # Compile TS files & start server
+  cd ../backend && npm run build && npm run start
   exit 0
 fi
 

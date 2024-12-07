@@ -5,12 +5,20 @@
   "type": "module",
   "scripts": {
     "build": "npx tsc -p ./tsconfig.compile.json",
-    "start": "node dist/server/server.js",
-    "dev": "npx nodemon src/index.ts",
+    "start": "node dist/src/server/server.js",
+    "dev": "nodemon",
+    "db": "npx prisma studio",
     "test": "npx vitest",
     "auto-grader-test": "vitest run --silent --coverage --reporter=json --outputFile=./src/utils/reports/vitest-results.json",
     "lint": "npx eslint --fix -c eslint.config.js -f stylish",
     "format": "npx prettier . --write"
+  },
+  "nodemonConfig":{
+     "watch": [
+      "src"
+    ],
+    "exec": "tsc && node ./dist/src/server/server.js",
+    "ext": "ts,js,json"
   },
   "keywords": [],
   "author": "",
@@ -41,6 +49,7 @@
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.13.0",
     "vitest": "^2.1.1",
+    "vitest-mock-extended": "^2.0.2",
     "yaml-eslint-parser": "^1.2.3"
   },
   "dependencies": {
@@ -54,6 +63,8 @@
     "markdownlint": "^0.35.0",
     "pino": "^9.4.0",
     "supertest": "^7.0.0",
+    "util": "^0.12.5",
+    "vm": "^0.1.0",
     "yargs": "^17.7.2"
   }
 }

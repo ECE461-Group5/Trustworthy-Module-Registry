@@ -1,3 +1,8 @@
+#  Author(s): Geromy Cunningham, Joe Dahms
+#   Purpose: This script is used to start the Trustworthy Module Registry application.
+#   It navigates to the application directory, installs the necessary node modules, builds the frontend and backend,
+#   generates the Prisma schema, creates a log file for the backend, copies the frontend build to the Nginx directory, and starts the server.
+
 #!/bin/bash
 
 # Give permission for everything in the express-app directory
@@ -12,6 +17,19 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # Loads nvm bash_completion (node is in path now)
 
 # Install node modules
-npm install
+(cd ./backend && npm install) && (cd ./client && npm install) >app.out.log 2>app.err.log </dev/null
 
-./run sample-file.txt >app.out.log 2>app.err.log </dev/null &
+# Build FE & BE, generate Prisma schema
+(cd ./client && npm run build) && (cd ./backend && npm run build && cd ./prisma && npx prisma generate) >app.out.log 2>app.err.log </dev/null
+
+# Create log file for backend
+(cd backend && mkdir logs && touch app.log)
+
+# Copy the "build" folder to "/var/www/html" for Nginx, reload Nginx
+(sudo cp -R ./client/build /var/www/html/front-end/) && (sudo systemctl reload nginx) >app.out.log 2>app.err.log </dev/null &
+
+# Start the server
+(cd ./backend && npm run start) >app.out.log 2>app.err.log </dev/null &
+
+# Runs start script which will build, move client for Nginx, and start the server
+# ./run start >app.out.log 2>app.err.log </dev/null &

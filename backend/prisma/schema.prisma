@@ -1,0 +1,51 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Package {
+  id          Int             @id @default(autoincrement())
+  name        String  
+  version     String  
+  content    Bytes?
+  url         String?
+  debloat     Boolean?        @default(false)
+  jsProgram   String?
+  ratings     PackageRating[]
+}
+
+model PackageRating {
+  id                         Int      @id @default(autoincrement())
+  packageId                  Int      @unique
+  rampUp                     Float
+  correctness                Float
+  busFactor                  Float
+  responsiveMaintainer       Float
+  licenseScore               Float
+  netScore                   Float
+  goodPinningPractice        Float
+  pullRequest                Float
+  // Latency metrics (optional)
+  rampUpLatency              Float?
+  correctnessLatency         Float?
+  busFactorLatency           Float?
+  responsiveMaintainerLatency Float?
+  licenseScoreLatency        Float?
+  netScoreLatency            Float?
+  goodPinningPracticeLatency Float?
+  pullRequestLatency         Float?
+
+  package                    Package  @relation(fields: [packageId], references: [id])
+}
