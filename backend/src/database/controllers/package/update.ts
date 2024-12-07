@@ -17,7 +17,7 @@ export const dbUpdatePackage = async (
       },
     });
 
-    const formattedId = updatedPackage.id.toString().padStart(8, '0');
+    const formattedId = updatedPackage.id.toString().padStart(8, "0");
 
     const returnPackage: Package = {
       metadata: {
@@ -34,8 +34,9 @@ export const dbUpdatePackage = async (
     };
 
     return returnPackage;
-} catch (error: any) {
-    if (error?.code === 'P2025') {
+}
+ catch (error: any) {
+    if (error?.code === "P2025") {
       // Record not found
       return null;
     }

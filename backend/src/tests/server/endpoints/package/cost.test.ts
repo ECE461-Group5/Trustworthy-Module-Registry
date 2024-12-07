@@ -1,6 +1,7 @@
-/*
- * Author(s): Joe Dahms
- * Purpose: Test getting the cost of a package.
+/**
+ * @filename - cost.test.ts
+ * @author(s) - Joe Dahms
+ * @purpose - Test getting the cost of a package.
  */
 
 import { expect, describe, test } from "vitest";

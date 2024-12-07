@@ -1,6 +1,7 @@
-/*
- * Author(s): Joe Dahms
- * Purpose: Data type representing Regex Data. Improve transfer of data between Express server and database
+/**
+ * @filename - regexData.ts
+ * @author(s) - Joe Dahms
+ * @purpose - Data type representing Regex Data. Ensure that regex data is a string.
  */
 
 export interface RegexData {

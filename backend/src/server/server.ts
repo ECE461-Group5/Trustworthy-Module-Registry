@@ -1,3 +1,9 @@
+/**
+ * @filename - server.ts
+ * @author(s) - Joe Dahms
+ * @purpose - Core logic of the express server. Defines what routers are used when a certain endpoint is hit.
+ */
+
 import express, { Express, Request, Response } from "express";
 import packagesRouter from "./routes/packagesRoutes.js";
 import resetRouter from "./routes/resetRoutes.js";
