@@ -3,10 +3,9 @@ Author(s): Djamel Almabouada, Derek Petersen
 Purpose: Class for Uploading/Updating Packages to the API 
 */
 
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState, ChangeEvent } from "react";
 import axios from "axios";
 import "../App.css"; // Styles are in this file.
-import { wait } from "@testing-library/user-event/dist/utils";
 
 //import { uploadPackage, updatePackage } from "./api";
 

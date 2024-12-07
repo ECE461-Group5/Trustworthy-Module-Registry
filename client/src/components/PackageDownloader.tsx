@@ -3,17 +3,16 @@ Author(s): Djamel Almabouada, Derek Petersen
 Purpose: Class for Downloading Packages from API 
 */
 
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState, ChangeEvent } from "react";
 import axios from "axios";
 import "../App.css"; // Styles are in this file.
-import { wait } from "@testing-library/user-event/dist/utils";
 
 
 
 //import { downloadPackage } from "./api";
 
 //const API_URL = process.env.REACT_APP_API_URL;  // API URL PATH
-export const downloadPackage = (data: any) => axios.get("https://jsonplaceholder.typicode.com/posts");
+export const downloadPackage = (data: unknown) => axios.get("https://jsonplaceholder.typicode.com/posts");
 
 interface PackageData {
   URL?: string;
@@ -28,7 +27,7 @@ const PackageDownloader: React.FC = () => {
   const [status, setStatus] = useState<string>("Ready");
   // Loading Aspect
   const [isDownloading, setIsDownloading] = useState<boolean>(false);
-  const [downloadedData, setDownloadedData] = useState<any>(null); // State for API data
+  const [downloadedData, setDownloadedData] = useState<unknown>(null); // State for API data
 
   const handleNpmUrlChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPackageData({
