@@ -1,6 +1,7 @@
-/**
+
+/*
  * @filename - upload.ts
- * @author(s) - Joe Dahms, Jonah Salyers
+ * @author(s) - Joe Dahms, Jonah Salyers, Logan Pelkey
  * @purpose - Handle uploading a package to the database. Currently using prisma.
  */
 
