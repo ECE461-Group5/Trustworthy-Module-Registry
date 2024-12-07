@@ -35,12 +35,16 @@ export async function dbRatePackage(packageID: number): Promise<PackageRating | 
       responsiveMaintainer: result.ResponsiveMaintainer,
       licenseScore: result.License,
       netScore: result.NetScore,
+      goodPinningPractice: 0,
+      pullRequest: 0,
       rampUpLatency: result.RampUp_Latency,
       correctnessLatency: result.Correctness_Latency,
       busFactorLatency: result.BusFactor_Latency,
       responsiveMaintainerLatency: result.ResponsiveMaintainer_Latency,
       licenseScoreLatency: result.License_Latency,
       netScoreLatency: result.NetScore_Latency,
+      goodPinningPracticeLatency: 0,
+      pullRequestLatency: 0
     },
     create: {
       packageId: packageID,
@@ -50,12 +54,16 @@ export async function dbRatePackage(packageID: number): Promise<PackageRating | 
       responsiveMaintainer: result.ResponsiveMaintainer,
       licenseScore: result.License,
       netScore: result.NetScore,
+      goodPinningPractice: 0,
+      pullRequest: 0,
       rampUpLatency: result.RampUp_Latency,
       correctnessLatency: result.Correctness_Latency,
       busFactorLatency: result.BusFactor_Latency,
       responsiveMaintainerLatency: result.ResponsiveMaintainer_Latency,
       licenseScoreLatency: result.License_Latency,
       netScoreLatency: result.NetScore_Latency,
+      goodPinningPracticeLatency: 0,
+      pullRequestLatency:0
     },
   });
   
