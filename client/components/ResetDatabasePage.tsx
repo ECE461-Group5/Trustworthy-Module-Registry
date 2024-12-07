@@ -1,3 +1,8 @@
+/*
+Author: Djamel Almabouada
+This is the component that does reset the database
+*/
+
 import React from 'react';
 
 const ResetDatabasePage = () => {
