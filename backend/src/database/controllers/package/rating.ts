@@ -1,12 +1,13 @@
 /*
- * Author(s): Jonah Salyers
+ * Author(s): Jonah Salyers, Logan Pelkey
  * Purpose: Handles retrieval of ratings
  */
 
 import prisma from "../../prisma.js";
 import { evaluateModule } from "../../../models/evaluators/evaluateModule.js";
+import { PackageRating } from "@prisma/client/wasm";
 
-export async function dbRatePackage(packageID: number): Promise<boolean> {
+export async function dbRatePackage(packageID: number): Promise<PackageRating | null> {
   // Fetch the package to ensure it exists and has a URL
   const pkg = await prisma.package.findUnique({
     where: { id: packageID },
@@ -15,7 +16,7 @@ export async function dbRatePackage(packageID: number): Promise<boolean> {
 
   if (!pkg || !pkg.url) {
     // Package doesn't exist or doesn't have a URL to evaluate
-    return false;
+    return null;
   }
 
   // Evaluate metrics using the provided URL
@@ -23,28 +24,41 @@ export async function dbRatePackage(packageID: number): Promise<boolean> {
   const result = JSON.parse(resultStr);
 
   // Map the evaluation results to the database fields
-  const ratingData = {
-    packageId: packageID,
-    rampUp: result.RampUp,
-    correctness: result.Correctness,
-    busFactor: result.BusFactor,
-    responsiveMaintainer: result.ResponsiveMaintainer,
-    licenseScore: result.License,
-    netScore: result.NetScore,
-    rampUpLatency: result.RampUp_Latency,
-    correctnessLatency: result.Correctness_Latency,
-    busFactorLatency: result.BusFactor_Latency,
-    responsiveMaintainerLatency: result.ResponsiveMaintainer_Latency,
-    licenseScoreLatency: result.License_Latency,
-    netScoreLatency: result.NetScore_Latency,
-  };
-
-  // Upsert (update if exists, else create) the package rating
-  await prisma.packageRating.upsert({
-    where: { packageId: packageID },
-    update: ratingData,
-    create: ratingData,
+  const newOrUpdatedPackageRating = await prisma.packageRating.upsert({
+    where: {
+      packageId: packageID, // Check if a record with this packageId exists
+    },
+    update: {
+      rampUp: result.RampUp,
+      correctness: result.Correctness,
+      busFactor: result.BusFactor,
+      responsiveMaintainer: result.ResponsiveMaintainer,
+      licenseScore: result.License,
+      netScore: result.NetScore,
+      rampUpLatency: result.RampUp_Latency,
+      correctnessLatency: result.Correctness_Latency,
+      busFactorLatency: result.BusFactor_Latency,
+      responsiveMaintainerLatency: result.ResponsiveMaintainer_Latency,
+      licenseScoreLatency: result.License_Latency,
+      netScoreLatency: result.NetScore_Latency,
+    },
+    create: {
+      packageId: packageID,
+      rampUp: result.RampUp,
+      correctness: result.Correctness,
+      busFactor: result.BusFactor,
+      responsiveMaintainer: result.ResponsiveMaintainer,
+      licenseScore: result.License,
+      netScore: result.NetScore,
+      rampUpLatency: result.RampUp_Latency,
+      correctnessLatency: result.Correctness_Latency,
+      busFactorLatency: result.BusFactor_Latency,
+      responsiveMaintainerLatency: result.ResponsiveMaintainer_Latency,
+      licenseScoreLatency: result.License_Latency,
+      netScoreLatency: result.NetScore_Latency,
+    },
   });
+  
 
-  return true;
+  return newOrUpdatedPackageRating;
 }
