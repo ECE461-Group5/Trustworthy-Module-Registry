@@ -1,8 +1,7 @@
-/**
- * @file evaluateModule.ts
- *
- * This is the main driving file for evaluating a module.
- *
+/*
+ * @file - evaluateModule.ts
+ * @author(s) - Logan Pelkey
+ * @purpose - Define the map of metrics and asynchronously evaluate all of them.
  */
 
 import logger from "../../../logger.js";
