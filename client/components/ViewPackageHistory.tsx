@@ -1,3 +1,8 @@
+/*
+Author: Djamel Almabouada
+This is the component that displays the view package history page
+*/
+
 import React, { useState } from 'react';
 
 const ViewPackageHistoryPage = () => {
