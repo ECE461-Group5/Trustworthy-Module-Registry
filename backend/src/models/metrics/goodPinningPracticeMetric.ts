@@ -73,7 +73,8 @@ export class GoodPinningPracticeMetric extends Metric {
 
       logger.debug(`Pinned dependencies: ${pinnedDependenciesCount}`);
 
-      const score = parseFloat((pinnedDependenciesCount / totalDependencies).toFixed(3));
+      const rawScore = pinnedDependenciesCount / totalDependencies;
+      const score = Math.round(rawScore * 10) / 10; //value is rounded to nearest tenths place
       card.goodPinningPractice = score;
 
       logger.info(`Pinned dependencies score calculated: ${score}`);
@@ -116,8 +117,8 @@ export class GoodPinningPracticeMetric extends Metric {
    * @returns True if pinned, false otherwise.
    */
   private isPinned(version: string): boolean {
-    // Example: Match versions like "2.3.X", "1.2.0", "3.5"
-    const majorMinorRegex = /^\d+\.\d+/;
-    return majorMinorRegex.test(version);
+    // Match versions that are pinned to major.minor, allowing exact patch or flexible patch
+    const pinnedRegex = /^~?\d+\.\d+(\.\d+|\.x|\.\*)?$/;
+    return pinnedRegex.test(version);
   }
 }
