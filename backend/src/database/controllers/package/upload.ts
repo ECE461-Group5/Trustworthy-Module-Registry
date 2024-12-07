@@ -1,6 +1,7 @@
-/*
- * Author(s): Joe Dahms, Jonah Salyers
- * Purpose: Handle uploading a package to the database. Currently using prisma.
+/**
+ * @filename - upload.ts
+ * @author(s) - Joe Dahms, Jonah Salyers
+ * @purpose - Handle uploading a package to the database. Currently using prisma.
  */
 
 import { Package } from "../../../server/controllers/package.js";
