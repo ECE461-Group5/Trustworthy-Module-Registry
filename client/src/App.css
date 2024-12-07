@@ -1,422 +1,110 @@
-Navbar styles
-.navbar {
-  background-color: #c26161; /* Red navbar background */
-  padding: 10px;
+/* General page styling */
+.home-page {
   text-align: center;
+  background-color: #111; /* Dark background */
+  color: #fff; /* White text */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
 }
 
-.navbar h1 {
-  color: white;
-  margin: 0;
-  padding-bottom: 10px;
+/* Title */
+.home-title {
+  font-size: 3rem;
+  color: #b4a0a0; /* Red title */
+  margin-top: 20px;
 }
 
-.button-group {
+/* Main buttons */
+.main-buttons {
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 15px;
+  margin-top: 30px;
 }
 
-.primary-button,
-.secondary-button,
-.reset-button,
-.put-button {
-  padding: 10px 15px;
-  font-size: 14px;
-  border: none;
+.home-button, .upload-button, .directory-button {
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  font-weight: bold;
   border-radius: 5px;
-  color: white;
+  border: 2px solid #ff0000; /* Red border */
+  background-color: transparent;
+  color: #ff0000; /* Red text */
   cursor: pointer;
 }
 
-.primary-button {
-  background-color: #007bff;
+.home-button:hover, .upload-button:hover, .directory-button:hover {
+  background-color: #ff0000; /* Red background on hover */
+  color: #fff; /* White text on hover */
 }
 
-.secondary-button {
-  background-color: #6c757d;
-}
-
-.reset-button {
-  background-color: #ffc107;
-}
-
-.put-button {
-  background-color: #28a745;
-}
-
-.primary-button:hover {
-  background-color: #0056b3; /* Darker blue */
-}
-
-.secondary-button:hover {
-  background-color: #5a6268; /* Darker gray */
-}
-
-.reset-button:hover {
-  background-color: #e0a800; /* Darker yellow */
-}
-
-.put-button:hover {
-  background-color: #218838; /* Darker green */
-}
-
-button:hover {
-  opacity: 0.8;
-}
-
-/* Content and Section styles */
-.content {
-  padding: 20px;
-}
-
-.section {
-  border: 1px solid #ccc;
-  padding: 20px;
-  margin: 20px 0;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-}
-
-.section h2 {
-  margin: 15px 0;
-  color: #333; /* Darker text for better contrast */
-  font-weight: bold; /* Make text stand out */
-}
-
-.section p {
-  margin: 10px 0;
-  color: #333;
-  line-height: 1.5; /* Add better line spacing */
-  font-size: 14px;
-}
-
-.section input {
-  width: 100%;
-  padding: 8px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.section input::placeholder {
-  color: #666; /* Medium gray for placeholders */
+.directory-button:hover 
+Logo placeholder
+.logo-placeholder {
   font-style: italic;
+  color: #00ff00; /* Green text */
+  margin: 0px auto;
+  font-size: 1.5rem;
 }
 
-.section button {
-  margin-top: 10px;
-  padding: 10px 15px;
-  font-size: 16px;
-}
-
-.package-item {
-  border: 1px solid #ddd;
-  margin: 10px 0;
-  padding: 15px;
-  border-radius: 8px;
-  background-color: #ffffff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Light shadow */
-}
-
-.package-item h3 {
-  color: #007bff;
-  font-size: 18px;
-  margin-bottom: 5px;
-}
-
-.package-item p {
-  margin: 5px 0;
-  font-size: 14px;
-}
-
-.loading {
-  font-size: 16px;
-  font-weight: bold;
-  color: #007bff;
-  text-align: center;
-  margin-top: 15px;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .navbar .button-group {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .navbar .button-group button {
-    margin-bottom: 10px;
-    width: 100%;
-  }
-
-  .section {
-    padding: 15px;
-  }
-
-  .package-item {
-    padding: 10px;
-    margin: 10px 0;
-  }
-}
-
-/* General table styles */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 20px 0;
-  font-size: 16px;
-  text-align: left;
-  background-color: white; /* Ensure table background is white */
-  border-radius: 5px;
-  overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  color: #333; /* Dark text for better visibility */
-}
-
-/* Header row */
-thead tr {
-  background-color: #c26161; /* Red header background */
-  color: white; /* White text for header */
-  font-weight: bold;
-  text-transform: uppercase;
-}
-
-/* Table headers and cells */
-th, td {
-  padding: 15px 20px; /* Add padding for spacing */
-  border: 1px solid #ddd; /* Light border for separation */
-  color: #333; /* Ensure text is visible (dark gray) */
-}
-
-/* Alternate row colors for readability */
-tbody tr:nth-child(even) {
-  background-color: #f9f9f9; /* Light gray */
-}
-
-tbody tr:hover {
-  background-color: #e9ecef; /* Slightly darker gray on hover */
-}
-
-/* Links inside the table */
-.table-link {
-  color: #007bff; /* Blue for links */
-  text-decoration: none;
-}
-
-.table-link:hover {
-  text-decoration: underline; /* Underline on hover */
-}
-
-/* Table header alignment */
-thead th {
-  text-align: center; /* Center the headers */
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  table {
-    font-size: 14px; /* Adjust font size for smaller screens */
-  }
-
-  .section {
-    padding: 15px;
-  }
-}
-
-/* Style for Update Package button */
-.update-button {
-  background-color: #17a2b8; /* Light blue */
-  color: white;
-  padding: 10px 15px;
-  font-size: 14px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.update-button:hover {
-  background-color: #117a8b; /* Darker blue on hover */
-}
-
-/* Style for View History button */
-.history-button {
-  background-color: #6f42c1; /* Purple */
-  color: white;
-  padding: 10px 15px;
-  font-size: 14px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.history-button:hover {
-  background-color: #563d7c; /* Darker purple on hover */
-}
-
-/* Style for Features button */
-.features-button {
-  background-color: #fd7e14; /* Orange */
-  color: white;
-  padding: 10px 15px;
-  font-size: 14px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.features-button:hover {
-  background-color: #e06900; /* Darker orange on hover */
-}
-
-
-
-/* Navbar styles */
-.navbar {
-  background-color: #c26161; /* Red navbar background */
-  padding: 10px;
+/* Logo container */
+.logo-container {
+  margin: 30px auto;
   text-align: center;
 }
 
-.navbar h1 {
-  color: white;
-  margin: 0;
-  padding-bottom: 10px;
+/* Logo image styling */
+.logo-image {
+  max-width: 600px; /* Resize the logo width */
+  max-height: 600px; /* Resize the logo height */
+  object-fit: contain; /* Maintain the aspect ratio */
+  margin: 0 auto;
 }
 
-.button-group {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
+
+
+/* Footer Buttons - Positioned at bottom right */
+.footer-buttons {
+  position: fixed; /* Fixed positioning to stick to the viewport */
+  bottom: 20px;    /* Distance from the bottom edge */
+  right: 20px;     /* Distance from the right edge */
+  display: flex;   /* Align buttons horizontally */
+  gap: 10px;       /* Space between buttons */
 }
 
-/* General button styles */
-.primary-button,
-.secondary-button,
-.reset-button,
-.put-button,
-.update-button,
-.history-button,
-.features-button {
-  padding: 10px 15px;
-  font-size: 14px;
-  border: none;
-  border-radius: 5px;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-/* Button-specific colors */
-.primary-button {
-  background-color: #007bff;
-}
-
-.secondary-button {
-  background-color: #6c757d;
-}
-
-.reset-button {
-  background-color: #ffc107;
-}
-
-.put-button {
-  background-color: #28a745;
-}
-
-.update-button {
-  background-color: #17a2b8; /* Light blue */
-}
-
-.history-button {
-  background-color: #6f42c1; /* Purple */
-}
-
-.features-button {
-  background-color: #fd7e14; /* Orange */
-}
-
-/* Hover effects for buttons */
-.primary-button:hover {
-  background-color: #0056b3;
-}
-
-.secondary-button:hover {
-  background-color: #5a6268;
-}
-
-.reset-button:hover {
-  background-color: #e0a800;
-}
-
-.put-button:hover {
-  background-color: #218838;
-}
-
-.update-button:hover {
-  background-color: #117a8b; /* Darker blue */
-}
-
-.history-button:hover {
-  background-color: #563d7c; /* Darker purple */
-}
-
-.features-button:hover {
-  background-color: #e06900; /* Darker orange */
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .navbar .button-group {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .navbar .button-group button {
-    margin-bottom: 10px;
-    width: 100%;
-  }
-
-  .section {
-    padding: 15px;
-  }
-
-  .package-item {
-    padding: 10px;
-    margin: 10px 0;
-  }
-}
-/* Update Package Button */
-.update-button {
-  background-color: #17a2b8; /* Light blue */
-  color: white;
-  padding: 10px 15px;
-  font-size: 14px;
-  border: none;
+/* Individual button styling */
+.tracks-button, .delete-button {
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  font-weight: bold;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  border: 2px solid; /* Add border color */
 }
 
-.update-button:hover {
-  background-color: #117a8b; /* Darker blue on hover */
+/* Tracks button styles */
+.tracks-button {
+  border-color: #00ff00; /* Green border */
+  background-color: transparent;
+  color: #00ff00; /* Green text */
 }
 
-/* View History Button */
-.history-button {
-  background-color: #6f42c1; /* Purple */
-  color: white;
-  padding: 10px 15px;
-  font-size: 14px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+.tracks-button:hover {
+  background-color: #00ff00; /* Green background */
+  color: #111; /* Dark text on hover */
 }
 
-.history-button:hover {
-  background-color: #563d7c; /* Darker purple on hover */
+/* Delete button styles */
+.delete-button {
+  border-color: #ff0000; /* Red border */
+  background-color: transparent;
+  color: #ff0000; /* Red text */
+}
+
+.delete-button:hover {
+  background-color: #ff0000; /* Red background */
+  color: #fff; /* White text on hover */
 }
