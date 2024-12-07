@@ -19,6 +19,7 @@ import { RegexData } from "./regexData.js";
 import { dbDeletePackage } from "../../database/controllers/package/delete.js";
 import { dbGetPackage } from "../../database/controllers/package/retrieve.js";
 import { checkValidId } from "./checkValidId.js";
+import { dbGetPackageCost } from "../../database/controllers/package/cost.js";
 
 /**
  * @function uploadPackage
@@ -232,44 +233,31 @@ export const getPackageRating = async (req: Request, res: Response): Promise<voi
  * @returns - Void promise. Indicates that the controller is done and a response has been sent.
  */
 export const getPackageCost = async (req: Request, res: Response): Promise<void> => {
-  const dependency = req.query.dependency;
-  const packageID = req.params.id;
+  const packageIdString = req.params.id;
 
-  if (packageID === "00000000") {
-    if (dependency === "true") {
-      res.send({
-        "00000000": {
-          standaloneCost: 1.0,
-          totalCost: 1.0,
-        },
-        "00000001": {
-          standaloneCost: 1.0,
-          totalCost: 1.0,
-        },
-      });
-      return;
-    }
- else if (dependency === "false") {
-      res.send({
-        "00000000": {
-          totalCost: 1.0,
-        },
-      });
-      return;
-    }
-  }
-  // Incorrect packageID format
-  else if (packageID === "123456789" || packageID === "1234567") {
+  const validId = checkValidId(packageIdString);
+  if (!validId) {
     res.status(400).send();
     return;
   }
-  // Package does not exist
-  else if (packageID === "99999999") {
-    res.status(404).send();
+
+  const packageId = parseInt(packageIdString, 10);
+  const includeDependencies = req.query.dependency === "true";
+
+  try {
+    const cost = await dbGetPackageCost(packageId, includeDependencies);
+
+    if (!cost) {
+      res.status(404).send();
+      return;
+    }
+
+    res.status(200).json(cost);
+    return;
+  } catch (error) {
+    res.status(500).send();
     return;
   }
-  res.status(200).send();
-  return;
 };
 
 /**
