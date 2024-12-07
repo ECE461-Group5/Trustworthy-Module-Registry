@@ -28,13 +28,15 @@ model Package {
 
 model PackageRating {
   id                         Int      @id @default(autoincrement())
-  packageId                  Int
+  packageId                  Int      @unique
   rampUp                     Float
   correctness                Float
   busFactor                  Float
   responsiveMaintainer       Float
   licenseScore               Float
   netScore                   Float
+  goodPinningPractice        Float
+  pullRequest                Float
   // Latency metrics (optional)
   rampUpLatency              Float?
   correctnessLatency         Float?
@@ -42,6 +44,8 @@ model PackageRating {
   responsiveMaintainerLatency Float?
   licenseScoreLatency        Float?
   netScoreLatency            Float?
+  goodPinningPracticeLatency Float?
+  pullRequestLatency         Float?
 
   package                    Package  @relation(fields: [packageId], references: [id])
 }
