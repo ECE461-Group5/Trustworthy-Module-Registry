@@ -25,7 +25,7 @@ const PackageDownloader: React.FC = () => {
   const [status, setStatus] = useState<string>("Ready");
   // Loading Aspect
   const [isDownloading, setIsDownloading] = useState<boolean>(false);
-  
+  //const [downloadedData, setDownloadedData] = useState<unknown>(null); // State for API data
 
   const handleNpmUrlChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPackageData({
@@ -108,7 +108,7 @@ const PackageDownloader: React.FC = () => {
     try {
       const response = await downloadPackage();
       console.log("Downloaded Data:", response.data);
-      setDownloadedData(response.data); // Store the data in state
+      //setDownloadedData(response.data); // Store the data in state
       setStatus("Success");
       setErrorMessage("");
     } catch (error) {
