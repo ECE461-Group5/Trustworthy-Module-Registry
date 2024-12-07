@@ -5,7 +5,7 @@ import { Package } from "../../../server/controllers/package.js";
 export const dbUpdatePackage = async (
   packageId: number,
   packageData: PackageData,
-): Promise<Package | null> => {
+): Promise<void> => {
   try {
     const updatedPackage = await prisma.package.update({
       where: { id: packageId },
@@ -17,23 +17,7 @@ export const dbUpdatePackage = async (
       },
     });
 
-    const formattedId = updatedPackage.id.toString().padStart(8, "0");
-
-    const returnPackage: Package = {
-      metadata: {
-        Name: updatedPackage.name,
-        Version: updatedPackage.version,
-        ID: formattedId,
-      },
-      data: {
-        Content: updatedPackage.content,
-        URL: updatedPackage.url,
-        debloat: updatedPackage.debloat,
-        JSProgram: updatedPackage.jsProgram,
-      },
-    };
-
-    return returnPackage;
+    return;
 }
  catch (error: any) {
     if (error?.code === "P2025") {
