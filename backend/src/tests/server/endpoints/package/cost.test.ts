@@ -19,7 +19,7 @@ describe("/package/:id/cost endpoint", () => {
       testName: "Without Dependency",
       dependency: "?dependency=false",
       expectedStatus: 200,
-      validateResponseBody: (body: ResponseBody) => {
+      validateResponseBody: (body: ResponseBody): void => {
         Object.entries(body).forEach(([key, value]) => {
           expect(key).toMatch(/^\d{8}$/); // Key must be an 8-digit string
           expect(value).toEqual({
@@ -33,7 +33,7 @@ describe("/package/:id/cost endpoint", () => {
       testName: "With Dependency",
       dependency: "?dependency=true",
       expectedStatus: 200,
-      validateResponseBody: (body: ResponseBody) => {
+      validateResponseBody: (body: ResponseBody): void => {
         Object.entries(body).forEach(([key, value]) => {
           expect(key).toMatch(/^\d{8}$/); // Key must be an 8-digit string
           expect(value).toEqual({
