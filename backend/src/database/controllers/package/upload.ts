@@ -1,5 +1,5 @@
 /*
- * Author(s): Joe Dahms, Jonah Salyers
+ * Author(s): Joe Dahms, Jonah Salyers, Logan Pelkey
  * Purpose: Handle uploading a package to the database. Currently using prisma.
  */
 
