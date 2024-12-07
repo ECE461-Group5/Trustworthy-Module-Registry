@@ -1,82 +1,104 @@
 /*
 Author: Djamel Almabouada
-This is the component that displays the directory page
+Purpose: This is the component that displays the directory page
 */
 
 import React, { useState } from 'react';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import '../stylings/DirectoryPage.css';
 import '../stylings/Navbar.css';
 import Navbar from './Navbar';
 
+
+// TypeScript Interfaces
+interface Package {
+  ID: string;
+  Version: string;
+  Name: string;
+}
+
+interface Rating {
+  comment: string;
+  stars: number;
+}
+
+interface Cost {
+  description: string;
+  amount: number;
+}
+
 // Fetch packages with optional search filters
-const fetchPackages = async (searchInput = '', offset = 0): Promise<any[]> => {
+const fetchPackages = async (searchInput = '', offset = 0): Promise<Package[]> => {
   const response = await axios.post(
-    `/packages?offset=${offset}`,
+    `http://54.198.116.182/packages?offset=${offset}`,
     [
       {
-        Name: searchInput || '', // Use searchInput for filtering
+        Name: searchInput || '',
         Version: '',
       },
     ],
     {
       headers: {
-        'X-Authorization': 'token_goes_here', // token goes here
+        'X-Authorization': 'token_goes_here',
       },
     }
   );
   return response.data as any[];
 };
 
-
-// Mock function to fetch packages
-// const fetchPackages = async (searchInput = '', offset = 0): Promise<any[]> => {
-//   console.log(`Fetching packages with searchInput: ${searchInput}, offset: ${offset}`);
-//   return [
-//     { ID: "1", Version: "1.0", Name: "Package A" },
-//     { ID: "2", Version: "1.1", Name: "Package B" },
-//     { ID: "3", Version: "2.0", Name: "Package C" },
-//     { ID: "4", Version: "3.0", Name: "Package D" },
-//     { ID: "5", Version: "1.2", Name: "Package E" },
-//     { ID: "6", Version: "2.3", Name: "Package F" },
-//     { ID: "7", Version: "4.0", Name: "Package G" },
-//     { ID: "8", Version: "1.4", Name: "Package H" },
-//     { ID: "9", Version: "2.5", Name: "Package I" },
-//     { ID: "10", Version: "3.1", Name: "Package J" },
-//   ];
-// };
-
-// Modal for displaying Ratings
-const RatingsModal: React.FC<{ ratings: any[]; onClose: () => void }> = ({ ratings = [], onClose }) => {
-  if (!ratings || !Array.isArray(ratings)) {
-    return <div>Error: Invalid ratings data.</div>;
-  }
-
-  return (
-    <div className="modal-overlay">
-      <div className="modal-content">
-        <h2>Package Ratings</h2>
-        <ul>
-          {ratings.length > 0 ? (
-            ratings.map((rating, index) => (
-              <li key={index}>
-                {rating.comment} - {rating.stars} stars
-              </li>
-            ))
-          ) : (
-            <p>No ratings available for this package.</p>
-          )}
-        </ul>
-        <button onClick={onClose} className="close-button">Close</button>
-      </div>
+// Ratings Modal Component
+const RatingsModal: React.FC<{ ratings: Rating[]; onClose: () => void }> = ({ ratings, onClose }) => (
+  <div className="modal-overlay">
+    <div className="modal-content">
+      <h2>Package Ratings</h2>
+      <ul>
+        {ratings.length > 0 ? (
+          ratings.map((rating, index) => (
+            <li key={index}>
+              {rating.comment} - {rating.stars} stars
+            </li>
+          ))
+        ) : (
+          <p>No ratings available for this package.</p>
+        )}
+      </ul>
+      <button onClick={onClose} className="close-button">
+        Close
+      </button>
     </div>
-  );
-};
+  </div>
+);
 
+// Cost Modal Component
+const CostModal: React.FC<{ cost: Cost[]; onClose: () => void }> = ({ cost, onClose }) => (
+  <div className="modal-overlay">
+    <div className="modal-content">
+      <h2>Cost Details</h2>
+      <ul>
+        {cost.length > 0 ? (
+          cost.map((item, index) => (
+            <li key={index}>
+              {item.description}: ${item.amount}
+            </li>
+          ))
+        ) : (
+          <p>No cost details available for this package.</p>
+        )}
+      </ul>
+      <button onClick={onClose} className="close-button">
+        Close
+      </button>
+    </div>
+  </div>
+);
 
-// Modal for updating packages
-const UpdateModal: React.FC<{ pkg: any; onClose: () => void; onUpdate: (updatedPackage: any) => void }> = ({ pkg, onClose, onUpdate }) => {
+// Update Modal Component
+const UpdateModal: React.FC<{
+  pkg: Package;
+  onClose: () => void;
+  onUpdate: (updatedPackage: Package) => void;
+}> = ({ pkg, onClose, onUpdate }) => {
   const [formData, setFormData] = useState(pkg);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -106,106 +128,89 @@ const UpdateModal: React.FC<{ pkg: any; onClose: () => void; onUpdate: (updatedP
           onChange={handleChange}
           placeholder="Package Version"
         />
-        <button onClick={handleSubmit} className="save-button">Save</button>
-        <button onClick={onClose} className="close-button">Cancel</button>
+        <button onClick={handleSubmit} className="save-button">
+          Save
+        </button>
+        <button onClick={onClose} className="close-button">
+          Cancel
+        </button>
       </div>
     </div>
   );
 };
 
+// DirectoryPage Component
 const DirectoryPage: React.FC = () => {
-  const [searchInput, setSearchInput] = useState<string>(''); // Search input state
-  const [searchType, setSearchType] = useState<'ID' | 'RegEx' | 'NAME'>('NAME'); // Type of search
+  const [searchInput, setSearchInput] = useState<string>('');
+  const [searchType, setSearchType] = useState<'ID' | 'RegEx' | 'NAME'>('NAME');
   const [showRatingsModal, setShowRatingsModal] = useState(false);
-  const [ratings, setRatings] = useState<any[]>([]);
+  const [ratings, setRatings] = useState<Rating[]>([]);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
-  const [selectedPackage, setSelectedPackage] = useState<any | null>(null);
-  const [cost, setCost] = useState<any[]>([]);
+  const [selectedPackage, setSelectedPackage] = useState<Package | null>(null);
+  const [cost, setCost] = useState<Cost[]>([]);
   const [showCostModal, setShowCostModal] = useState(false);
 
-  const { data = [], isLoading, isError, refetch } = useQuery<any[]>({
+  const { data = [], isLoading, isError, refetch } = useQuery<Package[]>({
     queryKey: ['packages', searchInput, searchType],
     queryFn: () => fetchPackages(searchInput),
     refetchOnWindowFocus: false,
   });
 
   // Handle Ratings Button
-  // const handleRatingsClick = async (id: string) => {
-  //   try {
-  //     const response = await axios.get(`/packages/${id}/ratings`, {
-  //       headers: {
-  //         'X-Authorization': 'token-goes-here',
-  //       },
-  //     });
-
-  //     console.log('Ratings:', response.data);
-  //     setRatings(response.data as any[]);
-  //     setShowRatingsModal(true);
-  //   } catch (error) {
-  //     console.error('Error fetching ratings:', error);
-  //     alert('Failed to fetch ratings. Please try again.');
-  //   }
-  // };
-
-
-    // Testing the rating button using Mock server
   const handleRatingsClick = async (id: string) => {
     try {
-      // Adjusted to use the mock server
-      const response = await axios.get(`http://localhost:3001/ratings/${id}`);
-      setRatings(response.data as any[]);
+      const response = await axios.get(`http://54.198.116.182/${id}`);
+      setRatings(response.data as Rating[]);
       setShowRatingsModal(true);
     } catch (error) {
-      console.error('Error fetching ratings:', error);
+      console.error('Failed to fetch ratings:', error);
       alert('Failed to fetch ratings. Please try again.');
     }
   };
-  
 
-  // Handle Cost Buton
+  // Handle Cost Button
   const handleCostClick = async (id: string) => {
     try {
-      const response = await axios.get(`/packages/${id}/cost`, {
-        headers: { 
-          'X-Authorization': 'token-goes-here',
-         },
+      const response = await axios.get(`http://54.198.116.182/packages/${id}/cost`, {
+        headers: { 'X-Authorization': 'token-goes-here' },
       });
-      console.log('Cost:', response.data);
-      setCost(response.data as any[]);
-      setShowCostModal(true);
+
+      if (Array.isArray(response.data)) {
+        setCost(response.data as Cost[]);
+        setShowCostModal(true);
+      } else {
+        console.error('Unexpected cost data:', response.data);
+        alert('Invalid cost data received.');
+      }
     } catch (error) {
-      console.error('Error fetching cost:', error);
+      console.error('Failed to fetch cost data:', error);
       alert('Failed to fetch cost. Please try again.');
-    } 
+    }
   };
 
   // Handle Update Button
   const handleUpdateClick = async (id: string) => {
     try {
-      const response = await axios.get(`/packages/${id}`, {
-        headers: {
-          'X-Authorization': 'your-auth-token',
-        },
+      const response = await axios.get(`http://54.198.116.182/packages/${id}`, {
+        headers: { 'X-Authorization': 'your-auth-token' },
       });
-      setSelectedPackage(response.data);
+      setSelectedPackage(response.data as Package);
       setShowUpdateModal(true);
     } catch (error) {
-      console.error('Error fetching package:', error);
+      console.error('Failed to fetch package details:', error);
       alert('Failed to fetch package details. Please try again.');
     }
   };
 
-  const handleUpdateSubmit = async (updatedPackage: any) => {
+  const handleUpdateSubmit = async (updatedPackage: Package) => {
     try {
-      await axios.put(`/packages/${updatedPackage.ID}`, updatedPackage, {
-        headers: {
-          'X-Authorization': 'your-auth-token',
-        },
+      await axios.put(`http://54.198.116.182/packages/${updatedPackage.ID}`, updatedPackage, {
+        headers: { 'X-Authorization': 'your-auth-token' },
       });
       alert('Package updated successfully.');
       refetch();
     } catch (error) {
-      console.error('Error updating package:', error);
+      console.error('Failed to update package:', error);
       alert('Failed to update the package. Please try again.');
     }
   };
@@ -214,15 +219,13 @@ const DirectoryPage: React.FC = () => {
   const handleDeleteClick = async (id: string) => {
     if (window.confirm(`Are you sure you want to delete package ID: ${id}?`)) {
       try {
-        await axios.delete(`/packages/${id}`, {
-          headers: {
-            'X-Authorization': 'your-auth-token',
-          },
+        await axios.delete(`http://54.198.116.182/packages/${id}`, {
+          headers: { 'X-Authorization': 'your-auth-token' },
         });
         alert('Package deleted successfully.');
         refetch();
       } catch (error) {
-        console.error('Error deleting package:', error);
+        console.error('Failed to delete package:', error);
         alert('Failed to delete the package. Please try again.');
       }
     }
@@ -233,64 +236,91 @@ const DirectoryPage: React.FC = () => {
 
   return (
     <div>
-        <Navbar />
-    <div className="directory-page">
-      <h1>Packages Directory</h1>
+      <Navbar />
+      <div className="directory-page">
+        <h1>Packages Directory</h1>
 
-      <div className="search-section">
-        <input
-          type="text"
-          placeholder="Search Input"
-          value={searchInput}
-          onChange={(e) => setSearchInput(e.target.value)}
-          className="search-input"
-        />
-        <button onClick={() => { setSearchType('ID'); refetch(); }} className="search-button">GET ID</button>
-        <button onClick={() => { setSearchType('RegEx'); refetch(); }} className="regex-button">RegEx</button>
-        <button onClick={() => { setSearchType('NAME'); refetch(); }} className="name-button">NAME</button>
-      </div>
+        <div className="search-section">
+          <input
+            type="text"
+            placeholder="Search Input"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            className="search-input"
+          />
+          <button onClick={() => { setSearchType('ID'); refetch(); }} className="search-button">
+            GET ID
+          </button>
+          <button onClick={() => { setSearchType('RegEx'); refetch(); }} className="regex-button">
+            RegEx
+          </button>
+          <button onClick={() => { setSearchType('NAME'); refetch(); }} className="name-button">
+            NAME
+          </button>
+        </div>
 
-      <table className="packages-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Version</th>
-            <th>Name</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((pkg: any, index: number) => (
-            <tr key={index}>
-              <td>{pkg.ID}</td>
-              <td>{pkg.Version}</td>
-              <td>{pkg.Name}</td>
-              <td>
-                <button onClick={() => handleRatingsClick(pkg.ID)} className="ratings-button">Ratings</button>
-                <button onClick={() => handleCostClick(pkg.ID)} className="cost-button">Cost</button>
-                <button onClick={() => handleUpdateClick(pkg.ID)} className="update-button">Update</button>
-                <button onClick={() => handleDeleteClick(pkg.ID)} className="delete-button">Delete</button>
-
-              </td>
+        <table className="packages-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Version</th>
+              <th>Name</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {data.map((pkg) => (
+              <tr key={pkg.ID}>
+                <td>{pkg.ID}</td>
+                <td>{pkg.Version}</td>
+                <td>{pkg.Name}</td>
+                <td>
+                  <button onClick={() => handleRatingsClick(pkg.ID)} className="ratings-button">
+                    Ratings
+                  </button>
+                  <button onClick={() => handleCostClick(pkg.ID)} className="cost-button">
+                    Cost
+                  </button>
+                  <button onClick={() => handleUpdateClick(pkg.ID)} className="update-button">
+                    Update
+                  </button>
+                  <button onClick={() => handleDeleteClick(pkg.ID)} className="delete-button">
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
 
-      {showRatingsModal && <RatingsModal ratings={ratings} onClose={() => setShowRatingsModal(false)} />}
-      {showUpdateModal && selectedPackage && showCostModal && (
-        <UpdateModal
-          pkg={selectedPackage}
-          onClose={() => setShowUpdateModal(false)}
-          onUpdate={handleUpdateSubmit}
-        />
-      )}
-    </div>
+        {showRatingsModal && <RatingsModal ratings={ratings} onClose={() => setShowRatingsModal(false)} />}
+        {showCostModal && <CostModal cost={cost} onClose={() => setShowCostModal(false)} />}
+        {showUpdateModal && selectedPackage && (
+          <UpdateModal
+            pkg={selectedPackage}
+            onClose={() => setShowUpdateModal(false)}
+            onUpdate={handleUpdateSubmit}
+          />
+        )}
+      </div>
     </div>
   );
 };
 
 export default DirectoryPage;
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
