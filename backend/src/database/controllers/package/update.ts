@@ -25,10 +25,12 @@ export const dbUpdatePackage = async (
   try {
     if (updatedPackage.metadata.ID != null && nullPackageData(updatedPackage) === false) {
       logger.info("Prisma update...");
+
+
+      let packageContent: Buffer = Buffer.alloc(5);
       if (updatedPackage.data.Content != null) {
-        const packageContent = Buffer.from(updatedPackage.data.Content);
+        packageContent = Buffer.from(updatedPackage.data.Content);
       }
-      console.log(updatedPackage);
 
       const test = await prisma.package.update({
         where: {

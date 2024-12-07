@@ -24,18 +24,24 @@ export async function uploadContentPackage (): Promise<Package> {
       ID: null,
     },
     data: {
-      Content: Buffer.from("TESTSSTESTSGSDFHSDRH"),
+      Content: "TESTSSTESTSGSDFHSDRH",
       URL: "",
       debloat: false,
       JSProgram: "",
     },
   };
 
+  if (contentPackage.data.Content === null) {
+    return contentPackage;
+  }
+  const packageContent = Buffer.from(contentPackage.data.Content); 
+
+
   const newPackage = await prisma.package.create({
     data: {
       name: "testContent",
       version: "noversion",
-      content: contentPackage.data.Content,
+      content: packageContent,
       url: contentPackage.data.URL,
       debloat: contentPackage.data.debloat,
       jsProgram: contentPackage.data.JSProgram,

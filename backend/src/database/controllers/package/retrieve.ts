@@ -17,6 +17,11 @@ export const dbGetPackage = async (packageId: number): Promise<Package | null> =
 
   const formattedId = packageData.id.toString().padStart(8, "0");
 
+  let packageContent = null;
+  if (packageData.content != null) {
+    packageContent = packageData.content.toString();
+  }
+
   const returnPackage: Package = {
     metadata: {
       Name: packageData.name,
@@ -24,7 +29,7 @@ export const dbGetPackage = async (packageId: number): Promise<Package | null> =
       ID: formattedId,
     },
     data: {
-      Content: packageData.content,
+      Content: packageContent,
       URL: packageData.url,
       debloat: packageData.debloat,
       JSProgram: packageData.jsProgram,

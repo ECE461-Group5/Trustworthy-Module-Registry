@@ -23,13 +23,18 @@ export const dbUploadPackage = async (_package: Package): Promise<Package> => {
     name = result.name;
     version = result.version;
   }
+  
+  if (_package.data.Content === null) {
+    return _package;
+  }
+  const packageContent = Buffer.from(_package.data.Content); 
 
   // Add package to database
   const newPackage = await prisma.package.create({
     data: {
       name: name,
       version: version,
-      content: _package.data.Content,
+      content: packageContent,
       url: _package.data.URL,
       debloat: _package.data.debloat,
       jsProgram: _package.data.JSProgram,
@@ -37,6 +42,12 @@ export const dbUploadPackage = async (_package: Package): Promise<Package> => {
   });
   // Create 8 digit ID
   const formattedId = newPackage.id ? newPackage.id.toString().padStart(8, "0") : null; // Handle undefined ID gracefully
+
+  if (newPackage.content === null) {
+    return _package;
+  }
+  newPackage.content.toString();
+
   // Return new package
   const test: Package = {
     metadata: {
@@ -45,7 +56,7 @@ export const dbUploadPackage = async (_package: Package): Promise<Package> => {
       ID: formattedId,
     },
     data: {
-      Content: newPackage.content,
+      Content: newPackage.content.toString(),
       URL: newPackage.url,
       debloat: newPackage.debloat,
       JSProgram: newPackage.jsProgram,

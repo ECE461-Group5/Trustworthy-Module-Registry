@@ -8,7 +8,7 @@
 import logger from "../../../logger.js";
 
 export interface PackageData {
-  Content: Buffer;
+  Content: string;
   URL: string;
   debloat: boolean;
   JSProgram: string;
