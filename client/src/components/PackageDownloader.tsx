@@ -3,17 +3,14 @@ Author(s): Djamel Almabouada, Derek Petersen
 Purpose: Class for Downloading Packages from API 
 */
 
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState, ChangeEvent } from "react";
 import axios from "axios";
 import "../App.css"; // Styles are in this file.
-import { wait } from "@testing-library/user-event/dist/utils";
-
-
 
 //import { downloadPackage } from "./api";
 
 //const API_URL = process.env.REACT_APP_API_URL;  // API URL PATH
-export const downloadPackage = (data: any) => axios.get("https://jsonplaceholder.typicode.com/posts");
+export const downloadPackage = () => axios.get("https://jsonplaceholder.typicode.com/posts");
 
 interface PackageData {
   URL?: string;
@@ -96,7 +93,7 @@ const PackageDownloader: React.FC = () => {
   };
 
   // Handle Download Button Functionality
-  const handleDownload = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleDownload = async () => {
     if (isDownloading) return; // Prevent re-execution if already loading
       setStatus("Downloading...");
       setIsDownloading(true); // Disable buttons
@@ -109,7 +106,7 @@ const PackageDownloader: React.FC = () => {
     }
 
     try {
-      const response = await downloadPackage(packageData);
+      const response = await downloadPackage();
       console.log("Downloaded Data:", response.data);
       setDownloadedData(response.data); // Store the data in state
       setStatus("Success");
@@ -157,7 +154,7 @@ const PackageDownloader: React.FC = () => {
         </button>
       </form>
 
-      {/* Enhanced Display for Array Data */}
+        
       {downloadedData && (
         <div className="downloaded-data">
           <h3>Downloaded Data:</h3>

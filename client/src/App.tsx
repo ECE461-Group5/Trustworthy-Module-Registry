@@ -3,7 +3,6 @@ Author(s): Geromy Cunningham, Derek Petersen
 Purpose: Class for React App 
 */
 
-import React from "react";
 import MainNavbar from "./components/MainNavbar";
 import "./App.css";
 import Buttons from "./components/Buttons";

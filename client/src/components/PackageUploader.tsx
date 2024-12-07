@@ -3,16 +3,15 @@ Author(s): Djamel Almabouada, Derek Petersen
 Purpose: Class for Uploading/Updating Packages to the API 
 */
 
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState, ChangeEvent } from "react";
 import axios from "axios";
 import "../App.css"; // Styles are in this file.
-import { wait } from "@testing-library/user-event/dist/utils";
 
 //import { uploadPackage, updatePackage } from "./api";
 
 //const API_URL = process.env.REACT_APP_API_URL;  // API URL PATH
-export const uploadPackage = (data: any) => axios.post("${API_URL}/upload", data);
-export const updatePackage = (data: any) => axios.put("${API_URL}/upload", data);
+export const uploadPackage = () => axios.post("${API_URL}/upload");
+export const updatePackage = () => axios.put("${API_URL}/upload");
 
 
 interface PackageData {
@@ -96,7 +95,7 @@ const PackageUploader: React.FC = () => {
   };
 
   // Handle Upload Button Functionality
-  const handleUpload = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleUpload = async () => {
     if (isUploading) return; // Prevent re-execution if already loading
 
     setStatus("Uploading...");
@@ -110,7 +109,7 @@ const PackageUploader: React.FC = () => {
     }
 
     try {
-      const response = await uploadPackage(packageData);
+      const response = await uploadPackage();
       console.log("Upload Successful:", response.data);
       setStatus("Success");
       setErrorMessage("");
@@ -122,7 +121,7 @@ const PackageUploader: React.FC = () => {
   };
 
   // Handle Update Button Functionality
-  const handleUpdate = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleUpdate = async () => {
     if (isUpdating) return; // Prevent re-execution if already loading
       setStatus("Updating...");
       setIsUpdating(true); // Disable buttons
@@ -135,7 +134,7 @@ const PackageUploader: React.FC = () => {
     }
 
     try {
-      const response = await updatePackage (packageData);
+      const response = await updatePackage ();
       console.log("Update Successful:", response.data);
       setStatus("Success");
       setErrorMessage("");
