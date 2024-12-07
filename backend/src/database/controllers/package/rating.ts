@@ -60,7 +60,7 @@ export async function dbRatePackage(packageIDString: string): Promise<PackageRat
       responsiveMaintainer: result.ResponsiveMaintainer,
       licenseScore: result.License,
       netScore: result.NetScore,
-      goodPinningPractice: 0,
+      goodPinningPractice: result.GoodPinningPractice,
       pullRequest: 0,
       rampUpLatency: result.RampUp_Latency,
       correctnessLatency: result.Correctness_Latency,
@@ -68,7 +68,7 @@ export async function dbRatePackage(packageIDString: string): Promise<PackageRat
       responsiveMaintainerLatency: result.ResponsiveMaintainer_Latency,
       licenseScoreLatency: result.License_Latency,
       netScoreLatency: result.NetScore_Latency,
-      goodPinningPracticeLatency: 0,
+      goodPinningPracticeLatency: result.GoodPinningPractice_Latency,
       pullRequestLatency: 0
     },
     create: {
@@ -79,7 +79,7 @@ export async function dbRatePackage(packageIDString: string): Promise<PackageRat
       responsiveMaintainer: result.ResponsiveMaintainer,
       licenseScore: result.License,
       netScore: result.NetScore,
-      goodPinningPractice: 0,
+      goodPinningPractice: result.GoodPinningPractice,
       pullRequest: 0,
       rampUpLatency: result.RampUp_Latency,
       correctnessLatency: result.Correctness_Latency,
@@ -87,7 +87,7 @@ export async function dbRatePackage(packageIDString: string): Promise<PackageRat
       responsiveMaintainerLatency: result.ResponsiveMaintainer_Latency,
       licenseScoreLatency: result.License_Latency,
       netScoreLatency: result.NetScore_Latency,
-      goodPinningPracticeLatency: 0,
+      goodPinningPracticeLatency: result.GoodPinningPractice_Latency,
       pullRequestLatency:0
     },
   });
