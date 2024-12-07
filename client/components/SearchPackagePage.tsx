@@ -1,3 +1,7 @@
+/*
+Author: Djamel Almabouada
+This is the search package component which displays the package details and handles the search
+*/
 import React, { useState } from 'react';
 
 const SearchPackagePage = () => {
@@ -12,7 +16,7 @@ const SearchPackagePage = () => {
 
   const handleSearch = async () => {
     try {
-      const response = await fetch(`/api/packages/${packageName}`); // Adjust API endpoint
+      const response = await fetch(`/api/packages/${packageName}`); 
       const data = await response.json();
       setPackageData(data);
     } catch (error) {
