@@ -16,7 +16,7 @@ import { Octokit } from "@octokit/rest";
  * Evaluates the fraction of dependencies pinned to at least a specific major+minor version
  * by fetching package data from a GitHub repository.
  */
-export class PinnedDependenciesMetric extends Metric {
+export class GoodPinningPracticeMetric extends Metric {
   private octokit!: Octokit;
 
   constructor() {
