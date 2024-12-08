@@ -10,6 +10,7 @@ import { debloatContent } from "./debloat.js";
 import zlib from "zlib";
 import * as tar from "tar";
 import path from "path";
+import { URL } from "url";
 import fs from "fs/promises";
 import os from "os";
 
@@ -165,7 +166,15 @@ export const getNameAndVersion = async (
   url: string,
 ): Promise<{ name: string; version: string }> => {
   try {
-    if (url.includes("github.com")) {
+    const parsedUrl = new URL(url);
+    const host = parsedUrl.host;
+    const allowedHosts = [
+      'github.com',
+      'npmjs.com',
+      'registry.npmjs.org'
+    ];
+
+    if (host === 'github.com') {
       // Handle GitHub URLs
       const match = url.match(/github\.com\/([^/]+)\/([^/]+)/);
       if (!match) {
@@ -201,7 +210,7 @@ export const getNameAndVersion = async (
 
       return { name, version };
     } 
-    else if (url.includes("npmjs.com/package/")) {
+    else if (host === 'npmjs.com' && url.includes("/package/")) {
       // Handle npm package page URLs
       const match = url.match(/npmjs\.com\/package\/([^/]+)/);
       if (!match) {
@@ -222,7 +231,7 @@ export const getNameAndVersion = async (
 
       return { name, version };
     } 
-    else if (url.includes("registry.npmjs.org") && url.endsWith(".tgz")) {
+    else if (host === 'registry.npmjs.org' && url.endsWith(".tgz")) {
       // Handle .tgz tarball URLs from registry.npmjs.org
       // Example: https://registry.npmjs.org/cloudinary/-/cloudinary-2.5.1.tgz
       const filenameMatch = url.match(/\/([^/]+\.tgz)$/);
