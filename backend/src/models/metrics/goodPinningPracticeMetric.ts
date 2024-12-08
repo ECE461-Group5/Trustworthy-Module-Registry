@@ -9,7 +9,6 @@ import { Metric } from "./metric.js";
 import logger from "../../../logger.js";
 import { Octokit } from "@octokit/rest";
 
-
 /**
  * @class PinnedDependenciesMetric
  *
@@ -32,7 +31,6 @@ export class GoodPinningPracticeMetric extends Metric {
 
   public async evaluate(card: Scorecard): Promise<void> {
     try {
-
       logger.info("Starting pinned dependencies evaluation...");
       // Measure start time
       const fetchStartTime = Date.now();
@@ -69,7 +67,9 @@ export class GoodPinningPracticeMetric extends Metric {
 
       logger.debug(`Total dependencies: ${totalDependencies}`);
 
-      const pinnedDependenciesCount = Object.values(dependencies).filter((version: string) => this.isPinned(version)).length;
+      const pinnedDependenciesCount = Object.values(dependencies).filter(
+        (version: string) => this.isPinned(version),
+      ).length;
 
       logger.debug(`Pinned dependencies: ${pinnedDependenciesCount}`);
 
