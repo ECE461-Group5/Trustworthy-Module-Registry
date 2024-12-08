@@ -5,7 +5,6 @@ Purpose: Class for Uploading/Updating Packages to the API
 
 import React, { useState, ChangeEvent } from "react";
 import axios from "axios";
-import "../App.css"; // Styles are in this file.
 
 //import { uploadPackage, updatePackage } from "./api";
 
@@ -15,8 +14,9 @@ export const updatePackage = () => axios.put("${API_URL}/upload");
 
 
 interface PackageData {
-  URL?: string;
   Content?: string;
+  URL?: string;
+  debloat?: boolean;
   JSProgram?: string;
 }
 

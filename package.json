@@ -2,4 +2,3 @@
     "scripts": {
         "postinstall": "(cd ./backend && npm install) && (cd ./client && npm install)"
     }
-}
