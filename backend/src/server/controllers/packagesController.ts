@@ -21,8 +21,8 @@ interface Query {
  *
  * Get multiple packages from the database.
  *
- * @param req- The request object coming in. Expected to only contain an array of packages.
- * @param res- The response to send back.
+ * @param req - The request object coming in. Expected to only contain an array of packages.
+ * @param res - The response to send back.
  * @returns - void
  */
 export const getPackages = (

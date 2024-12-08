@@ -24,8 +24,8 @@ export async function uploadContentPackage (): Promise<Package> {
       ID: "00000000",
     },
     data: {
-      Content: Buffer.from("TESTSSTESTSGSDFHSDRH"),
-      URL: null,
+      Content: "TESTSSTESTSGSDFHSDRH",
+      URL: "",
       debloat: false,
       JSProgram: "",
     },
@@ -35,7 +35,7 @@ export async function uploadContentPackage (): Promise<Package> {
     data: {
       name: "testContent",
       version: "noversion",
-      content: contentPackage.data.Content,
+      content: Buffer.from(contentPackage.data.Content!),
       url: contentPackage.data.URL,
       debloat: contentPackage.data.debloat,
       jsProgram: contentPackage.data.JSProgram,
@@ -53,6 +53,14 @@ export async function uploadContentPackage (): Promise<Package> {
   return contentPackage;
 }
 
+/**
+ * @function uploadURLPackage
+ *
+ * Upload a package by URL for testing purposes (cloudinary).
+ * Note that this package must be deleted manually at the end of the test.
+ *
+ * @returns - Promise containing the newly uploaded package.
+ */
 export async function uploadURLPackage (): Promise<Package> {
   const contentPackage: Package = {
     metadata: {
@@ -61,18 +69,23 @@ export async function uploadURLPackage (): Promise<Package> {
       ID: "00000000",
     },
     data: {
-      Content: Buffer.from("as;ldkfja;sldfkjadf"),
+      Content: "",
       URL: "https://github.com/cloudinary/cloudinary_npm",
       debloat: false,
       JSProgram: "",
     },
   };
 
+  if (contentPackage.data.Content === null) {
+    return contentPackage;
+  }
+  const packageContent = Buffer.from(contentPackage.data.Content);
+
   const newPackage = await prisma.package.create({
     data: {
       name: "testContent",
       version: "noversion",
-      content: contentPackage.data.Content,
+      content: packageContent,
       url: contentPackage.data.URL,
       debloat: contentPackage.data.debloat,
       jsProgram: contentPackage.data.JSProgram,
