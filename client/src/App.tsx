@@ -9,7 +9,8 @@ import Home from "./components/Home";
 import Buttons from "./components/Buttons";
 import PackageUploader from "./components/PackageUploader";
 import Search from "./components/Search";
-import PackageDownloader from "./components/PackageDownloader";
+import "./App.css";
+
 
 function App() {
   return (

@@ -27,9 +27,9 @@ app.use("/package", packageRouter);
 app.use("/tracks", (req: Request, res: Response) =>
   res.json({ 
     plannedTracks: [
-      "Access control track"
-    ]
-  })
+      "Access control track",
+    ],
+  }),
 );
 
 
