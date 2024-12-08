@@ -22,6 +22,12 @@ function Buttons() {
 
   return (
     <div className="buttons">
+      <input
+        type="text"
+        id="Username"
+        placeholder="Username"
+        aria-required="true"
+      />
       <button className="login" onClick={handleLoginClick}>
         Login
         {/* Sign-in */}
