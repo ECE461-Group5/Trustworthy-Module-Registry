@@ -13,53 +13,53 @@ describe("packages endpoint", () => {
   test.each([
     {
       testName: "Valid Format with Unknown Entries",
-      packages: [
-        { Name: "*", Version: "*" },
-      ],
+      packages: [{ Name: "*", Version: "*" }],
       expectedStatus: 200,
-      validateBody: (body: { limit: number; offset: number; packages: PackageResponse[]; total: number }) => {
+      validateBody: (body: { limit: number; offset: number; packages: PackageResponse[]; total: number }): void => {
         // Ensure the body has the expected metadata keys
         expect(body).toHaveProperty("limit");
         expect(body).toHaveProperty("offset");
         expect(body).toHaveProperty("total");
         expect(body).toHaveProperty("packages");
-    
+
         // Ensure `packages` is an array
         expect(Array.isArray(body.packages)).toBe(true);
-    
+
         // Validate each package in the `packages` array
         body.packages.forEach((pkg) => {
           expect(pkg).toHaveProperty("ID");
           expect(pkg).toHaveProperty("Name");
           expect(pkg).toHaveProperty("Version");
         });
-    
+
         // Optionally check that the `packages` array is not empty
         expect(body.packages.length).toBeGreaterThan(0);
       },
-    }])("$testName", async ({ packages, expectedStatus }) => {
-      const response = await request(app).post("/packages?offset=0").send(packages);
-    
-      // Validate the status code
-      expect(response.statusCode).toEqual(expectedStatus);
-    
-      // Validate the structure of the response body
-      expect(response.body).toEqual(
-        expect.objectContaining({
-          limit: expect.any(Number), // Ensure `limit` is a number
-          offset: expect.any(Number), // Ensure `offset` is a number
-          total: expect.any(Number), // Ensure `total` is a number
-          packages: expect.arrayContaining([
-            expect.objectContaining({
-              ID: expect.any(String), // Each package must have an `ID` that is a string
-              Name: expect.any(String), // Each package must have a `Name` that is a string
-              Version: expect.any(String), // Each package must have a `Version` that is a string
-            }),
-          ]),
-        })
-      );
-    });
-    test.each([
+    },
+  ])("$testName", async ({ packages, expectedStatus }): Promise<void> => {
+    const response = await request(app).post("/packages?offset=0").send(packages);
+
+    // Validate the status code
+    expect(response.statusCode).toEqual(expectedStatus);
+
+    // Validate the structure of the response body
+    expect(response.body).toEqual(
+      expect.objectContaining({
+        limit: expect.any(Number), // Ensure `limit` is a number
+        offset: expect.any(Number), // Ensure `offset` is a number
+        total: expect.any(Number), // Ensure `total` is a number
+        packages: expect.arrayContaining([
+          expect.objectContaining({
+            ID: expect.any(String), // Each package must have an `ID` that is a string
+            Name: expect.any(String), // Each package must have a `Name` that is a string
+            Version: expect.any(String), // Each package must have a `Version` that is a string
+          }),
+        ]),
+      })
+    );
+  });
+
+  test.each([
     {
       testName: "Invalid key at index 0",
       packages: [
@@ -67,7 +67,7 @@ describe("packages endpoint", () => {
         { Name: "name2", Version: "version2" },
       ],
       expectedStatus: 400,
-      expectedBody: {"error": "Invalid package format: missing Name or Version",},
+      expectedBody: { error: "Invalid package format: missing Name or Version" },
     },
     {
       testName: "Invalid version at index 0",
@@ -76,7 +76,7 @@ describe("packages endpoint", () => {
         { Name: "name2", Version: "version2" },
       ],
       expectedStatus: 400,
-      expectedBody: {"error": "Invalid package format: missing Name or Version",},
+      expectedBody: { error: "Invalid package format: missing Name or Version" },
     },
     {
       testName: "Invalid key at index 1",
@@ -85,7 +85,7 @@ describe("packages endpoint", () => {
         { notName: "name2", Version: "version2" },
       ],
       expectedStatus: 400,
-      expectedBody: {"error": "Invalid package format: missing Name or Version",},
+      expectedBody: { error: "Invalid package format: missing Name or Version" },
     },
     {
       testName: "Invalid version at index 1",
@@ -94,9 +94,9 @@ describe("packages endpoint", () => {
         { Name: "name2", notVersion: "version2" },
       ],
       expectedStatus: 400,
-      expectedBody: {"error": "Invalid package format: missing Name or Version",},
+      expectedBody: { error: "Invalid package format: missing Name or Version" },
     },
-  ])("$testName", async ({ packages, expectedStatus, expectedBody }) => {
+  ])("$testName", async ({ packages, expectedStatus, expectedBody }): Promise<void> => {
     const response = await request(app).post("/packages?offset=0").send(packages);
 
     expect(response.statusCode).toEqual(expectedStatus);
