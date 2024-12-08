@@ -1,10 +1,11 @@
 /*
-Author(s): Djamel Almabouada, Derek Petersen
+Author(s): Djamel Almabouada, Derek Petersen, Geromy Cunningham
 Purpose: Class for Downloading Packages from API 
 */
 
 import React, { useState, ChangeEvent } from "react";
 import axios from "axios";
+
 import "../App.css"; // Styles are in this file.
 
 //import { downloadPackage } from "./api";
