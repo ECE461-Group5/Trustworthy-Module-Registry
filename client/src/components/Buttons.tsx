@@ -24,6 +24,31 @@ function handleTracks(e: { preventDefault: () => void; }) {
     });
 }
 
+function handleReset(e: React.MouseEvent<HTMLButtonElement>) {
+  e.preventDefault();
+  fetch("/reset", {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => {
+      if (response.ok) {
+        response.json().then((data) => {
+          console.log("Reset response:", data);
+          alert("Registry has been reset successfully.");
+        });
+      } else {
+        console.error("Server responded with an error:", response.statusText);
+        alert("Failed to reset the registry.");
+      }
+    })
+    .catch((error) => {
+      console.error("Fetch error:", error);
+      alert("An error occurred while resetting the registry.");
+    });
+}
+
 function Buttons() {
   const handleLoginClick = () => {
     alert("Login Clicked!");
@@ -33,9 +58,9 @@ function Buttons() {
   //   alert("Display Tracks Here!");
   // };
 
-  const handleReset = () => {
-    alert("Directory Reset!");
-  };
+  // const handleReset = () => {
+  //   alert("Directory Reset!");
+  // };
 
 
   return (
