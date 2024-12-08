@@ -7,6 +7,7 @@ import { expect, describe, test } from "vitest";
 import request from "supertest";
 import app from "../../../../server/server.js";
 import { PackageResponse } from "../../../../server/controllers/package.js";
+import { uploadURLPackage } from "../../../../database/testing/uploadTestPackage.js";
 
 describe("packages endpoint", () => {
   // Correct key format
@@ -37,8 +38,9 @@ describe("packages endpoint", () => {
       },
     },
   ])("$testName", async ({ packages, expectedStatus }): Promise<void> => {
+    const uploadedPackage = await uploadURLPackage();
     const response = await request(app).post("/packages?offset=0").send(packages);
-
+    await request(app).delete(`/package/${uploadedPackage.metadata.ID}`);
     // Validate the status code
     expect(response.statusCode).toEqual(expectedStatus);
 
