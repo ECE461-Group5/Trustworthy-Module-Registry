@@ -9,30 +9,31 @@ import { expect, describe, test, vi } from "vitest";
 import request from "supertest";
 import app from "../../../../server/server.js";
 
-import { uploadContentPackage } from "../../../../database/testing/uploadTestPackage.ts";
-import { deleteContentPackage } from "../../../../database/testing/deleteTestPackage.ts";
+import { uploadContentPackage } from "../../../../database/testing/uploadTestPackage.js";
+import { deleteContentPackage } from "../../../../database/testing/deleteTestPackage.js";
+import { Package } from "../../../../server/controllers/package.js";
 
 describe("PUT /package/:id endpoint", () => {
   // Successful update
   test("Update the package", async () => {
     const uploadedPackage = await uploadContentPackage();
-
+    
     const updatedContent = "ASAAAAAAAAAAAAAAAAAAdDDDDDDDDDDDDDDDVVVVVVVVVVVVVVV";
     uploadedPackage.data.Content = updatedContent;
-
+    
     const updateResponse = await request(app)
-      .put(`/package/${uploadedPackage.metadata.ID}`)
-      .send(uploadedPackage);
-
+    .put(`/package/${uploadedPackage.metadata.ID}`)
+    .send(uploadedPackage);
+    
     expect(updateResponse.statusCode).toEqual(200);
-
+    
     // Check that the Content actually got updated
     const getResponse = await request(app).get(`/package/${uploadedPackage.metadata.ID}`);
     expect(getResponse.statusCode).toEqual(200);
-
+    
     expect(getResponse.body.data.Content).toEqual(updatedContent);
-
-    await deleteContentPackage(uploadedPackage.metadata.ID);
+    
+    await request(app).delete(`/package/${uploadedPackage.metadata.ID}`);
   });
 
   // Package ID format
@@ -81,7 +82,7 @@ describe("PUT /package/:id endpoint", () => {
   ])("$testName", async ({ packageID, expectedStatus, expectedBody }) => {
     // Ensure that the package does not exist and just log the error to "ignore" it
     try {
-      await deleteContentPackage(packageID);
+      await deleteContentPackage(Number(packageID));
     }
  catch (error) {
       logger.error(error);
