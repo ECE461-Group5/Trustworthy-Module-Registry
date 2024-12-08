@@ -21,20 +21,15 @@ export const getPackages = async (req: Request, res: Response): Promise<void> =>
   const offset = parseInt(req.query.offset as string) || 0; // Default to 0 if not provided
   const limit = 10; // Fixed page size, can be made dynamic if needed
 
-  if (!Array.isArray(requestBody) || requestBody.length === 0) {
-    res.status(400).json({ error: "Invalid or missing request body" });
+  if (!Array.isArray(requestBody) || requestBody.some(pkg => !pkg.Name || !pkg.Version)) {
+    res.status(400).json({ error: "Invalid package format: missing Name or Version" });
     return;
-  }
+  }  
 
   try {
     const results: PackageResponse[] = [];
 
     for (const pkg of requestBody) {
-      if (!pkg.Name || !pkg.Version) {
-        res.status(400).json({ error: "Invalid package format: missing Name or Version" });
-        return;
-      }
-
       const matchingPackages = await dbGetPackagesByQuery(pkg.Name, pkg.Version, offset, limit);
       results.push(...matchingPackages);
     }
