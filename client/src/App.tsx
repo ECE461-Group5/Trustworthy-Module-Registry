@@ -15,7 +15,7 @@ function App() {
     <div className="App">
       <MainNavbar />
       <header>
-        <h1>Welcome to ECE 461 Group 5 Project</h1>
+        <h1>ECE 461 Group 105 Project</h1>
       </header>
       <Buttons />
       <PackageUploader />
