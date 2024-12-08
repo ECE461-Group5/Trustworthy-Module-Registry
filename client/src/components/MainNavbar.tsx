@@ -1,6 +1,6 @@
 /*
 Author(s): Djamel Almabouada, Derek Petersen, Geromy Cunningham
-Purpose: Navigation bar for the main page
+Purpose: Navigation bar for all pages on the Web App
 */
 
 import React from "react";

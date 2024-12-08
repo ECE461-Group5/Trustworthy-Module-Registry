@@ -1,3 +1,8 @@
+/*
+Author(s): Derek Petersen
+Purpose: Home page for the Web App
+*/
+
 import React from "react";
 
 const Home: React.FC = () => {

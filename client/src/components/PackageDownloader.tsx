@@ -150,7 +150,7 @@ const PackageDownloader: React.FC = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="npmUrl">NPM Package URL:</label>
+          <label htmlFor="npmUrl">NPM Package :</label>
           <input
             type="text"
             id="npmUrl"
@@ -172,7 +172,7 @@ const PackageDownloader: React.FC = () => {
             disabled={isDownloading} // Lock the text box while Downloading
           />
         </div>
-        
+
         <p aria-live="polite">Status: {status}</p>
         {errorMessage && (
           <p className="error-message" role="alert">
