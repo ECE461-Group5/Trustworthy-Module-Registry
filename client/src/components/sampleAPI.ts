@@ -1,3 +1,7 @@
+/*
+Author(s): Geromy Cunningham
+Purpose: File is a sampel API file for the project
+
 // function handleSubmit(e) {
 //     e.preventDefault();
 //     setIsLoading(true);
