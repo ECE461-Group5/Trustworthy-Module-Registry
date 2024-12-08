@@ -1,5 +1,8 @@
 {
     "scripts": {
         "postinstall": "(cd ./backend && npm install) && (cd ./client && npm install)"
+    },
+    "dependencies": {
+        "prisma": "^6.0.1"
     }
 }
