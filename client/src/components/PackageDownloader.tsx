@@ -10,23 +10,30 @@ import "../App.css"; // Styles are in this file.
 
 //import { downloadPackage } from "./api";
 
-//const API_URL = process.env.REACT_APP_API_URL;  // API URL PATH
-export const downloadPackage = () => axios.get("https://jsonplaceholder.typicode.com/posts");
+const API_URL = "/api/package"; // API URL PATH
+export const downloadPackage = (content: string) => axios.get(`${API_URL}/${content}`);
 
 interface PackageData {
-  URL?: string;
   Content?: string;
+  URL?: string;
+  debloat?: boolean;
   JSProgram?: string;
 }
 
 
 const PackageDownloader: React.FC = () => {
   const [packageData, setPackageData] = useState<PackageData>({});
+  const [selectedOption, setSelectedOption] = useState<string>("ID"); // Dropdown state
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [status, setStatus] = useState<string>("Ready");
   // Loading Aspect
   const [isDownloading, setIsDownloading] = useState<boolean>(false);
   //const [downloadedData, setDownloadedData] = useState<unknown>(null); // State for API data
+
+
+  const handleDropdownChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setSelectedOption(e.target.value); // Update dropdown value
+  };
 
   const handleNpmUrlChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPackageData({
@@ -106,8 +113,13 @@ const PackageDownloader: React.FC = () => {
       return;
     }
 
+    if (!packageData.Content) {
+      setErrorMessage("Please enter package Content (ID).");
+      return;
+    }
+
     try {
-      const response = await downloadPackage();
+      const response = await downloadPackage(packageData.Content);
       console.log("Downloaded Data:", response.data);
       //setDownloadedData(response.data); // Store the data in state
       setStatus("Success");
@@ -122,6 +134,21 @@ const PackageDownloader: React.FC = () => {
   return (
     <div className="upload-package-page">
       <form onSubmit={(e) => e.preventDefault() /* Prevent form submission */}>
+
+      <div className="form-group">
+          <label htmlFor="searchType">Search By:</label>
+          <select
+            id="searchType"
+            value={selectedOption}
+            onChange={handleDropdownChange}
+            disabled={isDownloading}
+          >
+            <option value="ID">ID</option>
+            <option value="Name">Name</option>
+            <option value="RegEx">RegEx</option>
+          </select>
+        </div>
+
         <div className="form-group">
           <label htmlFor="npmUrl">NPM Package URL:</label>
           <input
@@ -133,6 +160,7 @@ const PackageDownloader: React.FC = () => {
             disabled={isDownloading} // Lock the text box while uploading/updating
           />
         </div>
+
         <div className="form-group">
           <label htmlFor="packageFile">Package File (zip):</label>
           <input
@@ -144,6 +172,7 @@ const PackageDownloader: React.FC = () => {
             disabled={isDownloading} // Lock the text box while Downloading
           />
         </div>
+        
         <p aria-live="polite">Status: {status}</p>
         {errorMessage && (
           <p className="error-message" role="alert">

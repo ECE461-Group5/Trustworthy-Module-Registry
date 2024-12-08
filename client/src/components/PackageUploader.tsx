@@ -9,14 +9,16 @@ import "../App.css"; // Styles are in this file.
 
 //import { uploadPackage, updatePackage } from "./api";
 
-//const API_URL = process.env.REACT_APP_API_URL;  // API URL PATH
-export const uploadPackage = () => axios.post("${API_URL}/upload");
-export const updatePackage = () => axios.put("${API_URL}/upload");
+const API_URL = "/api/package"; // API URL PATH
+
+export const uploadPackage = () => axios.post(`${API_URL}`);
+export const updatePackage = () => axios.put(`${API_URL}`);
 
 
 interface PackageData {
-  URL?: string;
   Content?: string;
+  URL?: string;
+  debloat?: boolean;
   JSProgram?: string;
 }
 
@@ -72,6 +74,13 @@ const PackageUploader: React.FC = () => {
         fileReader.readAsDataURL(file);
       }
     }
+  };
+
+  const handleDebloatChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setPackageData({
+      ...packageData,
+      debloat: e.target.checked, // Set debloat to true or false
+    });
   };
 
   // Handle API Error messaging 
@@ -168,6 +177,16 @@ const PackageUploader: React.FC = () => {
             accept=".zip"
             aria-required="true"
             disabled={isUploading || isUpdating} // Lock the text box while uploading/updating
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="debloat">Debloat:</label>
+          <input
+            type="checkbox"
+            id="debloat"
+            checked={packageData.debloat || false}
+            onChange={handleDebloatChange}
+            disabled={isUploading || isUpdating} // Lock the checkbox while uploading/updating
           />
         </div>
         <p aria-live="polite">Status: {status}</p>
