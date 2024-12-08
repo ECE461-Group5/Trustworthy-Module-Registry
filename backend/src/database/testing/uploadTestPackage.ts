@@ -16,7 +16,7 @@ import { Package } from "../../server/controllers/package.js";
  * @param none
  * @returns - Promise resolved with a Package. The package object contains info about the package that was uploaded to the database.
  */
-export async function uploadContentPackage (): Promise<Package> {
+export async function uploadContentPackage(): Promise<Package> {
   const contentPackage: Package = {
     metadata: {
       Name: null,
@@ -53,7 +53,15 @@ export async function uploadContentPackage (): Promise<Package> {
   return contentPackage;
 }
 
-export async function uploadURLPackage (): Promise<Package> {
+/**
+ * @function uploadURLPackage
+ *
+ * Upload a package by URL for testing purposes (cloudinary).
+ * Note that this package must be deleted manually at the end of the test.
+ *
+ * @returns - Promise containing the newly uploaded package.
+ */
+export async function uploadURLPackage(): Promise<Package> {
   const contentPackage: Package = {
     metadata: {
       Name: null,
@@ -61,7 +69,7 @@ export async function uploadURLPackage (): Promise<Package> {
       ID: "00000000",
     },
     data: {
-      Content: "as;ldkfja;sldfkjadf",
+      Content: "",
       URL: "https://github.com/cloudinary/cloudinary_npm",
       debloat: false,
       JSProgram: "",

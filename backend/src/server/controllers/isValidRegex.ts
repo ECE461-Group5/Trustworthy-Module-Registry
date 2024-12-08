@@ -12,7 +12,7 @@
  * @param pattern - The regex pattern to check the validity of.
  * @returns - Whether or not the regex is valid.
  */
-export function isValidRegex (pattern: string): boolean {
+export function isValidRegex(pattern: string): boolean {
   if (!pattern) {
     return false;
   }
@@ -27,8 +27,7 @@ export function isValidRegex (pattern: string): boolean {
     testRegex.test(testString);
 
     return true;
-  }
- catch (error: unknown) {
+  } catch (error: unknown) {
     return false;
   }
 }

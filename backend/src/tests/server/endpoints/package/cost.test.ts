@@ -46,18 +46,16 @@ describe("/package/:id/cost endpoint", () => {
   ])("$testName", async ({ dependency, expectedStatus, validateResponseBody }) => {
     const uploadedPackage = await uploadURLPackage();
     const uploadedID = String(uploadedPackage.metadata.ID);
-  
+
     const response = await request(app).get(`/package/${uploadedID}/cost${dependency}`);
-  
+
     expect(response.statusCode).toEqual(expectedStatus);
-  
+
     // Validate response body using the dynamic validator
     validateResponseBody(response.body);
-  
+
     await request(app).delete(`/package/${uploadedID}`);
   });
-  
-
 
   // Package ID format
   test.each([

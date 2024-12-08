@@ -28,20 +28,25 @@ export class PullRequestReviewMetric extends Metric {
     }
   }
 
-  public async evaluate(card: Scorecard & { pullRequestReview_Score?: number; pullRequestReview_Latency?: number }): Promise<void> {
+  public async evaluate(
+    card: Scorecard & {
+      pullRequestReview_Score?: number;
+      pullRequestReview_Latency?: number;
+    },
+  ): Promise<void> {
     try {
       logger.info("Starting pull request review evaluation...");
-      
+
       const owner = card.owner;
       const repo = card.repo;
-      
+
       let totalLinesOfCode = 0;
       let reviewedLinesOfCode = 0;
 
       // Measure start time
       const fetchStartTime = Date.now();
       logger.debug("Start time recorded.");
-      
+
       // Fetch all pull requests for the repository
       const pulls = await this.octokit.pulls.list({
         owner,
@@ -80,9 +85,9 @@ export class PullRequestReviewMetric extends Metric {
           } catch (error) {
             console.error(`Error processing PR #${pull.number}:`, error);
           }
-        })
+        }),
       );
-      
+
       // Measure end time
       const fetchEndTime = Date.now();
       logger.debug("End time recorded.");
@@ -92,10 +97,14 @@ export class PullRequestReviewMetric extends Metric {
       card.pullRequest = Math.round(score * 10) / 10; //round to the tenths place
 
       // Calculate latency
-      card.pullRequest_Latency = parseFloat(((fetchEndTime - fetchStartTime) / 1000).toFixed(3));
+      card.pullRequest_Latency = parseFloat(
+        ((fetchEndTime - fetchStartTime) / 1000).toFixed(3),
+      );
 
       logger.info(`Pull request review score calculated: ${card.pullRequest}`);
-      logger.info(`Latency for pull request review evaluation: ${card.pullRequest_Latency}s`);
+      logger.info(
+        `Latency for pull request review evaluation: ${card.pullRequest_Latency}s`,
+      );
     } catch (error) {
       logger.error("Error evaluating pull request reviews:", error);
       card.pullRequest = 0;

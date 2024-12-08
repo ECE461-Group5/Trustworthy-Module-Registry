@@ -14,7 +14,7 @@ import prisma from "../prisma.js";
  * @param packageId - ID of the package to delete from the database.
  * @returns - Void promise indicating that the deletion has completed.
  */
-export async function deleteContentPackage (packageId: number): Promise<void> {
+export async function deleteContentPackage(packageId: number): Promise<void> {
   await prisma.package.delete({
     where: {
       id: Number(packageId),

@@ -82,8 +82,7 @@ describe("PUT /package/:id endpoint", () => {
     // Ensure that the package does not exist and just log the error to "ignore" it
     try {
       await deleteContentPackage(packageID);
-    }
- catch (error) {
+    } catch (error) {
       logger.error(error);
     }
 
@@ -100,7 +99,9 @@ describe("PUT /package/:id endpoint", () => {
         JSProgram: "dontmatter",
       },
     };
-    const response = await request(app).put(`/package/${packageID}`).send(nonexistentPackage);
+    const response = await request(app)
+      .put(`/package/${packageID}`)
+      .send(nonexistentPackage);
 
     expect(response.statusCode).toEqual(expectedStatus);
     expect(response.body).toEqual(expectedBody);

@@ -22,7 +22,7 @@ export interface PackageData {
  * @param packageData - Object to check formatting on
  * @returns Whether or not the package data is formatted properly
  */
-export function checkPackageData (packageData: PackageData): boolean {
+export function checkPackageData(packageData: PackageData): boolean {
   logger.info(`Checking package data object: ${packageData}`);
 
   // All fields need to be present
@@ -44,13 +44,7 @@ export function checkPackageData (packageData: PackageData): boolean {
   }
   logger.info("All fields present");
 
-  /*
-  // Only one of URL or content can be set
-  if (packageData.Content.byteLength != 0 && packageData.URL != "") {
-    return false;
-  }
-  */
-
+  // Only one of content or url can be set
   let contentSet = true;
   let urlSet = true;
 

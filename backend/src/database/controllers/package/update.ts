@@ -54,8 +54,7 @@ export const dbUpdatePackage = async (
     logger.info("Prisma update successful");
 
     return 200;
-  }
- else {
+  } else {
     return 400;
   }
 };

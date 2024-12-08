@@ -1,13 +1,25 @@
-/*
- * Author(s): Jonah Salyers, Logan Pelkey
- * Purpose: Handles retrieval of ratings
+/**
+ * @filename - rating.ts
+ * @author(s) - Jonah Salyers, Logan Pelkey, Joe Dahms
+ * @purpose - Handles retrieval of ratings
  */
 
 import prisma from "../../prisma.js";
 import { evaluateModule } from "../../../models/evaluators/evaluateModule.js";
 import { PackageRating } from "@prisma/client/wasm";
 
-export async function dbRatePackage (packageIDString: string): Promise<PackageRating | null> {
+/**
+ * @function dbRatePackage
+ *
+ * Rates a package based on various characteristics of its repository.
+ *
+ * @param packageIDString - The id of the package to rate
+ * @returns - A promise containing either the package rating or null. The former indicates success and
+ * the latter indicates failure.
+ */
+export async function dbRatePackage(
+  packageIDString: string,
+): Promise<PackageRating | null> {
   if (packageIDString === "00000000") {
     //impossible value. Sent during testing
     const test: PackageRating = {
@@ -26,7 +38,7 @@ export async function dbRatePackage (packageIDString: string): Promise<PackageRa
       busFactorLatency: 345.67,
       responsiveMaintainerLatency: 456.78,
       licenseScoreLatency: 567.89,
-      goodPinningPracticeLatency: 678.90,
+      goodPinningPracticeLatency: 678.9,
       pullRequestLatency: 789.01,
       netScoreLatency: 890.12,
     };
@@ -91,7 +103,6 @@ export async function dbRatePackage (packageIDString: string): Promise<PackageRa
       pullRequestLatency: result.PullRequest_Latency,
     },
   });
-  
 
   return newOrUpdatedPackageRating;
 }

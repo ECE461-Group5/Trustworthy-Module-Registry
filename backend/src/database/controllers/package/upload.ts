@@ -1,4 +1,4 @@
-/*
+/**
  * @filename - upload.ts
  * @author(s) - Joe Dahms, Jonah Salyers, Logan Pelkey
  * @purpose - Handle uploading a package to the database. Currently using prisma.
@@ -7,34 +7,39 @@
 import { Package } from "../../../server/controllers/package.js";
 import prisma from "../../prisma.js";
 
-/*
- * Purpose: Upload a package to the database using prisma and return back the uploaded package
- * Input:
- * - The package to upload
- * Output: The uploaded package
- */
-
 /**
+ * @function fetchPackageContent
+ *
  * Fetch content from a URL and return it as a Buffer.
- * @param url The URL to fetch content from.
- * @returns The content as a Buffer, or null if fetching fails.
+ *
+ * @param url - The URL to fetch content from.
+ * @returns - The content as a Buffer, or null if fetching fails.
  */
-async function fetchPackageContent (url: string): Promise<Buffer | null> {
+async function fetchPackageContent(url: string): Promise<Buffer | null> {
   try {
     const response = await fetch(url);
     if (!response.ok) {
-      console.warn(`Failed to fetch content from URL: ${url}, Status: ${response.status}`);
+      console.warn(
+        `Failed to fetch content from URL: ${url}, Status: ${response.status}`,
+      );
       return null;
     }
     const contentBuffer = Buffer.from(await response.arrayBuffer());
     return contentBuffer;
-  }
- catch (error) {
+  } catch (error) {
     console.error("Error fetching package content:", error);
     return null;
   }
 }
 
+/**
+ * @function dbUploadPackage
+ *
+ * Upload a package to the database and return the uploaded package.
+ *
+ * @param _package - The package to upload
+ * @returns - The uploaded package
+ */
 export const dbUploadPackage = async (_package: Package): Promise<Package> => {
   // Calculate name and version of the package
   let name = "noname";
@@ -93,6 +98,14 @@ export const dbUploadPackage = async (_package: Package): Promise<Package> => {
   return test;
 };
 
+/**
+ * @function getNameAndVersion
+ *
+ * Get the name and version of a package from its url
+ *
+ * @param url - URL of the package to get the name and version of
+ * @returns - Promise containing the name and version of the package
+ */
 export const getNameAndVersion = async (
   url: string,
 ): Promise<{ name: string; version: string }> => {
@@ -125,16 +138,14 @@ export const getNameAndVersion = async (
           const releaseData = await releaseResponse.json();
           version = releaseData.tag_name || "unknown";
         }
-      }
- catch (releaseError) {
+      } catch (releaseError) {
         console.warn(
           "No releases found for GitHub repo, defaulting to 'unknown' version.",
         );
       }
 
       return { name, version };
-    }
- else if (url.includes("npmjs.com")) {
+    } else if (url.includes("npmjs.com")) {
       // Handle npm URLs
       const match = url.match(/npmjs\.com\/package\/([^/]+)/);
       if (!match) {
@@ -154,12 +165,10 @@ export const getNameAndVersion = async (
       const version = npmData["dist-tags"]?.latest || "unknown";
 
       return { name, version };
-    }
- else {
+    } else {
       throw new Error("Unsupported URL format");
     }
-  }
- catch (error) {
+  } catch (error) {
     console.error("Error fetching name and version:", error);
     return { name: "noname", version: "noversion" };
   }

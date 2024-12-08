@@ -10,10 +10,11 @@ import { Package } from "../../../server/controllers/package.js";
 /**
  * @function dbGetPackage
  *
- * Upload a temporary package to the database for testing. Package is a content package meaning its content field is set as opposed to its url field.
+ * Get a package from the database based on its id. Package may not exist
  *
- * @param none
- * @returns - Promise resolved with a Package. The package object contains info about the package that was uploaded to the database.
+ * @param packageId
+ * @returns - Promise resolved with either a Package or null. Package means the package was found in the
+ * database, this is it. null means the package was not found in the database.
  */
 export const dbGetPackage = async (packageId: number): Promise<Package | null> => {
   const packageData = await prisma.package.findUnique({
