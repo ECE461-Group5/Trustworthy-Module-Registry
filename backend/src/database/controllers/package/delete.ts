@@ -20,7 +20,8 @@ export const dbDeletePackage = async (id: number): Promise<boolean> => {
       where: { id },
     });
     return true;
-  } catch (error) {
+  }
+ catch (error) {
     // If the package does not exist, Prisma throws an error
     return false;
   }

@@ -37,7 +37,7 @@ export const dbGetPackagesByRegEx = async (regex: string): Promise<Array<Package
       ID: pkg.id.toString().padStart(8, "0"),
     },
     data: {
-      Content: pkg.content,
+      Content: pkg.content!.toString(),
       URL: pkg.url,
       debloat: pkg.debloat,
       JSProgram: pkg.jsProgram,

@@ -22,7 +22,7 @@ export interface PackageData {
  * @param packageData - Object to check formatting on
  * @returns Whether or not the package data is formatted properly
  */
-export function checkPackageData(packageData: PackageData): boolean {
+export function checkPackageData (packageData: PackageData): boolean {
   logger.info(`Checking package data object: ${packageData}`);
 
   // All fields need to be present

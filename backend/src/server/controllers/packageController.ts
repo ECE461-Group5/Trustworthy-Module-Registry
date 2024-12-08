@@ -61,7 +61,8 @@ export const uploadPackage = async (
 
     response.send({ returnPackage });
     return;
-  } catch (error) {
+  }
+ catch (error) {
     logger.error("Error uploading package:", error);
     response.status(500).send();
     return;
@@ -99,7 +100,8 @@ export const getPackage = async (req: Request, res: Response): Promise<void> => 
     console.log(packageData);
     res.status(200).send(packageData);
     return;
-  } catch (error) {
+  }
+ catch (error) {
     logger.error("Error retrieving package:", error);
     res.status(500).send();
     return;
@@ -139,16 +141,20 @@ export const updatePackage = async (
     if (updateResponseCode === 400) {
       res.status(400).send();
       return;
-    } else if (updateResponseCode === 404) {
+    }
+ else if (updateResponseCode === 404) {
       res.status(404).send();
       return;
-    } else if (updateResponseCode === 200) {
+    }
+ else if (updateResponseCode === 200) {
       res.status(200).send();
       return;
-    } else {
+    }
+ else {
       throw new Error("Unexpected response code from dbUpdatePackage()");
     }
-  } catch (error) {
+  }
+ catch (error) {
     logger.error("Error updating package:", error);
     res.status(500).send();
     return;
@@ -186,7 +192,8 @@ export const deletePackage = async (req: Request, res: Response): Promise<void> 
     // Return 200 OK with no response body on successful deletion
     res.status(200).send();
     return;
-  } catch (error) {
+  }
+ catch (error) {
     // Return 500 Internal Server Error with no response body
     logger.error("Error deleting package:", error);
     res.status(500).send();
@@ -254,7 +261,8 @@ export const getPackageCost = async (req: Request, res: Response): Promise<void>
     res.status(200).json({
       [packageIdString]: cost,
     }); // Wrap cost in package ID as a key
-  } catch (error) {
+  }
+ catch (error) {
     res.status(500).send(); // Internal Server Error
   }
 };
@@ -305,7 +313,8 @@ export const getPackageByRegEx = async (
     }
 
     response.status(200).json(packages);
-  } catch (error) {
+  }
+ catch (error) {
     response.status(500).send();
   }
 };

@@ -28,8 +28,9 @@ export const dbGetPackage = async (packageId: number): Promise<Package | null> =
 
   const formattedId = packageData.id.toString().padStart(8, "0");
 
+
   // Buffer to string
-  let packageContent: string = null;
+  let packageContent: string = "";
   if (packageData.content != null) {
     packageContent = packageData.content.toString();
   }

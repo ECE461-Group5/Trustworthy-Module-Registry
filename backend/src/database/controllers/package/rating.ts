@@ -17,7 +17,7 @@ import { PackageRating } from "@prisma/client/wasm";
  * @returns - A promise containing either the package rating or null. The former indicates success and
  * the latter indicates failure.
  */
-export async function dbRatePackage(
+export async function dbRatePackage (
   packageIDString: string,
 ): Promise<PackageRating | null> {
   if (packageIDString === "00000000") {

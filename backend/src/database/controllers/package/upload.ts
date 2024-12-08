@@ -15,7 +15,7 @@ import prisma from "../../prisma.js";
  * @param url - The URL to fetch content from.
  * @returns - The content as a Buffer, or null if fetching fails.
  */
-async function fetchPackageContent(url: string): Promise<Buffer | null> {
+async function fetchPackageContent (url: string): Promise<string | null> {
   try {
     const response = await fetch(url);
     if (!response.ok) {
@@ -24,9 +24,13 @@ async function fetchPackageContent(url: string): Promise<Buffer | null> {
       );
       return null;
     }
+    return response.arrayBuffer().toString();
+    /*
     const contentBuffer = Buffer.from(await response.arrayBuffer());
     return contentBuffer;
-  } catch (error) {
+    */
+  }
+ catch (error) {
     console.error("Error fetching package content:", error);
     return null;
   }
@@ -138,14 +142,16 @@ export const getNameAndVersion = async (
           const releaseData = await releaseResponse.json();
           version = releaseData.tag_name || "unknown";
         }
-      } catch (releaseError) {
+      }
+ catch (releaseError) {
         console.warn(
           "No releases found for GitHub repo, defaulting to 'unknown' version.",
         );
       }
 
       return { name, version };
-    } else if (url.includes("npmjs.com")) {
+    }
+ else if (url.includes("npmjs.com")) {
       // Handle npm URLs
       const match = url.match(/npmjs\.com\/package\/([^/]+)/);
       if (!match) {
@@ -165,10 +171,12 @@ export const getNameAndVersion = async (
       const version = npmData["dist-tags"]?.latest || "unknown";
 
       return { name, version };
-    } else {
+    }
+ else {
       throw new Error("Unsupported URL format");
     }
-  } catch (error) {
+  }
+ catch (error) {
     console.error("Error fetching name and version:", error);
     return { name: "noname", version: "noversion" };
   }

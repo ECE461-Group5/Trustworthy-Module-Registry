@@ -82,7 +82,8 @@ describe("PUT /package/:id endpoint", () => {
     // Ensure that the package does not exist and just log the error to "ignore" it
     try {
       await deleteContentPackage(packageID);
-    } catch (error) {
+    }
+ catch (error) {
       logger.error(error);
     }
 

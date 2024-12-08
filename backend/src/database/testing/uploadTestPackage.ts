@@ -16,7 +16,7 @@ import { Package } from "../../server/controllers/package.js";
  * @param none
  * @returns - Promise resolved with a Package. The package object contains info about the package that was uploaded to the database.
  */
-export async function uploadContentPackage(): Promise<Package> {
+export async function uploadContentPackage (): Promise<Package> {
   const contentPackage: Package = {
     metadata: {
       Name: null,
@@ -35,7 +35,7 @@ export async function uploadContentPackage(): Promise<Package> {
     data: {
       name: "testContent",
       version: "noversion",
-      content: Buffer.from(contentPackage.data.Content),
+      content: Buffer.from(contentPackage.data.Content!),
       url: contentPackage.data.URL,
       debloat: contentPackage.data.debloat,
       jsProgram: contentPackage.data.JSProgram,
@@ -61,7 +61,7 @@ export async function uploadContentPackage(): Promise<Package> {
  *
  * @returns - Promise containing the newly uploaded package.
  */
-export async function uploadURLPackage(): Promise<Package> {
+export async function uploadURLPackage (): Promise<Package> {
   const contentPackage: Package = {
     metadata: {
       Name: null,

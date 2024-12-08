@@ -68,7 +68,8 @@ describe("DELETE /package/:id endpoint", () => {
     // Ensure that the package does not exist and just log the error to "ignore" it
     try {
       await deleteContentPackage(99999999);
-    } catch (error) {
+    }
+ catch (error) {
       logger.error(error);
     }
     const response = await request(app).delete(`/package/${packageID}`);

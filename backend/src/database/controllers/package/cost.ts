@@ -70,7 +70,8 @@ export const dbGetPackageCost = async (
   if (response.data && "content" in response.data) {
     const packageContent = Buffer.from(response.data.content, "base64").toString();
     dependencies = JSON.parse(packageContent).dependencies;
-  } else {
+  }
+ else {
     dependencies = null;
   }
 
@@ -95,7 +96,7 @@ export const dbGetPackageCost = async (
         }
 
         let data = "";
-        res.on("data", (chunk) => (data += chunk));
+        res.on("data", (chunk) => data += chunk);
         res.on("end", () => {
           try {
             const json = JSON.parse(data);
@@ -107,7 +108,8 @@ export const dbGetPackageCost = async (
               const size = parseInt(tarballRes.headers["content-length"] ?? "0", 10);
               resolve(size / (1024 * 1024)); // Convert bytes to MB
             }).on("error", () => resolve(0));
-          } catch (err) {
+          }
+ catch (err) {
             console.error(`Error parsing ${dependencyName}:`, err);
             resolve(0);
           }
@@ -124,7 +126,8 @@ export const dbGetPackageCost = async (
       if (typeof depVersion === "string") {
         const version = depVersion.replace(/^[^0-9]*/, ""); // Strip non-numeric prefix
         dependencyCost += await fetchDependencySize(depName, version);
-      } else {
+      }
+ else {
         console.warn(`Invalid version format for ${depName}:`, depVersion);
       }
     }
