@@ -9,7 +9,7 @@ import { UserConfigExport } from 'vitest/config';
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 3001,
+    port: 5174,
     cors: true,
     proxy: {
       '/api': {

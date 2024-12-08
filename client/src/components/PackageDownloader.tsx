@@ -1,6 +1,6 @@
 /*
-Author(s): Djamel Almabouada, Derek Petersen
-Purpose: Class for Downloading Packages from API 
+*Author(s): Djamel Almabouada, Derek Petersen
+*Purpose: Class for Downloading Packages from API 
 */
 
 import React, { useState, ChangeEvent } from "react";
