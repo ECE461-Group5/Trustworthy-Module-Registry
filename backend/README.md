@@ -31,10 +31,9 @@ To run the commands: $ npm run <script name>
 2. start: Starts the Express server. Requests can now be made via the API.
 3. dev: ?
 4. db: Launches Prisma Studio. Gives a GUI to see what is contained within the database. Will launch a web browser.
-5. test: Runs the entire test suite for the backend.
-6. auto-grader-test: ?
-7. lint: Runs the linter. Is set to fix any errors it can fix. It is recommended to configure your IDE to run the linter upon every save of a file.
-8. format: Runs prettier. Ensures that the format of the code is correct.
+5. test: Runs the entire test suite for the backend. After exiting line coverage will be computed and displayed.
+6. lint: Runs the linter. Is set to fix any errors it can fix. It is recommended to configure your IDE to run the linter upon every save of a file.
+7. format: Runs prettier. Ensures that the format of the code is correct.
 
 ## Usage
 Once all setup steps have been followed, the backend can be run locally. The steps below outline how:
