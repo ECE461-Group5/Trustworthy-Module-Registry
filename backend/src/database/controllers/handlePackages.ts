@@ -48,7 +48,7 @@ export const dbGetPackagesByQuery = async (
  * @param version - The version string from the input.
  * @returns - A Prisma query object for the `version` field.
  */
-  const parseVersion = (version: string) => {
+  const parseVersion = (version: string): undefined | string | { startsWith: string } | { gte: string; lte: string } => {
     // Handle wildcard '*': Match any version
     if (version === "*") {
       return undefined; // No filter for version
