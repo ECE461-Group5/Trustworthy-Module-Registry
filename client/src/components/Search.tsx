@@ -1,5 +1,5 @@
 /*
-Author(s): Djamel Almabouada, Derek Petersen
+Author(s): Djamel Almabouada, Derek Petersen, Geromy Cunningham
 Purpose: Class for Searching Packages from API 
 */
 

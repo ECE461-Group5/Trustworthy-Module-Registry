@@ -1,3 +1,8 @@
+/*
+Author(s): Djamel Almabouada, Derek Petersen, Geromy Cunningham
+Purpose: Navigation bar for the main page
+*/
+
 function MainNavbar() {
   return (
     <div className="navbar">
