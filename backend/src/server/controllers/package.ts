@@ -51,3 +51,9 @@ export function nullPackageData (packageToCheck: Package): boolean {
   logger.info("No null fields");
   return nullData;
 }
+
+export interface PackageResponse {
+    Name: string;
+    Version: string;
+    ID: string;
+}
