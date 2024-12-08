@@ -1,3 +1,2 @@
-import React from "react";
-declare const App: React.FC;
+declare function App(): import("react/jsx-runtime").JSX.Element;
 export default App;
