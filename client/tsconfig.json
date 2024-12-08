@@ -1,15 +1,23 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "ESNext",
+    "moduleResolution": "Node",
     "sourceMap": true,
     "outDir": "./build",
     "rootDir": "./",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "composite": true
+    "composite": true,
+    "jsx": "react-jsx",
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "types": ["react", "react-dom"]
   },
   "ts-node": {
     "esm": true
@@ -18,6 +26,5 @@
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
   ],
-  "include": ["src/components/*.ts"],
   "exclude": ["node_modules", "/src/tests/"]
 }

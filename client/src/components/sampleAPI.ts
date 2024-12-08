@@ -1,3 +1,7 @@
+/*
+Author(s): Geromy Cunningham
+Purpose: File is a sampel API file for the project
+
 // function handleSubmit(e) {
 //     e.preventDefault();
 //     setIsLoading(true);
@@ -25,4 +29,5 @@
 // 4. Response Handling:
 
 // After the request completes, we check if the response is okay (r.ok).
-// If successful, we parse the JSON response and handle the logged-in user with the onLogin function.
+// If successful, we parse the JSON response and handle the logged-in user with the onLogin function
+// */
