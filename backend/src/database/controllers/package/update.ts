@@ -22,18 +22,6 @@ export const dbUpdatePackage = async (
   packageId: number,
   updatedPackage: Package,
 ): Promise<number> => {
-  logger.info("b4 null");
-  if (updatedPackage.metadata.ID === null) {
-    logger.info("in null");
-  }
-  logger.info("after null");
-
-  logger.info("b4 null data");
-  if (nullPackageData(updatedPackage)) {
-    logger.info("in null data");
-  }
-  logger.info("after null data");
-
   if (updatedPackage.metadata.ID != null && nullPackageData(updatedPackage) === false) {
     logger.info("Prisma update...");
 
@@ -70,15 +58,4 @@ export const dbUpdatePackage = async (
  else {
     return 400;
   }
-  /*
- catch (error: any) {
- 
-    logger.error("Prisma update error: ", error);
-    if (error?.code === "P2025") {
-      // Record not found
-      return null;
-    }
-    throw error; // Re-throw unexpected errors
-  }
-*/
 };

@@ -106,10 +106,6 @@ export const getPackage = async (req: Request, res: Response): Promise<void> => 
   }
 };
 
-interface Params {
-  id: string;
-}
-
 /**
  * @function updatePackage
  *
@@ -126,7 +122,6 @@ export const updatePackage = async (
   logger.info("Received a request to update a package");
 
   const { body } = req;
-  console.log(body);
   const { params } = req;
 
   const validId: boolean = checkValidId(req.params.id);
