@@ -12,8 +12,8 @@ import { dbGetPackagesByQuery } from "../../database/controllers/handlePackages.
  *
  * Get multiple packages from the database.
  *
- * @param req- The request object coming in. Expected to only contain an array of packages.
- * @param res- The response to send back.
+ * @param req - The request object coming in. Expected to only contain an array of packages.
+ * @param res - The response to send back.
  * @returns - void
  */
 export const getPackages = async (req: Request, res: Response): Promise<void> => {

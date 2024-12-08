@@ -94,8 +94,7 @@ export class Scorecard {
         this.pullRequest_Latency * pullRequestReviewWeight
       ).toFixed(3),
     );
-}
-
+  }
 
   // Convert all member variables to NJSON
   public getResults(): string {
@@ -117,7 +116,7 @@ export class Scorecard {
         GoodPinningPractice: this.goodPinningPractice,
         GoodPinningPractice_Latency: this.goodPinningPractice_Latency,
         PullRequest: this.pullRequest,
-        PullRequest_Latency: this.pullRequest_Latency
+        PullRequest_Latency: this.pullRequest_Latency,
       },
     ];
     // Convert the array to a JSON string
