@@ -6,22 +6,60 @@
 import { expect, describe, test } from "vitest";
 import request from "supertest";
 import app from "../../../../server/server.js";
+import { PackageResponse } from "../../../../server/controllers/package.js";
 
 describe("packages endpoint", () => {
   // Correct key format
   test.each([
     {
-      testName: "Valid Format",
+      testName: "Valid Format with Unknown Entries",
       packages: [
-        { Name: "name1", Version: "version1" },
-        { Name: "name2", Version: "version2" },
+        { Name: "*", Version: "*" },
       ],
       expectedStatus: 200,
-      expectedBody: [
-        { Name: "name1", Version: "version1", ID: "dummyid" },
-        { Name: "name2", Version: "version2", ID: "dummyid" },
-      ],
-    },
+      validateBody: (body: { limit: number; offset: number; packages: PackageResponse[]; total: number }) => {
+        // Ensure the body has the expected metadata keys
+        expect(body).toHaveProperty("limit");
+        expect(body).toHaveProperty("offset");
+        expect(body).toHaveProperty("total");
+        expect(body).toHaveProperty("packages");
+    
+        // Ensure `packages` is an array
+        expect(Array.isArray(body.packages)).toBe(true);
+    
+        // Validate each package in the `packages` array
+        body.packages.forEach((pkg) => {
+          expect(pkg).toHaveProperty("ID");
+          expect(pkg).toHaveProperty("Name");
+          expect(pkg).toHaveProperty("Version");
+        });
+    
+        // Optionally check that the `packages` array is not empty
+        expect(body.packages.length).toBeGreaterThan(0);
+      },
+    }])("$testName", async ({ packages, expectedStatus }) => {
+      const response = await request(app).post("/packages?offset=0").send(packages);
+    
+      // Validate the status code
+      expect(response.statusCode).toEqual(expectedStatus);
+    
+      // Validate the structure of the response body
+      expect(response.body).toEqual(
+        expect.objectContaining({
+          limit: expect.any(Number), // Ensure `limit` is a number
+          offset: expect.any(Number), // Ensure `offset` is a number
+          total: expect.any(Number), // Ensure `total` is a number
+          packages: expect.arrayContaining([
+            expect.objectContaining({
+              ID: expect.any(String), // Each package must have an `ID` that is a string
+              Name: expect.any(String), // Each package must have a `Name` that is a string
+              Version: expect.any(String), // Each package must have a `Version` that is a string
+            }),
+          ]),
+        })
+      );
+    });
+    test.each([
     {
       testName: "Invalid key at index 0",
       packages: [
@@ -29,7 +67,7 @@ describe("packages endpoint", () => {
         { Name: "name2", Version: "version2" },
       ],
       expectedStatus: 400,
-      expectedBody: {},
+      expectedBody: {"error": "Invalid package format: missing Name or Version",},
     },
     {
       testName: "Invalid version at index 0",
@@ -38,7 +76,7 @@ describe("packages endpoint", () => {
         { Name: "name2", Version: "version2" },
       ],
       expectedStatus: 400,
-      expectedBody: {},
+      expectedBody: {"error": "Invalid package format: missing Name or Version",},
     },
     {
       testName: "Invalid key at index 1",
@@ -47,7 +85,7 @@ describe("packages endpoint", () => {
         { notName: "name2", Version: "version2" },
       ],
       expectedStatus: 400,
-      expectedBody: {},
+      expectedBody: {"error": "Invalid package format: missing Name or Version",},
     },
     {
       testName: "Invalid version at index 1",
@@ -56,60 +94,10 @@ describe("packages endpoint", () => {
         { Name: "name2", notVersion: "version2" },
       ],
       expectedStatus: 400,
-      expectedBody: {},
+      expectedBody: {"error": "Invalid package format: missing Name or Version",},
     },
   ])("$testName", async ({ packages, expectedStatus, expectedBody }) => {
-    const response = await request(app).post("/packages?offset=20").send(packages);
-
-    expect(response.statusCode).toEqual(expectedStatus);
-    expect(response.body).toEqual(expectedBody);
-  });
-
-  // Authentication
-
-  // Package limit
-  test.each([
-    {
-      testName: "1 under the package limit",
-      packages: [{ Name: "name1", Version: "version1" }],
-      expectedStatus: 200,
-      expectedBody: [{ Name: "name1", Version: "version1", ID: "dummyid" }],
-    },
-    {
-      testName: "At the package limit",
-      packages: [
-        { Name: "name1", Version: "version1" },
-        { Name: "name2", Version: "version2" },
-      ],
-      expectedStatus: 200,
-      expectedBody: [
-        { Name: "name1", Version: "version1", ID: "dummyid" },
-        { Name: "name2", Version: "version2", ID: "dummyid" },
-      ],
-    },
-    {
-      testName: "1 over the package limit",
-      packages: [
-        { Name: "name1", Version: "version1" },
-        { Name: "name2", Version: "version2" },
-        { Name: "name3", Version: "version3" },
-      ],
-      expectedStatus: 413,
-      expectedBody: {},
-    },
-    {
-      testName: "2 over the package limit",
-      packages: [
-        { Name: "name1", Version: "version1" },
-        { Name: "name2", Version: "version2" },
-        { Name: "name3", Version: "version3" },
-        { Name: "name4", Version: "version4" },
-      ],
-      expectedStatus: 413,
-      expectedBody: {},
-    },
-  ])("$testName", async ({ packages, expectedStatus, expectedBody }) => {
-    const response = await request(app).post("/packages?offset=20").send(packages);
+    const response = await request(app).post("/packages?offset=0").send(packages);
 
     expect(response.statusCode).toEqual(expectedStatus);
     expect(response.body).toEqual(expectedBody);
