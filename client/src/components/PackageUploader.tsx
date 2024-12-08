@@ -9,8 +9,8 @@ import axios from "axios";
 //import { uploadPackage, updatePackage } from "./api";
 
 //const API_URL = process.env.REACT_APP_API_URL;  // API URL PATH
-export const uploadPackage = () => axios.post("${API_URL}/upload");
-export const updatePackage = () => axios.put("${API_URL}/upload");
+export const uploadPackage = () => axios.post("http://localhost/upload");
+export const updatePackage = () => axios.put("http://localhost/upload");
 
 
 interface PackageData {
