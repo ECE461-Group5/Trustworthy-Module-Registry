@@ -9,7 +9,8 @@ import Home from "./components/Home";
 import Buttons from "./components/Buttons";
 import PackageUploader from "./components/PackageUploader";
 import Search from "./components/Search";
-import PackageDownloader from "./components/PackageDownloader";
+import "./App.css";
+
 
 function App() {
   return (
@@ -18,10 +19,9 @@ function App() {
         <MainNavbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/buttons" element={<Buttons />} />
-          <Route path="/upload" element={<PackageUploader />} />
           <Route path="/search" element={<Search />} />
-          <Route path="/download" element={<PackageDownloader />} />
+          <Route path="/upload" element={<PackageUploader />} />
+          <Route path="/options" element={<Buttons />} />
         </Routes>
       </div>
     </Router>

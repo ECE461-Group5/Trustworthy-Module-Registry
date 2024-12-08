@@ -140,3 +140,4 @@ Thumbs.db
 
 # Ignore built js files
 dist/
+build/
