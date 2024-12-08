@@ -17,3 +17,9 @@ export interface Package {
     JSProgram: string | null;
   };
 }
+
+export interface PackageResponse {
+    Name: string;
+    Version: string;
+    ID: string;
+}
