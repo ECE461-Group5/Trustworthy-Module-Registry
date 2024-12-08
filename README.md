@@ -25,6 +25,9 @@ The app is currently running on an AWS EC2 instance. The instance is running Ubu
 The main way we are connecting to our EC2 instance is through the use of the AWS EC2 instance connect feature in the AWS management console. The EC2 is not currently using an elastic (static) IP address.
 Since the instance is running 24/7, we decided it not necessary to pay for an elastic IP.
 
+### RDS
+Our database is hosted on RDS. It is a PostgreSQL database.
+
 ## CI/CD (Continuous Integration / Continuous Deployment)
 
 ### Continuous Integration
