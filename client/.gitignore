@@ -25,4 +25,5 @@ build
 *.sln
 *.sw?
 .env
-*.d.ts
+/**/*.d.ts
+/src/**/*.d.ts
