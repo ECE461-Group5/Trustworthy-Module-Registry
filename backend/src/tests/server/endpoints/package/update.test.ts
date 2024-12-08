@@ -4,6 +4,7 @@
  * @purpose - Test updating a package.
  */
 
+import logger from "../../../../../logger.js";
 import { expect, describe, test, vi } from "vitest";
 import request from "supertest";
 import app from "../../../../server/server.js";
@@ -29,16 +30,7 @@ describe("PUT /package/:id endpoint", () => {
     const getResponse = await request(app).get(`/package/${uploadedPackage.metadata.ID}`);
     expect(getResponse.statusCode).toEqual(200);
 
-    console.log(Buffer.from(getResponse.body.data.Content.data).toString());
-
-    if (
-      typeof getResponse.body.data.Content === "object" &&
-      getResponse.body.data.Content.type === "Buffer"
-    ) {
-      getResponse.body.data.Content = Buffer.from(getResponse.body.data.Content.data);
-    }
-
-    expect(getResponse.body.data.Content).toEqual(Buffer.from(updatedContent));
+    expect(getResponse.body.data.Content).toEqual(updatedContent);
 
     await deleteContentPackage(uploadedPackage.metadata.ID);
   });
@@ -95,7 +87,20 @@ describe("PUT /package/:id endpoint", () => {
       logger.error(error);
     }
 
-    const response = await request(app).put(`/package/${packageID}`);
+    const nonexistentPackage: Package = {
+      metadata: {
+        Name: "dontmatter",
+        Version: "dontmatter",
+        ID: packageID,
+      },
+      data: {
+        Content: "DDDDDDDDDDDDDDDDDDDDDdd",
+        URL: "dontmatter",
+        debloat: false,
+        JSProgram: "dontmatter",
+      },
+    };
+    const response = await request(app).put(`/package/${packageID}`).send(nonexistentPackage);
 
     expect(response.statusCode).toEqual(expectedStatus);
     expect(response.body).toEqual(expectedBody);

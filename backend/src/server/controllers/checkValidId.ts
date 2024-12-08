@@ -19,6 +19,8 @@ import logger from "../../../logger.js";
  * @returns - Whether or not the ID is valid.
  */
 export function checkValidId (packageIdString: string): boolean {
+  logger.info(`Checking if id ${packageIdString} is valid`);
+
   // Validate that package ID is exactly 8 digits
   const packageIdRegex = /^\d{8}$/;
   if (!packageIdRegex.test(packageIdString)) {
@@ -41,5 +43,6 @@ export function checkValidId (packageIdString: string): boolean {
     return false;
   }
 
+  logger.info("Id is valid");
   return true;
 }

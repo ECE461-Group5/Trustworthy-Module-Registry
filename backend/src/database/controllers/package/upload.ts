@@ -23,11 +23,11 @@ export const dbUploadPackage = async (_package: Package): Promise<Package> => {
     name = result.name;
     version = result.version;
   }
-  
+
   if (_package.data.Content === null) {
     return _package;
   }
-  const packageContent = Buffer.from(_package.data.Content); 
+  const packageContent = Buffer.from(_package.data.Content);
 
   // Add package to database
   const newPackage = await prisma.package.create({

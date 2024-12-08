@@ -14,7 +14,6 @@ export interface Package {
   };
   data: {
     Content: string | null;
-//    Content: Buffer | null;
     URL: string | null;
     debloat: boolean | null;
     JSProgram: string | null;

@@ -126,6 +126,7 @@ export const updatePackage = async (
   logger.info("Received a request to update a package");
 
   const { body } = req;
+  console.log(body);
   const { params } = req;
 
   const validId: boolean = checkValidId(req.params.id);
@@ -133,13 +134,28 @@ export const updatePackage = async (
     res.status(400).send();
     return;
   }
+
+  logger.info("Converting Id to number");
   const packageId = parseInt(req.params.id, 10);
+  logger.info("Id converted to number");
 
   try {
-    await dbUpdatePackage(packageId, body);
-
-    res.status(200).send();
-    return;
+    const updateResponseCode = await dbUpdatePackage(packageId, body);
+    if (updateResponseCode === 400) {
+      res.status(400).send();
+      return;
+    }
+ else if (updateResponseCode === 404) {
+      res.status(404).send();
+      return;
+    }
+ else if (updateResponseCode === 200) {
+      res.status(200).send();
+      return;
+    }
+ else {
+      throw new Error("Unexpected response code from dbUpdatePackage()");
+    }
   }
  catch (error) {
     logger.error("Error updating package:", error);

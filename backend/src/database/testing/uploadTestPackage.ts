@@ -34,8 +34,7 @@ export async function uploadContentPackage (): Promise<Package> {
   if (contentPackage.data.Content === null) {
     return contentPackage;
   }
-  const packageContent = Buffer.from(contentPackage.data.Content); 
-
+  const packageContent = Buffer.from(contentPackage.data.Content);
 
   const newPackage = await prisma.package.create({
     data: {

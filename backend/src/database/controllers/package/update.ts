@@ -21,45 +21,54 @@ import { Prisma } from "@prisma/client";
 export const dbUpdatePackage = async (
   packageId: number,
   updatedPackage: Package,
-): Promise<void | null> => {
-  try {
-    if (updatedPackage.metadata.ID != null && nullPackageData(updatedPackage) === false) {
-      logger.info("Prisma update...");
-
-
-      let packageContent: Buffer = Buffer.alloc(5);
-      if (updatedPackage.data.Content != null) {
-        packageContent = Buffer.from(updatedPackage.data.Content);
-      }
-
-      const test = await prisma.package.update({
-        where: {
-          id: packageId,
-        },
-        data: {
-          content: packageContent,
-          //          url: updatedPackage.data.URL,
-                   debloat: updatedPackage.data.debloat,
-          //        jsProgram: updatedPackage.data.JSProgram,
-        },
-      });
-      logger.info("Prisma update successful");
-
-      return;
-    }
- else {
-      return null;
-    }
+): Promise<number> => {
+  logger.info("b4 null");
+  if (updatedPackage.metadata.ID === null) {
+    logger.info("in null");
   }
- catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      console.log("here");
-      if (error.code === "P2025") {
-        return null;
-      }
+  logger.info("after null");
+
+  logger.info("b4 null data");
+  if (nullPackageData(updatedPackage)) {
+    logger.info("in null data");
+  }
+  logger.info("after null data");
+
+  if (updatedPackage.metadata.ID != null && nullPackageData(updatedPackage) === false) {
+    logger.info("Prisma update...");
+
+    if (updatedPackage.data.Content === null) {
+      return 400;
     }
-    logger.error("Prisma update error: ", error);
-    throw error;
+    const packageContent = Buffer.from(updatedPackage.data.Content);
+
+    logger.info("Checking that package exists...");
+    const packageData = await prisma.package.findUnique({
+      where: { id: packageId },
+    });
+    if (!packageData) {
+      logger.info("Package does not exist");
+      return 404;
+    }
+    logger.info("Package exists");
+
+    const test = await prisma.package.update({
+      where: {
+        id: packageId,
+      },
+      data: {
+        content: packageContent,
+        url: updatedPackage.data.URL,
+        debloat: updatedPackage.data.debloat,
+        jsProgram: updatedPackage.data.JSProgram,
+      },
+    });
+    logger.info("Prisma update successful");
+
+    return 200;
+  }
+ else {
+    return 400;
   }
   /*
  catch (error: any) {
