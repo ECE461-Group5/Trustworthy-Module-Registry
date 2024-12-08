@@ -8,7 +8,7 @@ function MainNavbar() {
     <div className="navbar">
       <a href="/home">
         <div className="logo">
-          <img src="/purdue_logo.PNG" alt="Home" />
+          <img src="/p.jpg" alt="Home" />
         </div>
       </a>
     </div>
