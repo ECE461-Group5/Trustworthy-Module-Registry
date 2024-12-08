@@ -9,11 +9,10 @@ import { UserConfigExport } from 'vitest/config';
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 3001,
-    cors: true,
+    port: 80,
     proxy: {
       '/api': {
-        target: 'http://localhost:3000',
+        target: 'http://54.198.116.182:3000',
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/api/, ''),
