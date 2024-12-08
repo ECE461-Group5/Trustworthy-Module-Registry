@@ -12,6 +12,9 @@ import packageRouter from "./routes/packageRoutes.js";
 const app: Express = express();
 const port = 3000;
 
+/* line below is used for Vite/FE testing */
+app.use(express.static("build"));
+
 app.use(express.json());
 app.use(express.urlencoded());
 
