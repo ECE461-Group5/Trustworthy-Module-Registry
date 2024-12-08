@@ -8,9 +8,9 @@ import request from "supertest";
 import app from "../../../../server/server.js";
 
 describe("tracks endpoint", () => {
-  it("GET /tracks should say we aren't pursing any tracks", async () => {
+  it("GET /tracks should return the planned tracks", async () => {
     const res = await request(app).get("/tracks");
     expect(res.statusCode).toBe(200);
-    expect(res.body).toHaveProperty("plannedTracks", "[none]");
+    expect(res.body).toHaveProperty("plannedTracks", ["Access control track"]);
   });
 });
