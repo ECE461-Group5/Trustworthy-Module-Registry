@@ -22,8 +22,13 @@ app.use("/packages", packagesRouter);
 app.use("/reset", resetRouter);
 app.use("/package", packageRouter);
 app.use("/tracks", (req: Request, res: Response) =>
-  res.json({ plannedTracks: "[none]" }),
+  res.json({ 
+    plannedTracks: [
+      "Access control track"
+    ]
+  })
 );
+
 
 app.use((req: Request, res: Response) => {
   res.status(404).json({ message: "Route not found" });
