@@ -1,8 +1,28 @@
-  // Author(s): Geromy Cunningham
-  // Purpose: This file is the main entry point for the application. It is the first file that is run when the application is started.
+/*
+Author(s): Geromy Cunningham, Derek Petersen
+Purpose: Class for React App 
+*/
 
-const App = () => {
-  return <div>Module Registry - Group 105</div>;
-};
+import MainNavbar from "./components/MainNavbar";
+import "./App.css";
+import Buttons from "./components/Buttons";
+import PackageUploader from "./components/PackageUploader";
+import PackageDownloader from "./components/PackageDownloader";
+import Search from "./components/Search";
+
+function App() {
+  return (
+    <div className="App">
+      <MainNavbar />
+      <header>
+        <h1>Welcome to ECE 461 Group 5 Project</h1>
+      </header>
+      <Buttons />
+      <PackageUploader />
+      <Search />
+      <PackageDownloader />
+    </div>
+  );
+}
 
 export default App;

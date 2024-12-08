@@ -23,5 +23,5 @@
     "noUncheckedSideEffectImports": true,
     "composite": true,
   },
-  "include": ["src"]
+  "include": ["src", "v2website"]
 }
