@@ -18,11 +18,11 @@ the steps below:
 2. $ npx prisma generate - This initializes the Prisma schema.
 3. $ mkdir logs;touch app.log - This creates the log file in the correct location.
 4. $ Setup the .env file - This project relies on multiple environmental variables for its functionality. Here is an example .env file:  
-    GITHUB_TOKEN=<github token>  
+    GITHUB_TOKEN="github token"
     LOG_LEVEL=1  
     LOG_FILE=./logs/app.log  
     BUILD_PATH=./src/frontend/frontend/build  
-    DATABASE_URL=<database url>  
+    DATABASE_URL="database url"
 
 ## Scripts
  Listed below are the npm scripts we have. 
