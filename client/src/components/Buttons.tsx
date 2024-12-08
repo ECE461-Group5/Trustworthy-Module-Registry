@@ -8,12 +8,16 @@ Purpose: Class for Different Buttons
 
 function handleTracks(e: { preventDefault: () => void; }) {
   e.preventDefault();
-  fetch("/api/tracks")  // Update the endpoint to match the server
+  fetch("/tracks", {  // Removed "/api" prefix
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
     .then((response) => {
       if (response.ok) {
         response.json().then((data) => {
           console.log("Tracks data:", data);
-          // Handle the received data here
         });
       } else {
         console.error("Server responded with an error:", response.statusText);
@@ -26,7 +30,7 @@ function handleTracks(e: { preventDefault: () => void; }) {
 
 function handleReset(e: React.MouseEvent<HTMLButtonElement>) {
   e.preventDefault();
-  fetch("/reset", {
+  fetch("/reset", {  // Removed "/api" prefix
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -77,7 +81,7 @@ function Buttons() {
       </button>
       <button className="tracks" onClick={handleTracks}>
         Tracks
-        {/* Register-User */}
+        {/* Show tracks */}
       </button>
       <button className="reset" onClick={handleReset}>
         Reset Directory
