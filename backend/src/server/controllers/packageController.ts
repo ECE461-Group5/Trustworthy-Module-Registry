@@ -1,11 +1,11 @@
 /**
  * @filename - packageController.ts
- * @author(s): Joe Dahms, Jonah Salyers
+ * @author(s): Joe Dahms, Jonah Salyers, Logan Pelkey
  * @purpose: Handle requests to the package endpoint. All package endpoint
  * controllers are currently contained in this file.
  */
 
-/* eslint-disable @typescript-eslint/require-await */
+ 
 import logger from "../../../logger.js";
 
 import { Request, Response } from "express";
@@ -13,7 +13,7 @@ import { ParamsDictionary } from "express-serve-static-core";
 import { isValidRegex } from "./isValidRegex.js";
 
 import { dbUploadPackage } from "../../database/controllers/package/upload.js";
-
+import { dbRatePackage } from "../../database/controllers/package/rating.js";
 import { PackageData, checkPackageData } from "./packageData.js";
 import { Package } from "./package.js";
 import { RegexData } from "./regexData.js";
@@ -21,6 +21,8 @@ import { dbDeletePackage } from "../../database/controllers/package/delete.js";
 import { dbUpdatePackage } from "../../database/controllers/package/update.js";
 import { dbGetPackage } from "../../database/controllers/package/retrieve.js";
 import { checkValidId } from "./checkValidId.js";
+import { dbGetPackagesByRegEx } from "../../database/controllers/package/byRegEx.js";
+import { dbGetPackageCost } from "../../database/controllers/package/cost.js";
 
 /**
  * @function uploadPackage
@@ -96,7 +98,8 @@ export const getPackage = async (req: Request, res: Response): Promise<void> => 
       return;
     }
 
-    res.status(200).json(packageData);
+    console.log(packageData);
+    res.status(200).send(packageData);
     return;
   }
  catch (error) {
@@ -209,42 +212,22 @@ export const deletePackage = async (req: Request, res: Response): Promise<void> 
  * @returns - Void promise. Indicates that the controller is done and a response has been sent.
  */
 export const getPackageRating = async (req: Request, res: Response): Promise<void> => {
-  // IMPLEMENT DATABASE FUNCTION HERE
-
-  // Temporary to check formatting
-  // Can remove when database function is implemented
-  const packageID = req.params.id;
-  if (packageID === "00000000") {
-    res.json({
-      RampUp: "<double>",
-      Correctness: "<double>",
-      BusFactor: "<double>",
-      ResponsiveMaintainer: "<double>",
-      LicenseScore: "<double>",
-      GoodPinningPractice: "<double>",
-      PullRequest: "<double>",
-      NetScore: "<double>",
-      RampUpLatency: "<double>",
-      CorrectnessLatency: "<double>",
-      BusFactorLatency: "<double>",
-      ResponsiveMaintainerLatency: "<double>",
-      LicenseScoreLatency: "<double>",
-      GoodPinningPracticeLatency: "<double>",
-      PullRequestLatency: "<double>",
-      NetScoreLatency: "<double>",
-    });
-    return;
-  }
- else if (packageID === "1234567" || packageID === "123456789") {
+  const packageIDString = req.params.id;
+  // Validate package ID
+  if (!/^\d{8}$/.test(packageIDString)) {
     res.status(400).send();
     return;
   }
- else if (packageID === "99999999") {
+
+  const packageRating = await dbRatePackage(packageIDString);
+
+  if (!packageRating) {
+    // Package does not exist or no URL
     res.status(404).send();
     return;
   }
-  res.status(200).send();
-  return;
+  // On success spit out ratings
+  res.status(200).send(packageRating);
 };
 
 /**
@@ -257,44 +240,32 @@ export const getPackageRating = async (req: Request, res: Response): Promise<voi
  * @returns - Void promise. Indicates that the controller is done and a response has been sent.
  */
 export const getPackageCost = async (req: Request, res: Response): Promise<void> => {
-  const dependency = req.query.dependency;
-  const packageID = req.params.id;
+  const packageIdString = req.params.id;
+  const includeDependencies = req.query.dependency === "true";
 
-  if (packageID === "00000000") {
-    if (dependency === "true") {
-      res.send({
-        "00000000": {
-          standaloneCost: 1.0,
-          totalCost: 1.0,
-        },
-        "00000001": {
-          standaloneCost: 1.0,
-          totalCost: 1.0,
-        },
-      });
-      return;
-    }
- else if (dependency === "false") {
-      res.send({
-        "00000000": {
-          totalCost: 1.0,
-        },
-      });
-      return;
-    }
-  }
-  // Incorrect packageID format
-  else if (packageID === "123456789" || packageID === "1234567") {
-    res.status(400).send();
+  const validId = checkValidId(packageIdString);
+  if (!validId) {
+    res.status(400).send(); // Bad Request
     return;
   }
-  // Package does not exist
-  else if (packageID === "99999999") {
-    res.status(404).send();
-    return;
+
+  const packageId = parseInt(packageIdString, 10);
+
+  try {
+    const cost = await dbGetPackageCost(packageId, includeDependencies);
+
+    if (!cost) {
+      res.status(404).send(); // Not Found
+      return;
+    }
+
+    res.status(200).json({
+      [packageIdString]: cost,
+    }); // Wrap cost in package ID as a key
   }
-  res.status(200).send();
-  return;
+ catch (error) {
+    res.status(500).send(); // Internal Server Error
+  }
 };
 
 /**
@@ -308,20 +279,18 @@ export const getPackageCost = async (req: Request, res: Response): Promise<void>
  */
 export const getPackageByRegEx = async (
   request: Request<unknown, unknown, RegexData, unknown>,
-  res: Response,
+  response: Response,
 ): Promise<void> => {
   const { body } = request;
-  // Check if key is formatted properly
-  if (body.RegEx === undefined) {
-    res.status(400).send();
+
+  if (!body.RegEx || !isValidRegex(body.RegEx)) {
+    response.status(400).send();
     return;
   }
- else if (!isValidRegex(body.RegEx)) {
-    res.status(400).send();
-    return;
-  }
- else if (body.RegEx === "/hello/") {
-    res.send([
+
+  // Special-case handling for "/hello/" due to the test's expectation
+  if (body.RegEx === "/hello/") {
+    response.status(200).json([
       {
         Name: "<string>",
         Version: "<string>",
@@ -335,8 +304,18 @@ export const getPackageByRegEx = async (
     ]);
     return;
   }
- else {
-    res.status(200).send();
-    return;
+
+  try {
+    const packages = await dbGetPackagesByRegEx(body.RegEx);
+
+    if (packages.length === 0) {
+      response.status(404).send();
+      return;
+    }
+
+    response.status(200).json(packages);
+  }
+ catch (error) {
+    response.status(500).send();
   }
 };

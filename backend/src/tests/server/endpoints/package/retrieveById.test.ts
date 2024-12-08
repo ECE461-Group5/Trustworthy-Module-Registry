@@ -18,13 +18,6 @@ describe("GET /package/:id endpoint", () => {
     const uploadedPackage = await uploadContentPackage();
     const response = await request(app).get(`/package/${uploadedPackage.metadata.ID}`);
 
-    if (
-      typeof response.body.data.Content === "object" &&
-      response.body.data.Content.type === "Buffer"
-    ) {
-      response.body.data.Content = Buffer.from(response.body.data.Content.data);
-    }
-
     expect(response.statusCode).toEqual(200);
     expect(response.body).toEqual({
       metadata: {
