@@ -30,6 +30,8 @@ export class Scorecard {
   license_Latency: number;
   goodPinningPractice: number;
   goodPinningPractice_Latency: number;
+  pullRequest: number;
+  pullRequest_Latency: number;
 
   /**
    * @constructor
@@ -56,16 +58,19 @@ export class Scorecard {
     this.license_Latency = 0;
     this.goodPinningPractice = 0;
     this.goodPinningPractice_Latency = 0;
+    this.pullRequest = 0;
+    this.pullRequest_Latency = 0;
   }
 
   public calculateNetScore(): void {
     // Calculate net score based on Sarah's priorities
-    const rampUpWeight = 0.15;
-    const correctnessWeight = 0.25;
-    const busFactorWeight = 0.10;
-    const responsiveMaintainerWeight = 0.25;
-    const licenseWeight = 0.10;
-    const pinningPracticeWeight = 0.15;
+    const rampUpWeight = 0.13;
+    const correctnessWeight = 0.22;
+    const busFactorWeight = 0.09;
+    const responsiveMaintainerWeight = 0.22;
+    const licenseWeight = 0.09;
+    const pinningPracticeWeight = 0.13;
+    const pullRequestReviewWeight = 0.12;
 
     this.netScore = parseFloat(
       (
@@ -74,7 +79,8 @@ export class Scorecard {
         this.busFactor * busFactorWeight +
         this.responsiveMaintainer * responsiveMaintainerWeight +
         this.license * licenseWeight +
-        this.goodPinningPractice * pinningPracticeWeight
+        this.goodPinningPractice * pinningPracticeWeight +
+        this.pullRequest * pullRequestReviewWeight
       ).toFixed(3),
     );
     this.netScore_Latency = parseFloat(
@@ -84,11 +90,11 @@ export class Scorecard {
         this.busFactor_Latency * busFactorWeight +
         this.responsiveMaintainer_Latency * responsiveMaintainerWeight +
         this.license_Latency * licenseWeight +
-        this.goodPinningPractice_Latency * pinningPracticeWeight
+        this.goodPinningPractice_Latency * pinningPracticeWeight +
+        this.pullRequest_Latency * pullRequestReviewWeight
       ).toFixed(3),
     );
-}
-
+  }
 
   // Convert all member variables to NJSON
   public getResults(): string {
@@ -108,7 +114,9 @@ export class Scorecard {
         License: this.license,
         License_Latency: this.license_Latency,
         GoodPinningPractice: this.goodPinningPractice,
-        GoodPinningPractice_Latency: this.goodPinningPractice_Latency
+        GoodPinningPractice_Latency: this.goodPinningPractice_Latency,
+        PullRequest: this.pullRequest,
+        PullRequest_Latency: this.pullRequest_Latency,
       },
     ];
     // Convert the array to a JSON string

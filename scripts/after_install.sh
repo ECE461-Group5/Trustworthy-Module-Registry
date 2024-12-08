@@ -1,3 +1,9 @@
+#  Author(s): Joe Dahms
+#  Purpose: This script is used to create the .env file for the backend of the
+#  Trustworthy Module Registry. It uses the AWS CLI to get the necessary parameters 
+#  from AWS Systems Manager Parameter Store and writes them to the .env file.
+#  It also creates a log file for the backend.
+
 #!/bin/bash
 
 ENV_PATH=/home/ubuntu/trustworthy-module-registry/backend/.env

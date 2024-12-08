@@ -21,10 +21,10 @@ export async function uploadContentPackage (): Promise<Package> {
     metadata: {
       Name: null,
       Version: null,
-      ID: null,
+      ID: "00000000",
     },
     data: {
-      Content: Buffer.from("TESTSSTESTSGSDFHSDRH"),
+      Content: "TESTSSTESTSGSDFHSDRH",
       URL: "",
       debloat: false,
       JSProgram: "",
@@ -35,7 +35,57 @@ export async function uploadContentPackage (): Promise<Package> {
     data: {
       name: "testContent",
       version: "noversion",
-      content: contentPackage.data.Content,
+      content: Buffer.from(contentPackage.data.Content!),
+      url: contentPackage.data.URL,
+      debloat: contentPackage.data.debloat,
+      jsProgram: contentPackage.data.JSProgram,
+    },
+  });
+
+  contentPackage.metadata.Name = newPackage.name;
+  contentPackage.metadata.Version = newPackage.version;
+
+  // Return id with proper number of digits
+  let newPackageId = String(newPackage.id);
+  newPackageId = newPackageId.padStart(8, "0");
+  contentPackage.metadata.ID = newPackageId;
+
+  return contentPackage;
+}
+
+/**
+ * @function uploadURLPackage
+ *
+ * Upload a package by URL for testing purposes (cloudinary).
+ * Note that this package must be deleted manually at the end of the test.
+ *
+ * @returns - Promise containing the newly uploaded package.
+ */
+export async function uploadURLPackage (): Promise<Package> {
+  const contentPackage: Package = {
+    metadata: {
+      Name: null,
+      Version: null,
+      ID: "00000000",
+    },
+    data: {
+      Content: "",
+      URL: "https://github.com/cloudinary/cloudinary_npm",
+      debloat: false,
+      JSProgram: "",
+    },
+  };
+
+  if (contentPackage.data.Content === null) {
+    return contentPackage;
+  }
+  const packageContent = Buffer.from(contentPackage.data.Content);
+
+  const newPackage = await prisma.package.create({
+    data: {
+      name: "testContent",
+      version: "noversion",
+      content: packageContent,
       url: contentPackage.data.URL,
       debloat: contentPackage.data.debloat,
       jsProgram: contentPackage.data.JSProgram,

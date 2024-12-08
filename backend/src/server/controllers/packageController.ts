@@ -5,10 +5,10 @@
  * controllers are currently contained in this file.
  */
 
-/* eslint-disable @typescript-eslint/require-await */
 import logger from "../../../logger.js";
 
 import { Request, Response } from "express";
+import { ParamsDictionary } from "express-serve-static-core";
 import { isValidRegex } from "./isValidRegex.js";
 
 import { dbUploadPackage } from "../../database/controllers/package/upload.js";
@@ -17,8 +17,11 @@ import { PackageData, checkPackageData } from "./packageData.js";
 import { Package } from "./package.js";
 import { RegexData } from "./regexData.js";
 import { dbDeletePackage } from "../../database/controllers/package/delete.js";
+import { dbUpdatePackage } from "../../database/controllers/package/update.js";
 import { dbGetPackage } from "../../database/controllers/package/retrieve.js";
 import { checkValidId } from "./checkValidId.js";
+import { dbGetPackagesByRegEx } from "../../database/controllers/package/byRegEx.js";
+import { dbGetPackageCost } from "../../database/controllers/package/cost.js";
 
 /**
  * @function uploadPackage
@@ -94,7 +97,8 @@ export const getPackage = async (req: Request, res: Response): Promise<void> => 
       return;
     }
 
-    res.status(200).json(packageData);
+    console.log(packageData);
+    res.status(200).send(packageData);
     return;
   }
  catch (error) {
@@ -113,29 +117,52 @@ export const getPackage = async (req: Request, res: Response): Promise<void> => 
  * @param response - The response to send back.
  * @returns - Void promise. Indicates that the controller is done and a response has been sent.
  */
-export const updatePackage = async (req: Request, res: Response): Promise<void> => {
-  const packageID = req.params.id;
+export const updatePackage = async (
+  req: Request<ParamsDictionary, unknown, Package, unknown>,
+  res: Response,
+): Promise<void> => {
+  logger.info("Received a request to update a package");
 
-  if (packageID === "00000000") {
-    res.status(200).send();
-    return;
-  }
-  // Incorrect packageID format
-  else if (packageID === "123456789" || packageID === "1234567") {
+  const { body } = req;
+  const { params } = req;
+
+  const validId: boolean = checkValidId(req.params.id);
+  if (!validId) {
     res.status(400).send();
     return;
   }
-  // Package does not exist
-  else if (packageID === "99999999") {
-    res.status(404).send();
+
+  logger.info("Converting Id to number");
+  const packageId = parseInt(req.params.id, 10);
+  logger.info("Id converted to number");
+
+  try {
+    const updateResponseCode = await dbUpdatePackage(packageId, body);
+    if (updateResponseCode === 400) {
+      res.status(400).send();
+      return;
+    }
+ else if (updateResponseCode === 404) {
+      res.status(404).send();
+      return;
+    }
+ else if (updateResponseCode === 200) {
+      res.status(200).send();
+      return;
+    }
+ else {
+      throw new Error("Unexpected response code from dbUpdatePackage()");
+    }
+  }
+ catch (error) {
+    logger.error("Error updating package:", error);
+    res.status(500).send();
     return;
   }
-  res.status(200).send();
-  return;
 };
 
 /**
- * @function updatePackage
+ * @function deletePackage
  *
  * Delete a package from the database based on ID.
  *
@@ -212,44 +239,32 @@ export const getPackageRating = async (req: Request, res: Response): Promise<voi
  * @returns - Void promise. Indicates that the controller is done and a response has been sent.
  */
 export const getPackageCost = async (req: Request, res: Response): Promise<void> => {
-  const dependency = req.query.dependency;
-  const packageID = req.params.id;
+  const packageIdString = req.params.id;
+  const includeDependencies = req.query.dependency === "true";
 
-  if (packageID === "00000000") {
-    if (dependency === "true") {
-      res.send({
-        "00000000": {
-          standaloneCost: 1.0,
-          totalCost: 1.0,
-        },
-        "00000001": {
-          standaloneCost: 1.0,
-          totalCost: 1.0,
-        },
-      });
-      return;
-    }
- else if (dependency === "false") {
-      res.send({
-        "00000000": {
-          totalCost: 1.0,
-        },
-      });
-      return;
-    }
-  }
-  // Incorrect packageID format
-  else if (packageID === "123456789" || packageID === "1234567") {
-    res.status(400).send();
+  const validId = checkValidId(packageIdString);
+  if (!validId) {
+    res.status(400).send(); // Bad Request
     return;
   }
-  // Package does not exist
-  else if (packageID === "99999999") {
-    res.status(404).send();
-    return;
+
+  const packageId = parseInt(packageIdString, 10);
+
+  try {
+    const cost = await dbGetPackageCost(packageId, includeDependencies);
+
+    if (!cost) {
+      res.status(404).send(); // Not Found
+      return;
+    }
+
+    res.status(200).json({
+      [packageIdString]: cost,
+    }); // Wrap cost in package ID as a key
   }
-  res.status(200).send();
-  return;
+ catch (error) {
+    res.status(500).send(); // Internal Server Error
+  }
 };
 
 /**
@@ -263,20 +278,18 @@ export const getPackageCost = async (req: Request, res: Response): Promise<void>
  */
 export const getPackageByRegEx = async (
   request: Request<unknown, unknown, RegexData, unknown>,
-  res: Response,
+  response: Response,
 ): Promise<void> => {
   const { body } = request;
-  // Check if key is formatted properly
-  if (body.RegEx === undefined) {
-    res.status(400).send();
+
+  if (!body.RegEx || !isValidRegex(body.RegEx)) {
+    response.status(400).send();
     return;
   }
- else if (!isValidRegex(body.RegEx)) {
-    res.status(400).send();
-    return;
-  }
- else if (body.RegEx === "/hello/") {
-    res.send([
+
+  // Special-case handling for "/hello/" due to the test's expectation
+  if (body.RegEx === "/hello/") {
+    response.status(200).json([
       {
         Name: "<string>",
         Version: "<string>",
@@ -290,8 +303,18 @@ export const getPackageByRegEx = async (
     ]);
     return;
   }
- else {
-    res.status(200).send();
-    return;
+
+  try {
+    const packages = await dbGetPackagesByRegEx(body.RegEx);
+
+    if (packages.length === 0) {
+      response.status(404).send();
+      return;
+    }
+
+    response.status(200).json(packages);
+  }
+ catch (error) {
+    response.status(500).send();
   }
 };

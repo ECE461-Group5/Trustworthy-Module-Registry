@@ -8,7 +8,7 @@
 import logger from "../../../logger.js";
 
 export interface PackageData {
-  Content: Buffer;
+  Content: string;
   URL: string;
   debloat: boolean;
   JSProgram: string;
@@ -44,13 +44,7 @@ export function checkPackageData (packageData: PackageData): boolean {
   }
   logger.info("All fields present");
 
-  /*
-  // Only one of URL or content can be set
-  if (packageData.Content.byteLength != 0 && packageData.URL != "") {
-    return false;
-  }
-  */
-
+  // Only one of content or url can be set
   let contentSet = true;
   let urlSet = true;
 

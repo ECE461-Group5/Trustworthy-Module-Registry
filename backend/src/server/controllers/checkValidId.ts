@@ -4,6 +4,8 @@
  * @purpose - Check if an id is valid. Has to be a positive 8 digit number.
  */
 
+import logger from "../../../logger.js";
+
 /**
  * @function checkValidId
  *
@@ -17,23 +19,30 @@
  * @returns - Whether or not the ID is valid.
  */
 export function checkValidId (packageIdString: string): boolean {
+  logger.info(`Checking if id ${packageIdString} is valid`);
+
   // Validate that package ID is exactly 8 digits
   const packageIdRegex = /^\d{8}$/;
   if (!packageIdRegex.test(packageIdString)) {
     // Return 400 Bad Request with no response body
+    logger.error(`ID is ${packageIdString.length} digits`);
+    logger.error("Invalid ID: must be 8 digits");
     return false;
   }
 
   // Number
   if (isNaN(Number(packageIdString))) {
+    logger.error("Invalid ID: must be a number");
     return false;
   }
 
   // Positive
   const packageId = parseInt(packageIdString, 10);
   if (packageId < 0) {
+    logger.error("Invalid ID: must be a positive");
     return false;
   }
 
+  logger.info("Id is valid");
   return true;
 }
