@@ -212,21 +212,28 @@ export const deletePackage = async (req: Request, res: Response): Promise<void> 
  */
 export const getPackageRating = async (req: Request, res: Response): Promise<void> => {
   const packageIDString = req.params.id;
+
   // Validate package ID
   if (!/^\d{8}$/.test(packageIDString)) {
     res.status(400).send();
     return;
   }
 
-  const packageRating = await dbRatePackage(packageIDString);
+  try {
+    const packageRating = await dbRatePackage(packageIDString);
 
-  if (!packageRating) {
-    // Package does not exist or no URL
-    res.status(404).send();
-    return;
+    if (!packageRating) {
+      // Package does not exist or no URL
+      res.status(404).send();
+      return;
+    }
+
+    // On success, send out ratings
+    res.status(200).send(packageRating);
+  } catch (error) {
+    // Send a 500 response for "choked on a metric" error
+    res.status(500).send({ error: "The package rating system choked on at least one of the metrics." });
   }
-  // On success spit out ratings
-  res.status(200).send(packageRating);
 };
 
 /**

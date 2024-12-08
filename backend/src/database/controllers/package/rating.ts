@@ -17,11 +17,11 @@ import { PackageRating } from "@prisma/client/wasm";
  * @returns - A promise containing either the package rating or null. The former indicates success and
  * the latter indicates failure.
  */
-export async function dbRatePackage (
+export async function dbRatePackage(
   packageIDString: string,
 ): Promise<PackageRating | null> {
   if (packageIDString === "00000000") {
-    //impossible value. Sent during testing
+    // Impossible value. Sent during testing
     const test: PackageRating = {
       id: 0,
       packageId: 0,
@@ -45,6 +45,7 @@ export async function dbRatePackage (
     return test;
   }
   const packageID = parseInt(packageIDString, 10);
+
   // Fetch the package to ensure it exists and has a URL
   const pkg = await prisma.package.findUnique({
     where: { id: packageID },
@@ -56,53 +57,74 @@ export async function dbRatePackage (
     return null;
   }
 
-  // Evaluate metrics using the provided URL
-  const resultStr = await evaluateModule(pkg.url);
-  const result = JSON.parse(resultStr);
+  try {
+    // Evaluate metrics using the provided URL
+    const resultStr = await evaluateModule(pkg.url);
+    const result = JSON.parse(resultStr);
 
-  // Map the evaluation results to the database fields
-  const newOrUpdatedPackageRating = await prisma.packageRating.upsert({
-    where: {
-      packageId: packageID, // Check if a record with this packageId exists
-    },
-    update: {
-      rampUp: result.RampUp,
-      correctness: result.Correctness,
-      busFactor: result.BusFactor,
-      responsiveMaintainer: result.ResponsiveMaintainer,
-      licenseScore: result.License,
-      netScore: result.NetScore,
-      goodPinningPractice: result.GoodPinningPractice,
-      pullRequest: result.PullRequest,
-      rampUpLatency: result.RampUp_Latency,
-      correctnessLatency: result.Correctness_Latency,
-      busFactorLatency: result.BusFactor_Latency,
-      responsiveMaintainerLatency: result.ResponsiveMaintainer_Latency,
-      licenseScoreLatency: result.License_Latency,
-      netScoreLatency: result.NetScore_Latency,
-      goodPinningPracticeLatency: result.GoodPinningPractice_Latency,
-      pullRequestLatency: result.PullRequest_Latency,
-    },
-    create: {
-      packageId: packageID,
-      rampUp: result.RampUp,
-      correctness: result.Correctness,
-      busFactor: result.BusFactor,
-      responsiveMaintainer: result.ResponsiveMaintainer,
-      licenseScore: result.License,
-      netScore: result.NetScore,
-      goodPinningPractice: result.GoodPinningPractice,
-      pullRequest: result.PullRequest,
-      rampUpLatency: result.RampUp_Latency,
-      correctnessLatency: result.Correctness_Latency,
-      busFactorLatency: result.BusFactor_Latency,
-      responsiveMaintainerLatency: result.ResponsiveMaintainer_Latency,
-      licenseScoreLatency: result.License_Latency,
-      netScoreLatency: result.NetScore_Latency,
-      goodPinningPracticeLatency: result.GoodPinningPractice_Latency,
-      pullRequestLatency: result.PullRequest_Latency,
-    },
-  });
+    // Validate the metrics (detect choking)
+    const metrics = [
+      "RampUp",
+      "Correctness",
+      "BusFactor",
+      "ResponsiveMaintainer",
+      "License",
+      "NetScore",
+      "GoodPinningPractice",
+      "PullRequest",
+    ];
+    for (const metric of metrics) {
+      if (result[metric] == null || isNaN(result[metric])) {
+        throw new Error(`Choked on metric: ${metric}`);
+      }
+    }
 
-  return newOrUpdatedPackageRating;
+    // Map the evaluation results to the database fields
+    const newOrUpdatedPackageRating = await prisma.packageRating.upsert({
+      where: {
+        packageId: packageID,
+      },
+      update: {
+        rampUp: result.RampUp,
+        correctness: result.Correctness,
+        busFactor: result.BusFactor,
+        responsiveMaintainer: result.ResponsiveMaintainer,
+        licenseScore: result.License,
+        netScore: result.NetScore,
+        goodPinningPractice: result.GoodPinningPractice,
+        pullRequest: result.PullRequest,
+        rampUpLatency: result.RampUp_Latency,
+        correctnessLatency: result.Correctness_Latency,
+        busFactorLatency: result.BusFactor_Latency,
+        responsiveMaintainerLatency: result.ResponsiveMaintainer_Latency,
+        licenseScoreLatency: result.License_Latency,
+        netScoreLatency: result.NetScore_Latency,
+        goodPinningPracticeLatency: result.GoodPinningPractice_Latency,
+        pullRequestLatency: result.PullRequest_Latency,
+      },
+      create: {
+        packageId: packageID,
+        rampUp: result.RampUp,
+        correctness: result.Correctness,
+        busFactor: result.BusFactor,
+        responsiveMaintainer: result.ResponsiveMaintainer,
+        licenseScore: result.License,
+        netScore: result.NetScore,
+        goodPinningPractice: result.GoodPinningPractice,
+        pullRequest: result.PullRequest,
+        rampUpLatency: result.RampUp_Latency,
+        correctnessLatency: result.Correctness_Latency,
+        busFactorLatency: result.BusFactor_Latency,
+        responsiveMaintainerLatency: result.ResponsiveMaintainer_Latency,
+        licenseScoreLatency: result.License_Latency,
+        netScoreLatency: result.NetScore_Latency,
+        goodPinningPracticeLatency: result.GoodPinningPractice_Latency,
+        pullRequestLatency: result.PullRequest_Latency,
+      },
+    });
+
+    return newOrUpdatedPackageRating;
+  } catch (error) {
+    throw new Error("Choked on a metric");
+  }
 }
