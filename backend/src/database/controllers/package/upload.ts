@@ -6,46 +6,81 @@
 
 import { Package } from "../../../server/controllers/package.js";
 import prisma from "../../prisma.js";
+import { debloatContent } from "./debloat.js";
+import zlib from "zlib";
+import * as tar from "tar";
+import path from "path";
+import { URL } from "url";
+import fs from "fs/promises";
+import os from "os";
+
+/**
+ * Check if the Buffer is a gzipped tarball by checking gzip signature
+ */
+function isGzippedTarball(buffer: Buffer): boolean {
+  // GZIP magic numbers: 0x1f, 0x8b
+  return buffer.length > 2 && buffer[0] === 0x1f && buffer[1] === 0x8b;
+}
+
+/**
+ * Extracts a .tgz buffer to a temporary directory, returns the path to that directory.
+ * You can then read a desired file from it.
+ */
+async function extractTarball(tgzBuffer: Buffer): Promise<string> {
+  const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "pkg-"));
+  // Decompress and extract tarball into tempDir
+  await new Promise<void>((resolve, reject) => {
+    const gunzip = zlib.createGunzip();
+    const extract = tar.x({ cwd: tempDir });
+    gunzip.on('error', reject);
+    extract.on('error', reject);
+    extract.on('end', () => resolve());
+
+    gunzip.pipe(extract);
+    gunzip.end(tgzBuffer);
+  });
+  return tempDir;
+}
 
 /**
  * @function fetchPackageContent
  *
  * Fetch content from a URL and return it as a Buffer.
- *
- * @param url - The URL to fetch content from.
- * @returns - The content as a Buffer, or null if fetching fails.
  */
-async function fetchPackageContent (url: string): Promise<string | null> {
+async function fetchPackageContent(url: string): Promise<Buffer | null> {
   try {
     const response = await fetch(url);
     if (!response.ok) {
-      console.warn(
-        `Failed to fetch content from URL: ${url}, Status: ${response.status}`,
-      );
+      console.warn(`Failed to fetch content from URL: ${url}, Status: ${response.status}`);
       return null;
     }
-    return response.arrayBuffer().toString();
-    /*
-    const contentBuffer = Buffer.from(await response.arrayBuffer());
-    return contentBuffer;
-    */
-  }
- catch (error) {
+    const arrayBuf = await response.arrayBuffer();
+    return Buffer.from(new Uint8Array(arrayBuf));
+  } catch (error) {
     console.error("Error fetching package content:", error);
     return null;
   }
 }
 
 /**
- * @function dbUploadPackage
- *
- * Upload a package to the database and return the uploaded package.
- *
- * @param _package - The package to upload
- * @returns - The uploaded package
+ * Attempt to find a .js file within the extracted tarball directory to represent the main content.
+ * In a real scenario, you might look for a package.json "main" field or default to index.js.
  */
+async function findJSFileInDir(dir: string): Promise<string | null> {
+  const files = await fs.readdir(dir, { withFileTypes: true });
+  for (const f of files) {
+    if (f.isFile() && f.name.endsWith(".js")) {
+      const jsContent = await fs.readFile(path.join(dir, f.name), "utf-8");
+      return jsContent;
+    } else if (f.isDirectory()) {
+      const nested = await findJSFileInDir(path.join(dir, f.name));
+      if (nested) return nested;
+    }
+  }
+  return null;
+}
+
 export const dbUploadPackage = async (_package: Package): Promise<Package> => {
-  // Calculate name and version of the package
   let name = "noname";
   let version = "noversion";
   let content = _package.data.Content;
@@ -57,16 +92,40 @@ export const dbUploadPackage = async (_package: Package): Promise<Package> => {
 
     // Fetch and populate content if not provided
     if (!content) {
-      content = await fetchPackageContent(_package.data.URL);
+      const fetchedContent = await fetchPackageContent(_package.data.URL);
+      if (fetchedContent) {
+        if (isGzippedTarball(fetchedContent)) {
+          // Extract tarball
+          const tempDir = await extractTarball(fetchedContent);
+          // Try to find a .js file
+          const jsFileContent = await findJSFileInDir(tempDir);
+          if (jsFileContent) {
+            content = jsFileContent;
+          } else {
+            // If no JS found, fallback to binary tarball content as is
+            // or return error or empty content
+            content = fetchedContent.toString("utf-8");
+          }
+        } else {
+          // Not a tarball, treat it as text
+          content = fetchedContent.toString("utf-8");
+        }
+      }
     }
   }
 
-  if (_package.data.Content === null) {
-    return _package;
+  // If debloat is requested and we have some JS content
+  if (_package.data.debloat && content && typeof content === "string") {
+    console.info("Applying debloat to package content...");
+    try {
+      content = await debloatContent(content);
+    } catch (error) {
+      console.error("Error during debloating:", error);
+    }
   }
-  const packageContent = Buffer.from(_package.data.Content);
 
-  // Add package to database
+  const packageContent = Buffer.isBuffer(content) ? content : Buffer.from(content || "", "utf-8");
+
   const newPackage = await prisma.package.create({
     data: {
       name: name,
@@ -78,30 +137,23 @@ export const dbUploadPackage = async (_package: Package): Promise<Package> => {
     },
   });
 
-  if (newPackage.content === null) {
-    return _package;
-  }
-  newPackage.content.toString();
+  const formattedId = newPackage.id?.toString().padStart(8, "0") || null;
 
-  const formattedId = newPackage.id?.toString().padStart(8, "0") || null; // Handle undefined ID gracefully
-
-  // Return new package
-  const test: Package = {
+  const returnedPackage: Package = {
     metadata: {
       Name: newPackage.name,
       Version: newPackage.version,
       ID: formattedId,
     },
     data: {
-      Content: newPackage.content.toString(),
+      Content: newPackage.content?.toString() || "",
       URL: newPackage.url,
       debloat: newPackage.debloat,
       JSProgram: newPackage.jsProgram,
     },
   };
-  return test;
+  return returnedPackage;
 };
-
 /**
  * @function getNameAndVersion
  *
@@ -114,7 +166,15 @@ export const getNameAndVersion = async (
   url: string,
 ): Promise<{ name: string; version: string }> => {
   try {
-    if (url.includes("github.com")) {
+    const parsedUrl = new URL(url);
+    const host = parsedUrl.host;
+    const allowedHosts = [
+      'github.com',
+      'npmjs.com',
+      'registry.npmjs.org'
+    ];
+
+    if (host === 'github.com') {
       // Handle GitHub URLs
       const match = url.match(/github\.com\/([^/]+)\/([^/]+)/);
       if (!match) {
@@ -142,17 +202,16 @@ export const getNameAndVersion = async (
           const releaseData = await releaseResponse.json();
           version = releaseData.tag_name || "unknown";
         }
-      }
- catch (releaseError) {
+      } catch (releaseError) {
         console.warn(
           "No releases found for GitHub repo, defaulting to 'unknown' version.",
         );
       }
 
       return { name, version };
-    }
- else if (url.includes("npmjs.com")) {
-      // Handle npm URLs
+    } 
+    else if (host === 'npmjs.com' && url.includes("/package/")) {
+      // Handle npm package page URLs
       const match = url.match(/npmjs\.com\/package\/([^/]+)/);
       if (!match) {
         throw new Error("Invalid npm URL");
@@ -171,12 +230,35 @@ export const getNameAndVersion = async (
       const version = npmData["dist-tags"]?.latest || "unknown";
 
       return { name, version };
+    } 
+    else if (host === 'registry.npmjs.org' && url.endsWith(".tgz")) {
+      // Handle .tgz tarball URLs from registry.npmjs.org
+      // Example: https://registry.npmjs.org/cloudinary/-/cloudinary-2.5.1.tgz
+      const filenameMatch = url.match(/\/([^/]+\.tgz)$/);
+      if (!filenameMatch) {
+        throw new Error("Could not parse tarball filename from the URL");
+      }
+
+      const filename = filenameMatch[1]; // e.g. "cloudinary-2.5.1.tgz"
+      const fileParts = filename.replace(".tgz", "").split("-");
+      // fileParts should look like ["cloudinary", "2.5.1"] for the above example
+
+      if (fileParts.length < 2) {
+        // If we can't parse name-version properly, default to noname/noversion
+        console.warn("Tarball filename not in expected format 'name-version.tgz'.");
+        return { name: "noname", version: "noversion" };
+      }
+
+      const version = fileParts[fileParts.length - 1]; // last part is version
+      const nameParts = fileParts.slice(0, fileParts.length - 1); // rest is name
+      const name = nameParts.join("-");
+
+      return { name, version };
     }
- else {
+    else {
       throw new Error("Unsupported URL format");
     }
-  }
- catch (error) {
+  } catch (error) {
     console.error("Error fetching name and version:", error);
     return { name: "noname", version: "noversion" };
   }
