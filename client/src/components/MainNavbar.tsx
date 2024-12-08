@@ -13,9 +13,6 @@ const MainNavbar: React.FC = () => {
         <Link to="/">
           <img src="/p.jpg" alt="Logo" />
         </Link>
-        <Link to="/">
-          <img src="/p.jpg" alt="Logo" />
-        </Link>
       </div>
       <ul className="nav-links">
         <li>
