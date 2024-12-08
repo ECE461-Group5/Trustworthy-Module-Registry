@@ -11,6 +11,6 @@ describe("reset endpoint", () => {
   it("Reset the registry", async () => {
     const res = await request(app).delete("/reset");
     expect(res.statusCode).toBe(200);
-    expect(res.body).toEqual({});
+    expect(res.body).toEqual({"message": "Registry reset successfully."});
   });
 });
