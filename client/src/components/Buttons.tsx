@@ -7,40 +7,34 @@ Purpose: Class for Different Buttons
 // import Button from './Buttons';
 
 function Buttons() {
-  const handlePrimaryClick = () => {
-    alert("Primary Button Clicked!");
+  const handleLoginClick = () => {
+    alert("Login Clicked!");
+  };
+  
+  const handleTracks = () => {
+    alert("Display Tracks Here!");
   };
 
-  const handleSecondaryClick = () => {
-    alert("Secondary Button Clicked!");
+  const handleReset = () => {
+    alert("Directory Reset!");
   };
 
-  const handleResetClick = () => {
-    alert("Get Button Clicked!");
-  };
-
-  const handlePutClick = () => {
-    alert("Put Button Clicked!");
-  };
 
   return (
     <div className="buttons">
-      <button className="primary-button" onClick={handlePrimaryClick}>
-        Primary Button
+      <button className="login" onClick={handleLoginClick}>
+        Login
         {/* Sign-in */}
       </button>
-      <button className="secondary-button" onClick={handleSecondaryClick}>
-        Secondary Button
+      <button className="tracks" onClick={handleTracks}>
+        Tracks
         {/* Register-User */}
       </button>
-      <button className="reset-button" onClick={handleResetClick}>
-        Reset Button
+      <button className="reset" onClick={handleReset}>
+        Reset Directory
         {/* Reset Packages */}
       </button>
-      <button className="-button" onClick={handlePutClick}>
-        Put Button
-        {/* Register-User */}
-      </button>
+      
     </div>
   );
 }

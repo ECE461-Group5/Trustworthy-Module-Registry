@@ -18,10 +18,9 @@ function App() {
         <MainNavbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/buttons" element={<Buttons />} />
-          <Route path="/upload" element={<PackageUploader />} />
           <Route path="/search" element={<Search />} />
-          <Route path="/download" element={<PackageDownloader />} />
+          <Route path="/upload" element={<PackageUploader />} />
+          <Route path="/options" element={<Buttons />} />
         </Routes>
       </div>
     </Router>

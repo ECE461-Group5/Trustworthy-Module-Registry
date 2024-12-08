@@ -19,16 +19,13 @@ const MainNavbar: React.FC = () => {
           <Link to="/">Home</Link>
         </li>
         <li>
-          <Link to="/buttons">Options</Link>
+          <Link to="/search">Directory</Link>
         </li>
         <li>
           <Link to="/upload">Upload</Link>
         </li>
         <li>
-          <Link to="/search">Search</Link>
-        </li>
-        <li>
-          <Link to="/download">Download</Link>
+          <Link to="/options">Options</Link>
         </li>
       </ul>
     </nav>
