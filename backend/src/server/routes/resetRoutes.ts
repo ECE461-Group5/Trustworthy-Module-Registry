@@ -1,6 +1,6 @@
 /**
  * @filename - resetRoutes.ts
- * @author(s) - Joe Dahms
+ * @author(s) - Joe Dahms, Logan Pelkey
  * @purpose - Set up the routes for the reset endpoint. See controllers
  * for request handling logic.
  */
