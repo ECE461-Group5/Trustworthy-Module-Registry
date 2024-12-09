@@ -13,13 +13,16 @@ const MainNavbar: React.FC = () => {
         <Link to="/">
           <img src="/p.jpg" alt="Logo" />
         </Link>
+        <Link to="/" className="logo-text" title="Home Page">
+          ECE461: Group 5
+        </Link>
       </div>
       <ul className="nav-links">
         <li>
           <Link to="/">Home</Link>
         </li>
         <li>
-          <Link to="/search">Directory</Link>
+          <Link to="/directory">Directory</Link>
         </li>
         <li>
           <Link to="/upload">Upload</Link>

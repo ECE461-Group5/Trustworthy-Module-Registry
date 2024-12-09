@@ -68,27 +68,32 @@ function Buttons() {
 
 
   return (
-    <div className="buttons">
+  
+  <div className="upload-package-page">
+    <div className="form-group">
+    <label htmlFor="searchType">Options:</label>
       <input
         type="text"
         id="Username"
         placeholder="Username"
         aria-required="true"
       />
-      <button className="login" onClick={handleLoginClick}>
-        Login
-        {/* Sign-in */}
-      </button>
-      <button className="tracks" onClick={handleTracks}>
-        Tracks
-        {/* Show tracks */}
-      </button>
-      <button className="reset" onClick={handleReset}>
-        Reset Directory
-        {/* Reset Packages */}
-      </button>
-      
+      <div className="buttons">
+        <button className="login" onClick={handleLoginClick}>
+          Login
+          {/* Sign-in */}
+        </button>
+        <button className="tracks" onClick={handleTracks}>
+          Tracks
+          {/* Show tracks */}
+        </button>
+        <button className="reset" onClick={handleReset}>
+          Reset Directory
+          {/* Reset Packages */}
+        </button>
+      </div>
     </div>
+  </div>
   );
 }
 

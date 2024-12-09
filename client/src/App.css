@@ -45,7 +45,6 @@ body, html {
   font-weight: bold;
   font-family: Arial;
   padding-left: 10px;
-  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
   white-space: nowrap;
 }
 
@@ -224,6 +223,19 @@ button:hover {
   font-weight: bold;
 }
 
+#searchType {
+  width: 100%; /* Set full width (can adjust as needed) */
+  max-width: 110px; /* Limit the max width */
+  padding: 8px; /* Add padding inside the dropdown */
+  border: 1px solid #ccc; /* Light gray border */
+  border-radius: 5px; /* Rounded corners */
+  background-color: #fff; /* White background */
+  color: #000; /* Black text */
+  font-size: 16px; /* Adjust text size */
+  cursor: pointer; /* Pointer cursor to indicate interactivity */
+  transition: all 0.3s ease; /* Smooth hover effect */
+}
+
 .search-component input {
   width: 90%;
   padding: 8px;
@@ -250,3 +262,4 @@ button:hover {
   font-size: 16px;
   font-weight: bold;
 }
+
