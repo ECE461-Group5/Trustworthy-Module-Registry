@@ -166,24 +166,9 @@ export const getNameAndVersion = async (
   url: string,
 ): Promise<{ name: string; version: string }> => {
   try {
-    const parsedUrl = new URL(url);
-    const host = parsedUrl.host;
-    const pathname = parsedUrl.pathname || "";
-
-    const allowedHosts = [
-      'github.com',
-      'www.npmjs.com',
-      'npmjs.com',
-      'registry.npmjs.org'
-    ];
-
-    if (!allowedHosts.includes(host)) {
-      throw new Error("Unsupported URL host");
-    }
-
-    if (host === 'github.com') {
+    if (url.includes("github.com")) {
       // Handle GitHub URLs
-      const match = pathname.match(/^\/([^/]+)\/([^/]+)/);
+      const match = url.match(/github\.com\/([^/]+)\/([^/]+)/);
       if (!match) {
         throw new Error("Invalid GitHub URL");
       }
@@ -209,7 +194,7 @@ export const getNameAndVersion = async (
           const releaseData = await releaseResponse.json();
           version = releaseData.tag_name || "unknown";
         }
-      } catch {
+      } catch (releaseError) {
         console.warn(
           "No releases found for GitHub repo, defaulting to 'unknown' version.",
         );
@@ -217,9 +202,15 @@ export const getNameAndVersion = async (
 
       return { name, version };
     } 
-    else if (host === 'www.npmjs.com' && pathname.startsWith("/package/")) {
-      // Handle npmjs.com package page URLs like https://www.npmjs.com/package/browserify
-      const packageName = pathname.replace("/package/", "");
+    else if (url.includes("npmjs.com/package/")) {
+      // Handle npm package page URLs
+      const match = url.match(/npmjs\.com\/package\/([^/]+)/);
+      if (!match) {
+        throw new Error("Invalid npm URL");
+      }
+      const [_, packageName] = match;
+
+      // Fetch package metadata from npm registry API
       const npmResponse = await fetch(`https://registry.npmjs.org/${packageName}`);
       if (!npmResponse.ok) {
         throw new Error(
@@ -231,41 +222,29 @@ export const getNameAndVersion = async (
       const version = npmData["dist-tags"]?.latest || "unknown";
 
       return { name, version };
-    }
-    else if ((host === 'npmjs.com' && pathname.startsWith("/package/")) ||
-             (host === 'npmjs.com' && pathname.includes("/package/"))) {
-      // Handle npmjs.com/package/ URLs (if you had them separate)
-      const packageName = pathname.replace("/package/", "");
-      const npmResponse = await fetch(`https://registry.npmjs.org/${packageName}`);
-      if (!npmResponse.ok) {
-        throw new Error(
-          `Failed to fetch npm package metadata: ${npmResponse.statusText}`,
-        );
-      }
-      const npmData = await npmResponse.json();
-      const name = npmData.name;
-      const version = npmData["dist-tags"]?.latest || "unknown";
-
-      return { name, version };
-    }
-    else if (host === 'registry.npmjs.org' && url.endsWith(".tgz")) {
+    } 
+    else if (url.includes("registry.npmjs.org") && url.endsWith(".tgz")) {
       // Handle .tgz tarball URLs from registry.npmjs.org
-      // Extract package name from the url. Usually these have the format:
-      // https://registry.npmjs.org/<package>/-/<package>-<version>.tgz
-      const segments = pathname.split("/");
-      // segments: ['', '<package>', '-', '<package>-<version>.tgz']
-      // Extract the package name and version from the filename
-      const filename = segments.pop() || "";
-      const pkgName = segments[1]; // second element is package name
-      const npmResponse = await fetch(`https://registry.npmjs.org/${pkgName}`);
-      if (!npmResponse.ok) {
-        throw new Error(
-          `Failed to fetch npm package metadata: ${npmResponse.statusText}`,
-        );
+      // Example: https://registry.npmjs.org/cloudinary/-/cloudinary-2.5.1.tgz
+      const filenameMatch = url.match(/\/([^/]+\.tgz)$/);
+      if (!filenameMatch) {
+        throw new Error("Could not parse tarball filename from the URL");
       }
-      const npmData = await npmResponse.json();
-      const name = npmData.name;
-      const version = npmData["dist-tags"]?.latest || "unknown";
+
+      const filename = filenameMatch[1]; // e.g. "cloudinary-2.5.1.tgz"
+      const fileParts = filename.replace(".tgz", "").split("-");
+      // fileParts should look like ["cloudinary", "2.5.1"] for the above example
+
+      if (fileParts.length < 2) {
+        // If we can't parse name-version properly, default to noname/noversion
+        console.warn("Tarball filename not in expected format 'name-version.tgz'.");
+        return { name: "noname", version: "noversion" };
+      }
+
+      const version = fileParts[fileParts.length - 1]; // last part is version
+      const nameParts = fileParts.slice(0, fileParts.length - 1); // rest is name
+      const name = nameParts.join("-");
+
       return { name, version };
     }
     else {
