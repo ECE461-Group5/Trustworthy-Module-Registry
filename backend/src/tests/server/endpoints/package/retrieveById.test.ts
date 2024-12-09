@@ -9,14 +9,15 @@ import request from "supertest";
 import app from "../../../../server/server.js";
 import logger from "../../../../../logger.js";
 
-import { uploadContentPackage } from "../../../../database/testing/uploadTestPackage.ts";
-import { deleteContentPackage } from "../../../../database/testing/deleteTestPackage.ts";
+import { uploadContentPackage } from "../../../../database/testing/uploadTestPackage.js";
+import { deleteContentPackage } from "../../../../database/testing/deleteTestPackage.js";
 
 describe("GET /package/:id endpoint", () => {
   // Success
   test("Package exists", async () => {
     const uploadedPackage = await uploadContentPackage();
     const response = await request(app).get(`/package/${uploadedPackage.metadata.ID}`);
+    await request(app).delete(`/package/${uploadedPackage.metadata.ID}`);
 
     expect(response.statusCode).toEqual(200);
     expect(response.body).toEqual({
@@ -33,8 +34,6 @@ describe("GET /package/:id endpoint", () => {
       },
     });
 
-    const uploadedPackageId = Number(uploadedPackage.metadata.ID);
-    await deleteContentPackage(uploadedPackageId);
   });
 
   // Package ID format

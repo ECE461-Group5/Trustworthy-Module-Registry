@@ -6,41 +6,88 @@ Purpose: Class for Different Buttons
 // import React from 'react';
 // import Button from './Buttons';
 
+function handleTracks(e: { preventDefault: () => void; }) {
+  e.preventDefault();
+  fetch("/tracks", {  // Removed "/api" prefix
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => {
+      if (response.ok) {
+        response.json().then((data) => {
+          console.log("Tracks data:", data);
+        });
+      } else {
+        console.error("Server responded with an error:", response.statusText);
+      }
+    })
+    .catch((error) => {
+      console.error("Fetch error:", error);
+    });
+}
+
+function handleReset(e: React.MouseEvent<HTMLButtonElement>) {
+  e.preventDefault();
+  fetch("/reset", {  // Removed "/api" prefix
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => {
+      if (response.ok) {
+        response.json().then((data) => {
+          console.log("Reset response:", data);
+          alert("Registry has been reset successfully.");
+        });
+      } else {
+        console.error("Server responded with an error:", response.statusText);
+        alert("Failed to reset the registry.");
+      }
+    })
+    .catch((error) => {
+      console.error("Fetch error:", error);
+      alert("An error occurred while resetting the registry.");
+    });
+}
+
 function Buttons() {
-  const handlePrimaryClick = () => {
-    alert("Primary Button Clicked!");
+  const handleLoginClick = () => {
+    alert("Login Clicked!");
   };
+  
+  // const handleTracks = () => {
+  //   alert("Display Tracks Here!");
+  // };
 
-  const handleSecondaryClick = () => {
-    alert("Secondary Button Clicked!");
-  };
+  // const handleReset = () => {
+  //   alert("Directory Reset!");
+  // };
 
-  const handleResetClick = () => {
-    alert("Get Button Clicked!");
-  };
-
-  const handlePutClick = () => {
-    alert("Put Button Clicked!");
-  };
 
   return (
     <div className="buttons">
-      <button className="primary-button" onClick={handlePrimaryClick}>
-        Primary Button
+      <input
+        type="text"
+        id="Username"
+        placeholder="Username"
+        aria-required="true"
+      />
+      <button className="login" onClick={handleLoginClick}>
+        Login
         {/* Sign-in */}
       </button>
-      <button className="secondary-button" onClick={handleSecondaryClick}>
-        Secondary Button
-        {/* Register-User */}
+      <button className="tracks" onClick={handleTracks}>
+        Tracks
+        {/* Show tracks */}
       </button>
-      <button className="reset-button" onClick={handleResetClick}>
-        Reset Button
+      <button className="reset" onClick={handleReset}>
+        Reset Directory
         {/* Reset Packages */}
       </button>
-      <button className="-button" onClick={handlePutClick}>
-        Put Button
-        {/* Register-User */}
-      </button>
+      
     </div>
   );
 }
