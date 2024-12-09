@@ -1,50 +1,57 @@
-# React + TypeScript + Vite
+# Frontend
+The Frontend of this application is built using React paired with Vite. 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Tools used
+- TypeScript: Main language
+- React: Webpage Deployment
+- Vite: Webpage Development 
+- prettier: Formatter
+- Selenium: Testing Tool
 
-Currently, two official plugins are available:
+## Setup
+The Frontend is hosted locally to test new features. To do this, follow
+the steps below:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. $ npm install - This ensures that all necessary dependencies are installed and up to date.
+2. $ npm run build - This builds the application to ensure there are no errors within the code
+3. $ npm run dev - This deploys the React/Vite App to localhost:3001
 
-## Expanding the ESLint configuration
+## Scripts
+Listed below are the npm scripts we have. 
+To run the commands: $ npm run <script name>
+1. build: Compiles the TypeScript code to JavaScript code and Builds Vite.
+2. dev: Deploys the React/Vite Webpage on localhost:3001
+3. preview: vite preview
+4. test: Runs the main test suite for web scraping the frontend.
+5. auto-grader-test: ?
+6. lint: Runs the linter. Is set to fix any errors it can fix. It is recommended to configure your IDE to run the linter upon every save of a file.
+7. format: Runs prettier. Ensures that the format of the code is correct.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Usage
+Once all setup steps have been followed, the frontend can be run locally. The steps below outline how:
+1. $ npm run build
+2. $ npm run dev
+At this point, the frontend is running locally.
 
-- Configure the top-level `parserOptions` property like this:
+## Folders
+- build: Contains all necessities after running npm run build
+- public: Contains images used within the webpage
+- src: All source code for the frontend.
+- components: Contains classes for formatting and objects within the Webpage.
+- tests: Contains both Unit tests for each webpage tab, plus the complete web scrape for the entire webpage. 
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## Files
+- eslint.config.js: ESLint linter setup.
+- package.json: Scripts and dependencies.
+- package-lock.json: dependencies.
+- tsconfig.compile.json: Extends tsconfig.json. Used by the build script to avoid compilation of test files.
+- tsconfig.json: TypeScript configuration.
+- vite.config.ts: Vite configuration.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+
+
+
+
+

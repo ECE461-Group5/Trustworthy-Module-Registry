@@ -52,13 +52,13 @@ const Search: React.FC = () => {
     <div className="search-component">
       <form onSubmit={handleSearch}>
         <div className="form-group">
-          <label htmlFor="searchUrl">Search URL:</label>
+          <label htmlFor="searchUrl">Search:</label>
           <input
             type="text"
             id="searchUrl"
             value={url}
             onChange={handleInputChange}
-            placeholder="Enter a URL"
+            placeholder="Enter a valid URL, name, ID, or keyword"
             aria-required="true"
             disabled={isSearching} // Lock the text box while searching
           />
