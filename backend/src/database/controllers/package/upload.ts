@@ -167,13 +167,17 @@ export const getNameAndVersion = async (
 ): Promise<{ name: string; version: string }> => {
   try {
     const parsedUrl = new URL(url);
-    const host = parsedUrl.host;
+    let host = parsedUrl.host;
     const allowedHosts = [
       'github.com',
       'npmjs.com',
       'registry.npmjs.org'
     ];
 
+    if (host.startsWith("www.")) {
+      host = host.substring(4);
+    }
+    
     if (host === 'github.com') {
       // Handle GitHub URLs
       const match = url.match(/github\.com\/([^/]+)\/([^/]+)/);
