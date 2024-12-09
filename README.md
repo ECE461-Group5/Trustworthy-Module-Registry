@@ -33,8 +33,8 @@ Our database is hosted on RDS. It is a PostgreSQL database.
 ### Continuous Integration
 Our CI is implemented with GitHub actions. We have two workflows that trigger on every push to any branch.
 
-#### ci Workflow
-The ci workflow is to ensure that there will be no errors in the code deployment process. This workflow performs 3 major steps.
+#### CI Workflow
+The CI workflow is to ensure that there will be no errors in the code deployment process. This workflow performs 3 major steps.
 1. Setup Node.js  
 FILL OUT
 
@@ -54,3 +54,52 @@ Our CD is implemented with AWS CodePipeline
 Our pipeline The pipeline is automated to run whenever a pull request is approved and merged into main. Essentially whenever the main branch gets 
 updated, the pipeline runs.
 
+
+```plaintext
+├── 📁client
+│   ├── 📁src
+│   │   ├── 📁components
+│   │   │   ├── Buttons.tsx
+│   │   │   ├── PackageUploader.tsx
+│   │   │   └── ...
+│   │   ├── 📁assets
+│   │   ├── index.tsx
+│   │   └── ...
+│   ├── package.json
+│   └── ...
+├── 📁backend
+│   ├── 📁src
+│   │   ├── 📁controllers
+│   │   │   ├── resetController.ts
+│   │   │   └── ...
+│   │   ├── 📁routes
+│   │   │   ├── resetRoutes.ts
+│   │   │   └── ...
+│   │   ├── 📁models
+│   │   │   ├── 📁evaluators
+│   │   │   │   ├── createScorecard.ts
+│   │   │   │   ├── evaluateModule.ts
+│   │   │   │   └── readURLsFromFile.ts
+│   │   │   ├── 📁metrics
+│   │   │   │   ├── busfactorMetric.ts
+│   │   │   │   ├── correctnessMetric.ts
+│   │   │   │   ├── licenseMetric.ts
+│   │   │   │   ├── maintainersMetric.ts
+│   │   │   │   ├── metric.ts
+│   │   │   │   └── rampupMetric.ts
+│   │   │   └── 📁scores
+│   │   │       └── scorecard.ts
+│   │   ├── server.ts
+│   │   └── ...
+│   ├── package.json
+│   └── ...
+├── 📁logs
+│   └── app.log
+├── .env
+├── .gitignore
+├── package-lock.json
+├── package.json
+├── README.md
+├── run
+├── sample-file.txt
+└── tsconfig.json

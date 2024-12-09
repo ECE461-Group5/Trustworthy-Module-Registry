@@ -123,7 +123,3 @@ The program supports logging, which can be configured through environment variab
   default, the log level is set to 0 (silent).
 
 See example `.env` file above for possible configuration.
-
-### Actions
-
-[![Super-Linter](https://github.com/<OWNER>/<REPOSITORY>/actions/workflows/<WORKFLOW_FILE_NAME>/badge.svg)](https://github.com/marketplace/actions/super-linter)
