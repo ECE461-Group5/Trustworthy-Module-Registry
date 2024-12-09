@@ -15,9 +15,14 @@ const Search: React.FC = () => {
   const [url, setUrl] = useState<string>("");
   const [result, setResult] = useState<string>("");
   const [isSearching, setIsSearching] = useState<boolean>(false);
+  const [searchType, setSearchType] = useState<string>("URL"); // Dropdown state
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUrl(e.target.value);
+  };
+
+  const handleSearchTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSearchType(e.target.value); // Update dropdown selection
   };
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
@@ -51,6 +56,20 @@ const Search: React.FC = () => {
   return (
     <div className="search-component">
       <form onSubmit={handleSearch}>
+        <div className="form-group">
+          <label htmlFor="searchType">Search By:</label>
+          <select
+            id="searchType"
+            value={searchType}
+            onChange={handleSearchTypeChange}
+            disabled={isSearching} // Lock dropdown while searching
+          >
+            <option value="URL">URL</option>
+            <option value="Name">Name</option>
+            <option value="ID">ID</option>
+            <option value="Keyword">Keyword</option>
+          </select>
+        </div>
         <div className="form-group">
           <label htmlFor="searchUrl">Search:</label>
           <input
