@@ -14,6 +14,23 @@
 This project is a monorepo. It consists of two subcomponents, a frontend and a backend. The frontend is located in the client directory. The
 backend is located in the backend directory. Both components are standalone and combine to make the complete app.
 
+
+## To Run Locally
+```plaintext
+(cd ./backend && npm install) && (cd ./client && npm install)
+```plaintext
+(cd ./client && npm run build) && (cd ./backend && npm run build && cd ./prisma && npx prisma generate)
+```plaintext
+(cd backend && mkdir logs && touch app.log)
+```plaintext
+(cd ./backend && npm run start)
+Open a new console
+```plaintext
+(cd ./backend && npm prisma studio)
+Open browser to:
+```plaintext
+http://localhost:3000
+
 ## AWS
 Our app is currently being hosted on AWS.
 
@@ -51,9 +68,11 @@ The linter workflow runs the linters for both the frontend and the backend. See 
 Our CD is implemented with AWS CodePipeline
 
 #### AWS CodePipeline
-Our pipeline The pipeline is automated to run whenever a pull request is approved and merged into main. Essentially whenever the main branch gets 
+The pipeline is automated to run whenever a pull request is approved and merged into main. Essentially whenever the main branch gets 
 updated, the pipeline runs.
 
+
+## File Structure
 
 ```plaintext
 ├── 📁client

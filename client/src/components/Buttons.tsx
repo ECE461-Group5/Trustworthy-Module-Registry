@@ -6,9 +6,9 @@ Purpose: Class for Different Buttons
 // import React from 'react';
 // import Button from './Buttons';
 
-function handleTracks(e: { preventDefault: () => void; }) {
-  e.preventDefault();
-  fetch("/tracks", {  // Removed "/api" prefix
+async function handleTracks(url: { preventDefault: () => void; }) {
+  url.preventDefault();
+  fetch("/tracks", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -28,9 +28,9 @@ function handleTracks(e: { preventDefault: () => void; }) {
     });
 }
 
-function handleReset(e: React.MouseEvent<HTMLButtonElement>) {
+async function handleReset(e: React.MouseEvent<HTMLButtonElement>) {
   e.preventDefault();
-  fetch("/reset", {  // Removed "/api" prefix
+  fetch("/reset", {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -76,6 +76,12 @@ function Buttons() {
         type="text"
         id="Username"
         placeholder="Username"
+        aria-required="true"
+      />
+      <input
+        type="text"
+        id="Password"
+        placeholder="Password"
         aria-required="true"
       />
       <div className="buttons">
