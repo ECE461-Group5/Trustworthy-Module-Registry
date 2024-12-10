@@ -31,3 +31,39 @@ Purpose: File is a sampel API file for the project
 // After the request completes, we check if the response is okay (r.ok).
 // If successful, we parse the JSON response and handle the logged-in user with the onLogin function
 // */
+
+// async function func_name(url: string): Promise<any>{
+//     const response = await fetch(api_url, method/request type, [other_params]);
+//     const data = await response.json();
+//     return data;
+//   }
+  
+//   const BASE_URL = 'http://example.org';
+  
+//   //         Input T ↴   is thread through to ↴
+//   async function api<T>(path: string): Promise<T> {
+//       const response = await fetch(`${BASE_URL}/${path}`);
+  
+//       if (!response.ok) {
+//         throw new Error(response.statusText);
+//       }
+  
+//       //    And can also be used here ↴
+//       return await response.json() as T;
+//   }
+  
+//   // Set up various fetches
+//   async function getConfig() {
+//     //             Passed to T ↴
+//     return await api<{ version: number }>('config');
+//   }
+  
+//   // Elsewhere
+//   async function main() {
+//     const config = await getConfig();
+  
+//     // At this point we can confidently say config has a .version
+//     // of type number because we threaded the shape of config into 
+//     // api() 
+//     console.log(config.version); 
+//   }

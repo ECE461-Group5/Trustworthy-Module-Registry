@@ -12,9 +12,19 @@ The Frontend of this application is built using React paired with Vite.
 The Frontend is hosted locally to test new features. To do this, follow
 the steps below:
 
-1. $ npm install - This ensures that all necessary dependencies are installed and up to date.
-2. $ npm run build - This builds the application to ensure there are no errors within the code
-3. $ npm run dev - This deploys the React/Vite App to localhost:3001
+1. This ensures that all necessary dependencies are installed and up to date.
+2. This builds the application to ensure there are no errors within the code
+3. This deploys the React/Vite App to localhost:3001
+Note: To run locally, after build, place a copy of the "build" directory to the backend folder.
+      Move (a copy of) the "build" folder to the backend to use server proxy.
+      Then (cd ../backend && npm install && npm run build && npm start
+
+```plaintext
+$ npm install
+$ npm run build
+$ npm run dev
+```
+
 
 ## Scripts
 Listed below are the npm scripts we have. 
