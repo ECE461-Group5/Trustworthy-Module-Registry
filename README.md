@@ -18,19 +18,24 @@ backend is located in the backend directory. Both components are standalone and 
 ## To Run Locally
 ```plaintext
 (cd ./backend && npm install) && (cd ./client && npm install)
+```
 ```plaintext
 (cd ./client && npm run build) && (cd ./backend && npm run build && cd ./prisma && npx prisma generate)
+```
 ```plaintext
 (cd backend && mkdir logs && touch app.log)
+```
 ```plaintext
 (cd ./backend && npm run start)
+```
 Open a new console
 ```plaintext
 (cd ./backend && npm prisma studio)
+```
 Open browser to:
 ```plaintext
 http://localhost:3000
-
+```
 ## AWS
 Our app is currently being hosted on AWS.
 
@@ -122,3 +127,4 @@ updated, the pipeline runs.
 ├── run
 ├── sample-file.txt
 └── tsconfig.json
+```

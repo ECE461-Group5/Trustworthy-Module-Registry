@@ -23,7 +23,7 @@ Note: To run locally, after build, place a copy of the "build" directory to the 
 $ npm install
 $ npm run build
 $ npm run dev
-
+```
 
 
 ## Scripts
